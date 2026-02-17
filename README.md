@@ -1,6 +1,8 @@
 # BrumKit - Open Source Edition
 
-A production-ready Next.js 15 starter kit with authentication, authorization, and essential features.
+**Version 0.1.0** | A production-ready Next.js 15 starter kit with authentication, authorization, and essential features.
+
+> **Release 0.1.0** - February 2026: Dependency updates, version alignment, ESLint 10 migration, and comprehensive testing. See [CHANGELOG.md](CHANGELOG.md) for details.
 
 ## Features
 
@@ -53,25 +55,26 @@ A production-ready Next.js 15 starter kit with authentication, authorization, an
 
 ## Tech Stack
 
-- **Framework**: Next.js 15.5.9
+- **Framework**: Next.js 15.5.12
 - **Language**: TypeScript 5.9.3
 - **Styling**: Tailwind CSS 4.1.18
 - **UI Components**: shadcn/ui
 - **Authentication**: Auth.js 5.0.0
 - **Authorization**: CASL
-- **Database**: PostgreSQL + Prisma 6.1.0
-- **Forms**: React Hook Form + Zod
-- **State**: TanStack Query 5.90.16
-- **i18n**: next-intl 4.7.0
-- **Testing**: Vitest 4.0.16 + React Testing Library
-- **Monorepo**: Turborepo + pnpm
+- **Database**: PostgreSQL + Prisma 6.19.2
+- **Forms**: React Hook Form + Zod 3.23.8
+- **State**: TanStack Query 5.90.21
+- **i18n**: next-intl 4.8.3
+- **Testing**: Vitest 4.0.18 + React Testing Library
+- **Linting**: ESLint 10.0.0
+- **Monorepo**: Turborepo + pnpm 10.0.0
 
 ## Quick Start
 
 ### Prerequisites
 
 - Node.js >= 20.19.0
-- pnpm >= 9.0.0
+- pnpm >= 10.0.0
 - PostgreSQL database
 - Redis (for rate limiting)
 - SMTP server (for emails)
@@ -151,23 +154,45 @@ pnpm dev:web          # Start web app only
 pnpm build            # Build all apps
 pnpm build:web        # Build web app only
 
-# Testing
+# Testing (80%+ coverage required)
 pnpm test             # Run all tests
 pnpm test:watch       # Run tests in watch mode
+pnpm test:coverage    # Run tests with coverage report
 
 # Code Quality
-pnpm lint             # Run ESLint
+pnpm lint             # Run ESLint 10
 pnpm format           # Format code with Prettier
 pnpm format:check     # Check code formatting
 pnpm type-check       # Run TypeScript type checking
 
 # Database
+pnpm --filter @repo/database db:generate      # Generate Prisma Client
 pnpm --filter @repo/database db:migrate       # Run Prisma migrations
 pnpm --filter @repo/database db:seed          # Seed the database
 pnpm --filter @repo/database db:studio        # Open Prisma Studio
 
 # Clean
 pnpm clean            # Remove all node_modules and build artifacts
+```
+
+### Testing Strategy
+
+BrumKit follows Test-Driven Development (TDD) with strict quality standards:
+
+- **Coverage Requirement**: Minimum 80% coverage across all packages
+- **TDD Approach**: Red-Green-Refactor cycle for all new features
+- **Testing Framework**: Vitest 4.0.18 + React Testing Library
+- **Run Before Commit**: All tests must pass before committing changes
+
+```bash
+# Run tests with coverage report
+pnpm test:coverage
+
+# Watch mode for development
+pnpm test:watch
+
+# Test specific package
+pnpm --filter @repo/auth test
 ```
 
 ### Project Structure
@@ -193,9 +218,23 @@ broomkit/
 └── docker/                  # Docker configurations
 ```
 
+## Documentation
+
+- [CHANGELOG](CHANGELOG.md) - Release notes and version history
+- [Contributing Guidelines](CONTRIBUTING.md) - How to contribute
+- [Release 0.1 Documentation](docs/open-source-version/release-0.1/) - Detailed release notes and milestones
+
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+We welcome contributions! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details on our TDD approach, code style, and pull request process.
+
+**Key Requirements**:
+
+- Node.js >= 20.19.0
+- pnpm >= 10.0.0
+- Follow TDD (Test-Driven Development)
+- Maintain 80%+ test coverage
+- Use ESLint 10 and Prettier
 
 ## License
 

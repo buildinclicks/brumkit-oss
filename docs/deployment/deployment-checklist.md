@@ -1,6 +1,14 @@
 # Deployment Checklist
 
-Use this checklist when deploying React Masters to production.
+Use this checklist when deploying BrumKit v0.1.0 to production.
+
+**Requirements:**
+
+- Node.js >= 20.19.0
+- pnpm >= 10.0.0
+- PostgreSQL database
+- Redis (local or Upstash)
+- SMTP server for emails
 
 ---
 
@@ -9,24 +17,29 @@ Use this checklist when deploying React Masters to production.
 ### Code Quality
 
 - [ ] All tests passing (`pnpm test`)
+- [ ] Test coverage ≥80% (`pnpm test:coverage`)
 - [ ] No TypeScript errors (`pnpm type-check`)
-- [ ] No ESLint errors (`pnpm lint`)
+- [ ] No ESLint errors (ESLint 10) (`pnpm lint`)
+- [ ] Code formatted (`pnpm format:check`)
 - [ ] Code committed and pushed to main branch
-- [ ] Build works locally (`pnpm turbo build`)
+- [ ] Build works locally (`pnpm build`)
 
-### Database
+### Database (Prisma 6.19.2)
 
 - [ ] All migrations tested locally
 - [ ] Seed data created (if needed)
 - [ ] Database schema exported (`prisma db pull`)
 - [ ] Migration files committed to git
+- [ ] Prisma Client generated (`cd packages/database && pnpm db:generate`)
 
 ### Documentation
 
-- [ ] Environment variables documented
-- [ ] README updated with deployment info
-- [ ] API endpoints documented
-- [ ] Cron jobs documented
+- [ ] Environment variables documented in README
+- [ ] Deployment guide reviewed
+- [ ] CHANGELOG.md updated
+- [ ] Release notes reviewed
+- [ ] API endpoints documented (if applicable)
+- [ ] Background jobs documented (if applicable)
 
 ---
 
