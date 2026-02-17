@@ -59,7 +59,6 @@ import {
   createTestUser,
 } from '@repo/database/test';
 import { sendAccountDeletionNotification } from '@repo/email';
-import { RedisRateLimiter } from '@repo/rate-limit';
 
 import { deleteAccount } from './account-deletion';
 

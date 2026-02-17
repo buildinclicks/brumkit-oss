@@ -12,6 +12,7 @@ const config = {
   ...authConfig,
   // Type assertion needed due to minor version mismatch in @auth/core dependency
   // between next-auth and @auth/prisma-adapter
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   adapter: PrismaAdapter(prisma) as any,
   session: {
     strategy: 'jwt',

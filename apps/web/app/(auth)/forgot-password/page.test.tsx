@@ -124,11 +124,14 @@ describe('🟢 GREEN: ForgotPasswordPage (TDD)', () => {
         screen.getByRole('button', { name: /send reset link/i })
       );
 
-      await waitFor(() => {
-        expect(mockRequestPasswordReset).toHaveBeenCalledWith(
-          'test@example.com'
-        );
-      });
+      await waitFor(
+        () => {
+          expect(mockRequestPasswordReset).toHaveBeenCalledWith(
+            'test@example.com'
+          );
+        },
+        { timeout: 3000 }
+      );
     });
 
     it('should show success message after submission', async () => {

@@ -1,7 +1,9 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { toast } from 'sonner';
 
+import { updateUserProfile } from '@/app/actions';
 import { renderWithProviders } from '@/lib/test/render';
 
 import { ProfileForm } from './profile-form';
@@ -24,11 +26,6 @@ vi.mock('next-themes', () => ({
   ThemeProvider: ({ children }: { children: React.ReactNode }) => children,
   useTheme: () => ({ theme: 'light', setTheme: vi.fn() }),
 }));
-
-// Import after mocking
-import { toast } from 'sonner';
-
-import { updateUserProfile } from '@/app/actions';
 
 describe('🔴 RED: ProfileForm Component', () => {
   const mockUser = {

@@ -54,6 +54,7 @@ vi.mock('@/lib/utils/rate-limit-helpers', () => ({
   formatRetryAfter: vi.fn((seconds: number) => `${seconds} seconds`),
 }));
 
+import { auth } from '@repo/auth';
 import {
   getTestClient,
   cleanDatabase,
@@ -64,8 +65,6 @@ import {
   sendEmailChangeVerification,
   sendEmailChangeNotification,
 } from '@repo/email';
-import { RedisRateLimiter } from '@repo/rate-limit';
-import { auth, verifyPassword } from '@repo/auth';
 
 import { requestEmailChange, verifyEmailChange } from './email-change';
 
@@ -252,7 +251,7 @@ describe('Email Change Server Actions - Integration Tests', () => {
         email: 'old@example.com',
       });
 
-      const user2 = await createTestUser({
+      const _user2 = await createTestUser({
         email: 'existing@example.com',
       });
 
@@ -261,7 +260,7 @@ describe('Email Change Server Actions - Integration Tests', () => {
       } as any);
 
       const result = await requestEmailChange({
-        newEmail: 'existing@example.com', // Already taken by user2
+        newEmail: 'existing@example.com', // Already taken by _user2
         password: 'Password123!',
       });
 

@@ -177,7 +177,7 @@ describe('changePassword Server Action', () => {
 
   describe('Email Notification', () => {
     it('🔴 RED: should send email notification after successful password change', async () => {
-      const db = getTestClient();
+      const _db = getTestClient();
       const testUser = await createTestUser({
         email: 'test@example.com',
         name: 'Test User',
@@ -217,8 +217,8 @@ describe('changePassword Server Action', () => {
     });
 
     it('🔴 RED: should still succeed even if email sending fails', async () => {
-      const db = getTestClient();
-      const testUser = await createTestUser({
+      const _db = getTestClient();
+      const _testUser = await createTestUser({
         email: 'test@example.com',
         password: 'OldPassword123!',
       });
@@ -255,7 +255,7 @@ describe('changePassword Server Action', () => {
 
   describe('Error Handling', () => {
     it('should handle database errors gracefully', async () => {
-      const testUser = await createTestUser({
+      const _testUser = await createTestUser({
         email: 'test@example.com',
         password: 'OldPassword123!',
       });
@@ -287,11 +287,9 @@ describe('changePassword Server Action', () => {
         },
       });
 
-      vi.mock('@repo/auth', () => ({
-        getCurrentUser: vi.fn().mockResolvedValue({ id: oauthUser.id }),
-        verifyPassword: vi.fn(),
-        hashPassword: vi.fn(),
-      }));
+      // Use vi.mocked() instead of vi.mock() to avoid hoisting issues
+      const { getCurrentUser } = await import('@repo/auth');
+      vi.mocked(getCurrentUser).mockResolvedValue({ id: oauthUser.id });
 
       const result = await changePassword({
         currentPassword: 'OldPassword123!',
@@ -322,7 +320,7 @@ describe('🔴 RED: requestPasswordReset Rate Limiting', () => {
       current: 1,
     });
 
-    const testUser = await createTestUser({
+    const _testUser = await createTestUser({
       email: 'test@example.com',
       name: 'Test User',
     });
@@ -362,7 +360,7 @@ describe('🔴 RED: requestPasswordReset Rate Limiting', () => {
       current: 2,
     });
 
-    const testUser = await createTestUser({
+    const _testUser = await createTestUser({
       email: 'test@example.com',
       name: 'Test User',
     });
@@ -424,7 +422,7 @@ describe('🔴 RED: requestPasswordReset Rate Limiting', () => {
       remaining: 3,
     });
 
-    const testUser = await createTestUser({
+    const _testUser = await createTestUser({
       email: 'test@example.com',
       name: 'Test User',
     });

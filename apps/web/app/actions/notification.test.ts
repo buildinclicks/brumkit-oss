@@ -28,6 +28,7 @@ vi.mock('@repo/auth', () => ({
   auth: vi.fn(),
 }));
 
+import { auth } from '@repo/auth';
 import {
   getTestClient,
   cleanDatabase,
@@ -35,7 +36,6 @@ import {
   createTestUser,
   createTestNotification,
 } from '@repo/database/test';
-import { auth } from '@repo/auth';
 
 import {
   getNotifications,
@@ -120,7 +120,7 @@ describe('Notification Server Actions - Integration Tests', () => {
       const user = await createTestUser({ email: 'test@example.com' });
 
       // Create notifications with slight delay to ensure different timestamps
-      const notif1 = await createTestNotification({
+      const _notif1 = await createTestNotification({
         recipientId: user.id,
         title: 'First Notification',
         message: 'Created first',
@@ -129,7 +129,7 @@ describe('Notification Server Actions - Integration Tests', () => {
       // Small delay to ensure different timestamps
       await new Promise((resolve) => setTimeout(resolve, 10));
 
-      const notif2 = await createTestNotification({
+      const _notif2 = await createTestNotification({
         recipientId: user.id,
         title: 'Second Notification',
         message: 'Created second',

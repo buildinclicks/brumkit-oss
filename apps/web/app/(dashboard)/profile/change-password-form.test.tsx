@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
+import { changePassword } from '@/app/actions';
 import { renderWithProviders, screen, waitFor, userEvent } from '@/lib/test';
 
 import { ChangePasswordForm } from './change-password-form';
@@ -16,8 +17,6 @@ vi.mock('sonner', () => ({
     error: vi.fn(),
   },
 }));
-
-import { changePassword } from '@/app/actions';
 
 describe('ChangePasswordForm', () => {
   const user = userEvent.setup();

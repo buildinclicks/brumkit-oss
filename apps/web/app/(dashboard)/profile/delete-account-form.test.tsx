@@ -1,6 +1,12 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { toast } from 'sonner';
+
+import { deleteAccount } from '@/app/actions';
+import { renderWithProviders } from '@/lib/test/render';
+
+import { DeleteAccountForm } from './delete-account-form';
 
 // Mock the server action
 vi.mock('@/app/actions', () => ({
@@ -28,14 +34,6 @@ vi.mock('next/navigation', () => ({
     refresh: vi.fn(),
   }),
 }));
-
-// Import after mocking
-import { toast } from 'sonner';
-
-import { deleteAccount } from '@/app/actions';
-import { renderWithProviders } from '@/lib/test/render';
-
-import { DeleteAccountForm } from './delete-account-form';
 
 describe('🔴 RED: DeleteAccountForm Component', () => {
   beforeEach(() => {

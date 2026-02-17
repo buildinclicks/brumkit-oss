@@ -15,18 +15,10 @@ export default [
   },
   ...nextjsConfig,
   {
-    files: [
-      '**/*.test.ts',
-      '**/*.test.tsx',
-      'lib/test/**/*',
-      'vitest.setup.ts',
-    ],
+    files: ['app/api/**/*', 'lib/services/**/*'],
     rules: {
-      // Test files can be more lenient
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-unused-vars': 'warn',
-      '@typescript-eslint/consistent-type-imports': 'off', // Dynamic imports in tests
-      'import/order': 'warn', // Tests can have relaxed import order
+      // API routes and services can use console for logging
+      'no-console': 'warn',
     },
   },
   {
@@ -44,10 +36,19 @@ export default [
     },
   },
   {
-    files: ['app/api/**/*', 'lib/services/**/*'],
+    files: [
+      '**/*.test.ts',
+      '**/*.test.tsx',
+      'lib/test/**/*',
+      'vitest.setup.ts',
+    ],
     rules: {
-      // API routes and services can use console for logging
-      'no-console': 'warn',
+      // Test files can be more lenient - MUST come last to override everything
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/consistent-type-imports': 'off', // Dynamic imports in tests
+      'import/order': 'off', // Tests can have relaxed import order
+      'react/no-array-index-key': 'off', // Test data can use indices
     },
   },
 ];

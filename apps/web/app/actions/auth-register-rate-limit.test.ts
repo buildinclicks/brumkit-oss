@@ -51,9 +51,9 @@ vi.mock('next/headers', () => ({
 }));
 
 // Import the function after mocks are set up
-import { registerUser } from '@/app/actions/auth';
-
 import { db } from '@repo/database';
+
+import { registerUser } from '@/app/actions/auth';
 
 describe('🔴 RED: Register Rate Limiting', () => {
   beforeEach(() => {
@@ -195,7 +195,7 @@ describe('🔴 RED: Register Rate Limiting', () => {
         remaining: 3,
       });
 
-      const result = await registerUser({
+      const _result = await registerUser({
         name: 'Test User',
         email: 'test@example.com',
         password: 'Password123!',

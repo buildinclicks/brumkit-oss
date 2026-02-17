@@ -7,6 +7,7 @@
  * - Testing patterns for forms, async data, and user interactions
  */
 
+import React from 'react';
 import { describe, it, expect, vi } from 'vitest';
 
 import { FieldError } from '@/components/form/field-error';
@@ -150,6 +151,3 @@ describe('User Interaction Tests', () => {
     });
   });
 });
-
-// Need to import React for JSX
-import React from 'react';

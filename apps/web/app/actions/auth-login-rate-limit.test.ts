@@ -179,7 +179,7 @@ describe('🔴 RED: Login Rate Limiting', () => {
         remaining: 5,
       });
 
-      const result = await loginUser({
+      const _result = await loginUser({
         email: 'test@example.com',
         password: 'Password123!',
       });
