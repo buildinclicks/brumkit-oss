@@ -87,7 +87,7 @@ async function VerifyEmailContent({ token }: { token: string | undefined }) {
           <CardTitle>Verification Failed</CardTitle>
         </div>
         <CardDescription>
-          We couldn't verify your email address.
+          We couldn&apos;t verify your email address.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">

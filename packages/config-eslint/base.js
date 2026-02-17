@@ -1,3 +1,4 @@
+import { fixupPluginRules } from '@eslint/compat';
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import importPlugin from 'eslint-plugin-import';
@@ -14,7 +15,7 @@ export default [
   // Import plugin configuration
   {
     plugins: {
-      import: importPlugin,
+      import: fixupPluginRules(importPlugin),
     },
     settings: {
       'import/resolver': {

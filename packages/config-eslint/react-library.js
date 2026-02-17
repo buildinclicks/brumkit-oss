@@ -1,3 +1,4 @@
+import { fixupPluginRules } from '@eslint/compat';
 import baseConfig from './base.js';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
@@ -8,9 +9,9 @@ export default [
   ...baseConfig,
   {
     plugins: {
-      react,
-      'react-hooks': reactHooks,
-      'jsx-a11y': jsxA11y,
+      react: fixupPluginRules(react),
+      'react-hooks': fixupPluginRules(reactHooks),
+      'jsx-a11y': fixupPluginRules(jsxA11y),
     },
     languageOptions: {
       parserOptions: {

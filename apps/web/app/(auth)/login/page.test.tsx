@@ -13,17 +13,15 @@
  * - Accessibility
  */
 
-import { signIn } from 'next-auth/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-
-import * as authHooks from '@/lib/hooks/use-auth';
-import { renderWithProviders, screen, waitFor, userEvent } from '@/lib/test';
+import { describe, expect, it, vi, beforeEach } from 'vitest';
 
 import LoginPage from './page';
 
+import * as authHooks from '@/lib/hooks/use-auth';
+import { renderWithProviders, screen, userEvent, waitFor } from '@/lib/test';
+
 // Mock next-auth
 vi.mock('next-auth/react', () => ({
-  signIn: vi.fn(),
   signOut: vi.fn(),
   useSession: vi.fn(() => ({ data: null, status: 'unauthenticated' })),
 }));

@@ -11,6 +11,7 @@ export default function LogoutPage() {
   useEffect(() => {
     // Automatically trigger logout when page loads
     logoutMutation.mutate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

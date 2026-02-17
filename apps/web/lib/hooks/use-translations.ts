@@ -13,7 +13,7 @@ export function useValidationMessages() {
   const t = useTranslations('validation');
 
   return (key: ValidationMessageKey | string) => {
-    return t(key as any);
+    return t(key as ValidationMessageKey);
   };
 }
 

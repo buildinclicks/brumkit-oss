@@ -1,5 +1,4 @@
-import { auth } from '@repo/auth';
-import { defineAbilitiesFor } from '@repo/auth';
+import { auth, defineAbilitiesFor } from '@repo/auth';
 import { Badge } from '@repo/ui/badge';
 import {
   Card,

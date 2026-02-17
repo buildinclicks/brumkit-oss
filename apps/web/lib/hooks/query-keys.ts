@@ -1,3 +1,5 @@
+import type { QueryClient } from '@tanstack/react-query';
+
 /**
  * Centralized query key factory for type-safe and consistent cache management
  *
@@ -109,14 +111,14 @@ export const queryKeys = {
  * Helper to invalidate all related queries for a resource
  */
 export const invalidateQueries = {
-  user: (queryClient: any, userId?: string) => {
+  user: (queryClient: QueryClient, userId?: string) => {
     if (userId) {
       queryClient.invalidateQueries({ queryKey: queryKeys.user.byId(userId) });
     } else {
       queryClient.invalidateQueries({ queryKey: queryKeys.user.all });
     }
   },
-  article: (queryClient: any, articleId?: string) => {
+  article: (queryClient: QueryClient, articleId?: string) => {
     if (articleId) {
       queryClient.invalidateQueries({
         queryKey: queryKeys.articles.detail(articleId),
@@ -124,7 +126,7 @@ export const invalidateQueries = {
     }
     queryClient.invalidateQueries({ queryKey: queryKeys.articles.lists() });
   },
-  articles: (queryClient: any) => {
+  articles: (queryClient: QueryClient) => {
     queryClient.invalidateQueries({ queryKey: queryKeys.articles.all });
   },
 };

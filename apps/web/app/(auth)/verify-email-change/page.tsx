@@ -11,8 +11,7 @@ import {
 import { Loader2, CheckCircle, XCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { Suspense } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { toast } from 'sonner';
 
 import { verifyEmailChange } from '@/app/actions/email-change';
@@ -62,11 +61,15 @@ function VerifyEmailChangeContent() {
               result.error || 'Please try again or request a new link.',
           });
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         if (!isMounted) return;
 
         setState('error');
-        setErrorMessage(error.message || 'Failed to verify email change');
+        setErrorMessage(
+          error instanceof Error
+            ? error.message
+            : 'Failed to verify email change'
+        );
         toast.error('Failed to Verify Email Change', {
           description: 'An unexpected error occurred.',
         });

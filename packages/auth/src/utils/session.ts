@@ -108,7 +108,7 @@ export async function cannotUser(
 /**
  * Check if current user can access a specific resource
  */
-export async function canUserAccess<T extends Record<string, any>>(
+export async function canUserAccess<T extends Record<string, unknown>>(
   action: Action,
   subject: Subject,
   resource: T
@@ -131,7 +131,7 @@ export async function assertUserCan(
 /**
  * Assert that current user can access a resource (throws if not)
  */
-export async function assertUserCanAccess<T extends Record<string, any>>(
+export async function assertUserCanAccess<T extends Record<string, unknown>>(
   action: Action,
   subject: Subject,
   resource: T

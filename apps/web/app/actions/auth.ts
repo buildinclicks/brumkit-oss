@@ -1,8 +1,11 @@
 'use server';
 
 import { UserRole } from '@prisma/client';
-import { hashPassword, verifyMagicLinkToken } from '@repo/auth';
-import { generateMagicLinkToken } from '@repo/auth';
+import {
+  hashPassword,
+  verifyMagicLinkToken,
+  generateMagicLinkToken,
+} from '@repo/auth';
 import { db } from '@repo/database';
 import { sendVerificationEmail } from '@repo/email';
 import { RedisRateLimiter } from '@repo/rate-limit';
@@ -138,7 +141,7 @@ export async function registerUser(
     // Handle Zod validation errors
     if (error instanceof ZodError) {
       const fieldErrors: Record<string, string> = {};
-      error.errors.forEach((err: any) => {
+      error.errors.forEach((err) => {
         const field = err.path.join('.');
         fieldErrors[field] = err.message;
       });
@@ -239,7 +242,7 @@ export async function loginUser(data: LoginInput): Promise<ActionResult> {
     // Handle Zod validation errors
     if (error instanceof ZodError) {
       const fieldErrors: Record<string, string> = {};
-      error.errors.forEach((err: any) => {
+      error.errors.forEach((err) => {
         const field = err.path.join('.');
         fieldErrors[field] = err.message;
       });

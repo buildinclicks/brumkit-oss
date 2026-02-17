@@ -66,6 +66,7 @@ import {
 } from '@repo/email';
 import { RedisRateLimiter } from '@repo/rate-limit';
 import { auth, verifyPassword } from '@repo/auth';
+
 import { requestEmailChange, verifyEmailChange } from './email-change';
 
 describe('Email Change Server Actions - Integration Tests', () => {

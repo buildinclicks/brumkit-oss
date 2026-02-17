@@ -193,7 +193,7 @@ export async function updateUserProfile(
     // Handle Zod validation errors
     if (error instanceof ZodError) {
       const fieldErrors: Record<string, string> = {};
-      error.errors.forEach((err: any) => {
+      error.errors.forEach((err) => {
         const field = err.path.join('.');
         fieldErrors[field] = err.message;
       });

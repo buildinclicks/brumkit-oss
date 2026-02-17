@@ -70,7 +70,7 @@ A production-ready Next.js 15 starter kit with authentication, authorization, an
 
 ### Prerequisites
 
-- Node.js >= 20.0.0
+- Node.js >= 20.19.0
 - pnpm >= 9.0.0
 - PostgreSQL database
 - Redis (for rate limiting)

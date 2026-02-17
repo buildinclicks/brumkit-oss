@@ -1,23 +1,23 @@
 import {
-  useQuery,
   useMutation,
+  useQuery,
   useQueryClient,
   type UseQueryOptions,
 } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 
-import {
-  getCurrentUserProfile,
-  getUserProfile,
-  updateUserProfile,
-  deleteUserAccount,
-  getUserStats,
-  type UserProfile,
-} from '@/app/actions';
-
 import { queryKeys } from './query-keys';
 
 import type { UpdateUserProfileInput } from '@repo/validation';
+
+import {
+  deleteUserAccount,
+  getCurrentUserProfile,
+  getUserProfile,
+  getUserStats,
+  type UserProfile,
+  updateUserProfile,
+} from '@/app/actions';
 
 /**
  * Hook to get current authenticated user from session
@@ -77,7 +77,9 @@ export function useUpdateProfile() {
       const result = await updateUserProfile(data);
 
       if (!result.success) {
-        const error: any = new Error(result.error);
+        const error = new Error(result.error) as Error & {
+          fieldErrors?: Record<string, string>;
+        };
         error.fieldErrors = result.fieldErrors;
         throw error;
       }

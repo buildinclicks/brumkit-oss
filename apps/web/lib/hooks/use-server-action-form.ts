@@ -63,7 +63,9 @@ export function useServerActionForm<TData, TVariables extends FieldValues>(
       const result = await mutationFn(data);
 
       if (!result.success) {
-        const error: any = new Error(result.error);
+        const error = new Error(result.error) as Error & {
+          fieldErrors?: Record<string, string>;
+        };
         error.fieldErrors = result.fieldErrors;
         throw error;
       }
@@ -73,7 +75,7 @@ export function useServerActionForm<TData, TVariables extends FieldValues>(
     onSuccess: async (data) => {
       await onSuccess?.(data);
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       // Automatically map field errors to form fields
       let hasFieldErrors = false;
       if (
@@ -96,7 +98,7 @@ export function useServerActionForm<TData, TVariables extends FieldValues>(
       // Only call onError callback for non-field errors (server/business logic errors)
       // Field errors are displayed inline, so no toast needed
       if (!hasFieldErrors) {
-        onError?.(error);
+        onError?.(error as TError);
       }
     },
     ...mutationOptions,

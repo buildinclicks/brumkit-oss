@@ -117,16 +117,16 @@ export async function cleanupDeletedAccounts(): Promise<CleanupResult> {
   };
 
   if (users.length === 0) {
-    console.log('No accounts eligible for deletion');
+    // No accounts to delete
     return result;
   }
 
-  console.log(`Found ${users.length} accounts eligible for permanent deletion`);
+  // Log found accounts for deletion
 
   // Process each user
   for (const user of users) {
     try {
-      console.log(`Processing user ${user.id} (${user.email})`);
+      // Processing user for deletion
 
       // Send final notification email BEFORE anonymization
       try {
@@ -134,7 +134,7 @@ export async function cleanupDeletedAccounts(): Promise<CleanupResult> {
           email: user.email,
           userName: user.name || 'User',
         });
-        console.log(`✅ Sent final email to ${user.email}`);
+        // Final email sent successfully
       } catch (emailError) {
         console.warn(
           `⚠️  Failed to send final email to ${user.email}:`,
@@ -145,7 +145,7 @@ export async function cleanupDeletedAccounts(): Promise<CleanupResult> {
 
       // Anonymize user data
       await anonymizeUserData(user.id);
-      console.log(`✅ Anonymized user ${user.id}`);
+      // User anonymized successfully
 
       // Track successful deletion
       result.deletedCount++;
@@ -171,16 +171,13 @@ export async function cleanupDeletedAccounts(): Promise<CleanupResult> {
         date: new Date().toISOString().split('T')[0] ?? 'unknown',
         deletedUsers: result.deletedUsers,
       });
-      console.log(`✅ Sent admin summary email`);
+      // Admin summary email sent
     } catch (emailError) {
       console.warn('⚠️  Failed to send admin summary email:', emailError);
       // Don't fail the entire process if admin email fails
     }
   }
 
-  console.log(
-    `Cleanup complete: ${result.deletedCount} accounts processed, ${result.errors.length} errors`
-  );
-
+  // Return cleanup results
   return result;
 }

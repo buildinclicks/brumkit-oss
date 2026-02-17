@@ -20,9 +20,9 @@ import { render, type RenderOptions } from '@testing-library/react';
 import { NextIntlClientProvider } from 'next-intl';
 import { ThemeProvider } from 'next-themes';
 
-import messages from '@/messages/en.json';
-
 import type { ReactElement, ReactNode } from 'react';
+
+import messages from '@/messages/en.json';
 
 // Import English messages for testing
 
@@ -38,7 +38,7 @@ interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
   /**
    * Custom messages (defaults to English)
    */
-  messages?: Record<string, any>;
+  messages?: Record<string, unknown>;
 
   /**
    * Custom QueryClient instance
@@ -92,7 +92,7 @@ function AllTheProviders({
 }: {
   children: ReactNode;
   locale?: string;
-  messages?: Record<string, any>;
+  messages?: Record<string, unknown>;
   queryClient: QueryClient;
   theme?: 'light' | 'dark' | 'system';
   disableTheme?: boolean;

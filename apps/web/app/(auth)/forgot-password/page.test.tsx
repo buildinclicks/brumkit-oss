@@ -14,15 +14,17 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
+import ForgotPasswordPage from './page';
+
 import { renderWithProviders, screen, waitFor, userEvent } from '@/lib/test';
 
 // Import the component
-import ForgotPasswordPage from './page';
 
 // Mock server action
 const mockRequestPasswordReset = vi.fn();
 vi.mock('@/app/actions', () => ({
-  requestPasswordReset: (...args: any[]) => mockRequestPasswordReset(...args),
+  requestPasswordReset: (...args: unknown[]) =>
+    mockRequestPasswordReset(...args),
 }));
 
 // Mock toast

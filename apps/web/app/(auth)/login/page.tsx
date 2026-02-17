@@ -40,7 +40,7 @@ export default function LoginPage() {
     try {
       await loginMutation.mutateAsync(data);
       toast.success('Signed in successfully');
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error('Login Failed', {
         description: getErrorMessage(error),
       });

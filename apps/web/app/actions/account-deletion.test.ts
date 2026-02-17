@@ -51,15 +51,16 @@ vi.mock('@repo/email', () => ({
   sendAccountDeletionNotification: vi.fn(),
 }));
 
+import { auth } from '@repo/auth';
 import {
   getTestClient,
   cleanDatabase,
   disconnectTestClient,
   createTestUser,
 } from '@repo/database/test';
-import { auth } from '@repo/auth';
 import { sendAccountDeletionNotification } from '@repo/email';
 import { RedisRateLimiter } from '@repo/rate-limit';
+
 import { deleteAccount } from './account-deletion';
 
 describe('Account Deletion Server Action - Integration Tests', () => {

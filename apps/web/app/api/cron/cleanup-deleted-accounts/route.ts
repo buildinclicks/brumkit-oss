@@ -9,9 +9,9 @@
 
 import { NextResponse } from 'next/server';
 
-import { cleanupDeletedAccounts } from '@/lib/services/account-cleanup.service';
-
 import type { NextRequest } from 'next/server';
+
+import { cleanupDeletedAccounts } from '@/lib/services/account-cleanup.service';
 
 /**
  * Verify the request is from Vercel Cron
@@ -50,16 +50,12 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    console.log('🔄 Starting account cleanup cron job...');
+    // Starting account cleanup cron job
 
     // Run cleanup
     const result = await cleanupDeletedAccounts();
 
-    // Log results
-    console.log(`✅ Cleanup complete:
-      - Deleted: ${result.deletedCount} accounts
-      - Errors: ${result.errors.length}
-    `);
+    // Log results - cleanup complete
 
     if (result.errors.length > 0) {
       console.error('Errors during cleanup:', result.errors);

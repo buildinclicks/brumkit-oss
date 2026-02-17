@@ -38,7 +38,7 @@ export type SubjectType =
   | Subject
   | UserSubject
   | NotificationSubject
-  | { __typename: Subject; [key: string]: any };
+  | { __typename: Subject; [key: string]: unknown };
 
 /**
  * Ability type definition
@@ -99,7 +99,9 @@ export function defineAbilitiesFor(user: UserContext): AppAbility {
       can('read', 'all');
 
       // Can manage own notifications
-      can('update', 'Notification', { recipientId: user.id } as any);
+      can('update', 'Notification', {
+        recipientId: user.id,
+      } as NotificationSubject);
       break;
 
     case 'USER':
@@ -107,12 +109,16 @@ export function defineAbilitiesFor(user: UserContext): AppAbility {
       can('read', 'User');
 
       // Users can manage their own profile
-      can('update', 'User', { id: user.id } as any);
-      can('read', 'User', { id: user.id } as any); // Can read own full profile
+      can('update', 'User', { id: user.id } as UserSubject);
+      can('read', 'User', { id: user.id } as UserSubject); // Can read own full profile
 
       // Users can read their own notifications
-      can('read', 'Notification', { recipientId: user.id } as any);
-      can('update', 'Notification', { recipientId: user.id } as any); // Mark as read
+      can('read', 'Notification', {
+        recipientId: user.id,
+      } as NotificationSubject);
+      can('update', 'Notification', {
+        recipientId: user.id,
+      } as NotificationSubject); // Mark as read
       break;
 
     default:
@@ -133,6 +139,9 @@ export function createAbility(user: UserContext): AppAbility {
 /**
  * Helper to create a subject for testing
  */
-export function subject<T extends Subject>(type: T, object: any) {
+export function subject<T extends Subject>(
+  type: T,
+  object: Record<string, unknown>
+) {
   return detectSubjectType(type, object);
 }

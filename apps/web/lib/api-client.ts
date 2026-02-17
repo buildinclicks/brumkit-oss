@@ -2,6 +2,8 @@ import { getSession } from 'next-auth/react';
 
 import { ApiError, parseApiError } from './api-error';
 
+import type { ErrorCode } from '@repo/types';
+
 /**
  * API client configuration
  */
@@ -126,7 +128,11 @@ class ApiClient {
 
       // Handle abort/timeout
       if (error instanceof Error && error.name === 'AbortError') {
-        throw new ApiError('Request timeout', 408, 'server.timeout' as any);
+        throw new ApiError(
+          'Request timeout',
+          408,
+          'server.timeout' as ErrorCode
+        );
       }
 
       // Handle network errors
@@ -134,7 +140,7 @@ class ApiClient {
         throw new ApiError(
           'Network error - please check your connection',
           0,
-          'unknown.error' as any
+          'unknown.error' as ErrorCode
         );
       }
 
@@ -147,7 +153,7 @@ class ApiClient {
       throw new ApiError(
         error instanceof Error ? error.message : 'An unexpected error occurred',
         500,
-        'unknown.error' as any
+        'unknown.error' as ErrorCode
       );
     }
   }

@@ -6,11 +6,11 @@ import { authConfig } from './auth.config';
 import { providers } from './providers';
 
 import type { UserRole } from '@prisma/client';
-import type { NextAuthConfig } from 'next-auth';
+import type { NextAuthConfig, Adapter } from 'next-auth';
 
 const config = {
   ...authConfig,
-  adapter: PrismaAdapter(prisma) as any, // Type compatibility workaround for @auth/core versions
+  adapter: PrismaAdapter(prisma) as Adapter, // Type compatibility workaround for @auth/core versions
   session: {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 days

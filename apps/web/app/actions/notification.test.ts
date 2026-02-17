@@ -36,6 +36,7 @@ import {
   createTestNotification,
 } from '@repo/database/test';
 import { auth } from '@repo/auth';
+
 import {
   getNotifications,
   markAsRead,

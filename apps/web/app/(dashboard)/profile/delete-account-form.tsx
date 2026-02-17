@@ -47,24 +47,34 @@ export function DeleteAccountForm() {
     },
   });
 
-  const mutation = useServerActionForm(deleteAccount as any, {
-    setError: form.setError,
-    onSuccess: () => {
-      toast.success('Account Deletion Scheduled', {
-        description:
-          'Your account will be permanently deleted in 30 days. You can cancel this by logging in again.',
-      });
-      // Redirect to login after short delay
-      setTimeout(() => {
-        router.push('/login');
-      }, 2000);
+  const mutation = useServerActionForm<
+    Awaited<ReturnType<typeof deleteAccount>>['data'],
+    DeleteAccountFormInput
+  >(
+    // Wrap the action to transform the data
+    async (data: DeleteAccountFormInput) => {
+      // Only pass password to server action (confirmation is client-side only)
+      return deleteAccount({ password: data.password });
     },
-    onError: (error) => {
-      toast.error('Failed to Delete Account', {
-        description: getErrorMessage(error),
-      });
-    },
-  });
+    {
+      setError: form.setError,
+      onSuccess: () => {
+        toast.success('Account Deletion Scheduled', {
+          description:
+            'Your account will be permanently deleted in 30 days. You can cancel this by logging in again.',
+        });
+        // Redirect to login after short delay
+        setTimeout(() => {
+          router.push('/login');
+        }, 2000);
+      },
+      onError: (error) => {
+        toast.error('Failed to Delete Account', {
+          description: getErrorMessage(error),
+        });
+      },
+    }
+  );
 
   const onSubmit = async (data: DeleteAccountFormInput) => {
     if (!data.confirmation) {
@@ -74,8 +84,7 @@ export function DeleteAccountForm() {
       return;
     }
 
-    // Only pass password to server action (confirmation is client-side only)
-    await (mutation.mutateAsync as any)({ password: data.password });
+    await mutation.mutateAsync(data);
   };
 
   const handleCancel = () => {

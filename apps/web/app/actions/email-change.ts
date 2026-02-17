@@ -5,23 +5,24 @@ import { randomBytes } from 'crypto';
 import { auth, verifyPassword } from '@repo/auth';
 import { prisma } from '@repo/database';
 import {
-  sendEmailChangeVerification,
   sendEmailChangeNotification,
+  sendEmailChangeVerification,
 } from '@repo/email';
 import { RedisRateLimiter } from '@repo/rate-limit';
 import {
   requestEmailChangeSchema,
-  verifyEmailChangeSchema,
   type RequestEmailChangeInput,
   type VerifyEmailChangeInput,
+  verifyEmailChangeSchema,
 } from '@repo/validation';
 import { headers } from 'next/headers';
 import { ZodError } from 'zod';
 
-import { getClientIp, formatRetryAfter } from '@/lib/utils/rate-limit-helpers';
+import type { ActionResult } from './auth';
+
+import { formatRetryAfter, getClientIp } from '@/lib/utils/rate-limit-helpers';
 
 // Import ActionResult from auth
-import type { ActionResult } from './auth';
 
 /**
  * Request email change with password confirmation
@@ -163,7 +164,7 @@ export async function requestEmailChange(
   } catch (error) {
     if (error instanceof ZodError) {
       const fieldErrors: Record<string, string> = {};
-      error.errors.forEach((err: any) => {
+      error.errors.forEach((err) => {
         const field = err.path.join('.');
         fieldErrors[field] = err.message;
       });
@@ -252,7 +253,7 @@ export async function verifyEmailChange(
   } catch (error) {
     if (error instanceof ZodError) {
       const fieldErrors: Record<string, string> = {};
-      error.errors.forEach((err: any) => {
+      error.errors.forEach((err) => {
         const field = err.path.join('.');
         fieldErrors[field] = err.message;
       });

@@ -10,7 +10,7 @@ export const permissionRules: Record<
   Array<{
     action: Action | Action[];
     subject: Subject | Subject[];
-    conditions?: Record<string, any>;
+    conditions?: Record<string, unknown>;
     description: string;
   }>
 > = {

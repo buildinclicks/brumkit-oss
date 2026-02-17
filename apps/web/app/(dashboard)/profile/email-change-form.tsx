@@ -31,25 +31,25 @@ export function EmailChangeForm({ currentEmail }: EmailChangeFormProps) {
     reValidateMode: 'onChange',
   });
 
-  const mutation = useServerActionForm(
-    requestEmailChange as (data: RequestEmailChangeInput) => Promise<any>,
-    {
-      setError: form.setError,
-      onSuccess: () => {
-        const newEmail = form.getValues('newEmail');
-        toast.success('Verification Email Sent', {
-          description: `Please check ${newEmail} and click the verification link to complete the email change.`,
-        });
-        // Clear only password for security, keep email for reference
-        form.setValue('password', '');
-      },
-      onError: (error: Error) => {
-        toast.error('Failed to Change Email', {
-          description: getErrorMessage(error),
-        });
-      },
-    }
-  );
+  const mutation = useServerActionForm<
+    Awaited<ReturnType<typeof requestEmailChange>>['data'],
+    RequestEmailChangeInput
+  >(requestEmailChange, {
+    setError: form.setError,
+    onSuccess: () => {
+      const newEmail = form.getValues('newEmail');
+      toast.success('Verification Email Sent', {
+        description: `Please check ${newEmail} and click the verification link to complete the email change.`,
+      });
+      // Clear only password for security, keep email for reference
+      form.setValue('password', '');
+    },
+    onError: (error: Error) => {
+      toast.error('Failed to Change Email', {
+        description: getErrorMessage(error),
+      });
+    },
+  });
 
   const onSubmit = async (data: RequestEmailChangeInput) => {
     await mutation.mutateAsync(data);

@@ -4,7 +4,13 @@ import { auth } from '../config/auth';
 
 import { createAbility } from './abilities';
 
-import type { UserContext, AppAbility, Action, Subject } from './abilities';
+import type {
+  UserContext,
+  AppAbility,
+  Action,
+  Subject,
+  SubjectType,
+} from './abilities';
 
 /**
  * Get the current authenticated user from the session
@@ -80,14 +86,14 @@ export function cannot(
 /**
  * Check if a user can perform an action on a specific resource instance
  */
-export function canAccess<T extends Record<string, any>>(
+export function canAccess<T extends Record<string, unknown>>(
   user: UserContext,
   action: Action,
   subject: Subject,
   resource: T
 ): boolean {
   const ability = createAbility(user);
-  return ability.can(action, subject as any, resource as any);
+  return ability.can(action, subject as SubjectType, resource as SubjectType);
 }
 
 /**
@@ -106,7 +112,7 @@ export function assertCan(
 /**
  * Throw an error if user cannot access a specific resource
  */
-export function assertCanAccess<T extends Record<string, any>>(
+export function assertCanAccess<T extends Record<string, unknown>>(
   user: UserContext,
   action: Action,
   subject: Subject,
@@ -123,7 +129,7 @@ export function assertCanAccess<T extends Record<string, any>>(
 /**
  * Filter a list of resources based on user permissions
  */
-export function filterByPermission<T extends Record<string, any>>(
+export function filterByPermission<T extends Record<string, unknown>>(
   user: UserContext,
   action: Action,
   subject: Subject,
@@ -131,7 +137,7 @@ export function filterByPermission<T extends Record<string, any>>(
 ): T[] {
   const ability = createAbility(user);
   return resources.filter((resource) =>
-    ability.can(action, subject as any, resource as any)
+    ability.can(action, subject as SubjectType, resource as SubjectType)
   );
 }
 

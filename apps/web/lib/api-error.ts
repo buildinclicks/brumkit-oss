@@ -9,14 +9,14 @@ export class ApiError extends Error {
   public readonly code: ErrorCode;
   public readonly statusCode: number;
   public readonly fields?: ValidationErrorField[];
-  public readonly details?: Record<string, any>;
+  public readonly details?: Record<string, unknown>;
 
   constructor(
     message: string,
     statusCode: number,
     code: ErrorCode = ErrorCode.UNKNOWN_ERROR,
     fields?: ValidationErrorField[],
-    details?: Record<string, any>
+    details?: Record<string, unknown>
   ) {
     super(message);
     this.name = 'ApiError';
@@ -77,7 +77,7 @@ export class ApiError extends Error {
  */
 export async function parseApiError(response: Response): Promise<ApiError> {
   const statusCode = response.status;
-  let errorData: ApiErrorResponse | null = null;
+  let errorData: ApiErrorResponse | undefined;
 
   try {
     errorData = await response.json();
@@ -108,7 +108,7 @@ export async function parseApiError(response: Response): Promise<ApiError> {
 
   // Fallback for non-standard error responses
   return new ApiError(
-    (errorData as any)?.message || 'An error occurred',
+    (errorData as { message?: string })?.message || 'An error occurred',
     statusCode,
     ErrorCode.UNKNOWN_ERROR
   );

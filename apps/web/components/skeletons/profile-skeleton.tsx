@@ -1,5 +1,4 @@
-import { Skeleton } from '@repo/ui';
-import { Card, CardContent, CardHeader } from '@repo/ui';
+import { Skeleton, Card, CardContent, CardHeader } from '@repo/ui';
 
 /**
  * Skeleton loader for profile page
