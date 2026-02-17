@@ -28,7 +28,7 @@
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^25.0.6",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.16"
+    "vitest": "^4.0.18"
   },
   "keywords": [
     "utilities",

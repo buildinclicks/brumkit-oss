@@ -68,9 +68,11 @@ export function useChangePassword() {
 
       if (!result.success) {
         const error = new Error(result.error) as Error & {
-          fieldErrors?: Record<string, string[]>;
+          fieldErrors?: Record<string, string>;
         };
-        error.fieldErrors = result.fieldErrors;
+        error.fieldErrors = result.fieldErrors as
+          | Record<string, string>
+          | undefined;
         throw error;
       }
 

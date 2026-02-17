@@ -13,6 +13,16 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['@repo/ui'],
   },
+  eslint: {
+    // Only run ESLint on specific directories during build
+    dirs: ['app', 'components', 'lib'],
+    // Don't fail the build on ESLint errors (warnings in test files won't block)
+    ignoreDuringBuilds: false,
+  },
+  typescript: {
+    // Don't fail on type errors during build
+    ignoreBuildErrors: false,
+  },
 };
 
 export default withNextIntl(nextConfig);

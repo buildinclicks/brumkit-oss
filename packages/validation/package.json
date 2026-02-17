@@ -18,12 +18,12 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@prisma/client": "^6.1.0",
+    "@prisma/client": "^6.19.2",
     "@repo/config-typescript": "workspace:*",
     "@repo/config-vitest": "workspace:*",
     "@repo/types": "workspace:*",
     "@types/node": "^25.0.6",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.16"
+    "vitest": "^4.0.18"
   }
 }

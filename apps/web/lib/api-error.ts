@@ -108,7 +108,8 @@ export async function parseApiError(response: Response): Promise<ApiError> {
 
   // Fallback for non-standard error responses
   return new ApiError(
-    (errorData as { message?: string })?.message || 'An error occurred',
+    (errorData as unknown as { message?: string })?.message ||
+      'An error occurred',
     statusCode,
     ErrorCode.UNKNOWN_ERROR
   );

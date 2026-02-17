@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
-    "@prisma/client": "^6.1.0",
+    "@prisma/client": "^6.19.2",
     "@repo/auth": "workspace:*",
     "@repo/database": "workspace:*",
     "@repo/email": "workspace:*",
@@ -27,15 +27,15 @@
     "@repo/ui": "workspace:*",
     "@repo/utils": "workspace:*",
     "@repo/validation": "workspace:*",
-    "@tanstack/react-query": "^5.90.16",
-    "@tanstack/react-query-devtools": "^5.91.2",
+    "@tanstack/react-query": "^5.90.21",
+    "@tanstack/react-query-devtools": "^5.90.21",
     "lucide-react": "^0.469.0",
-    "next": "^15.5.10",
+    "next": "^15.5.12",
     "next-auth": "^5.0.0-beta.25",
-    "next-intl": "^4.7.0",
+    "next-intl": "^4.8.3",
     "next-themes": "^0.4.6",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "react-hook-form": "^7.71.0",
     "sonner": "^1.7.4",
     "zod": "^3.23.8"
@@ -60,6 +60,6 @@
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.16"
+    "vitest": "^4.0.18"
   }
 }

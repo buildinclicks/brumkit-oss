@@ -15,7 +15,7 @@ interface ServerActionFormOptions<
   onSuccess?: (data: TData) => void | Promise<void>;
   onError?: (error: TError) => void;
   mutationOptions?: Omit<
-    UseMutationOptions<TData, TError, TVariables>,
+    UseMutationOptions<TData, unknown, TVariables, unknown>,
     'mutationFn' | 'onSuccess' | 'onError'
   >;
 }
@@ -59,6 +59,7 @@ export function useServerActionForm<TData, TVariables extends FieldValues>(
   const { setError, onSuccess, onError, mutationOptions } = options;
 
   return useMutation({
+    ...mutationOptions,
     mutationFn: async (data: TVariables) => {
       const result = await mutationFn(data);
 

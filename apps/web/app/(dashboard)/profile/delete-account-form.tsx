@@ -47,10 +47,7 @@ export function DeleteAccountForm() {
     },
   });
 
-  const mutation = useServerActionForm<
-    Awaited<ReturnType<typeof deleteAccount>>['data'],
-    DeleteAccountFormInput
-  >(
+  const mutation = useServerActionForm<void, DeleteAccountFormInput>(
     // Wrap the action to transform the data
     async (data: DeleteAccountFormInput) => {
       // Only pass password to server action (confirmation is client-side only)

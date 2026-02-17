@@ -30,7 +30,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@prisma/client": "^6.1.0"
+    "@prisma/client": "^6.19.2"
   },
   "devDependencies": {
     "@faker-js/faker": "^10.2.0",
@@ -38,10 +38,10 @@
     "@repo/config-vitest": "workspace:*",
     "@types/node": "^25.0.6",
     "bcryptjs": "^3.0.3",
-    "prisma": "^6.1.0",
+    "prisma": "^6.19.2",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.16"
+    "vitest": "^4.0.18"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
