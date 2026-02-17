@@ -15,10 +15,10 @@
 
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 
-import LoginPage from './page';
-
 import * as authHooks from '@/lib/hooks/use-auth';
 import { renderWithProviders, screen, userEvent, waitFor } from '@/lib/test';
+
+import LoginPage from './page';
 
 // Mock next-auth
 vi.mock('next-auth/react', () => ({
@@ -59,6 +59,7 @@ describe('LoginPage - TDD', () => {
     vi.clearAllMocks();
 
     // Setup default mock implementations
+
     vi.mocked(authHooks.useLogin).mockReturnValue({
       mutateAsync: vi.fn(),
       isPending: false,
@@ -160,6 +161,7 @@ describe('LoginPage - TDD', () => {
   describe('🔴 RED: Credential Login', () => {
     it('should successfully login with valid credentials', async () => {
       const mockMutateAsync = vi.fn().mockResolvedValue({ ok: true });
+
       vi.mocked(authHooks.useLogin).mockReturnValue({
         mutateAsync: mockMutateAsync,
         isPending: false,

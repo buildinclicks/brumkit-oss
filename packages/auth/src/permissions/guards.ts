@@ -4,13 +4,7 @@ import { auth } from '../config/auth';
 
 import { createAbility } from './abilities';
 
-import type {
-  UserContext,
-  AppAbility,
-  Action,
-  Subject,
-  SubjectType,
-} from './abilities';
+import type { UserContext, AppAbility, Action, Subject } from './abilities';
 
 /**
  * Get the current authenticated user from the session
@@ -93,7 +87,9 @@ export function canAccess<T extends Record<string, unknown>>(
   resource: T
 ): boolean {
   const ability = createAbility(user);
-  return ability.can(action, subject as SubjectType, resource as SubjectType);
+  // Type assertion needed as CASL typing is complex with conditional types
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return ability.can(action, subject as any, resource as any);
 }
 
 /**
@@ -137,7 +133,9 @@ export function filterByPermission<T extends Record<string, unknown>>(
 ): T[] {
   const ability = createAbility(user);
   return resources.filter((resource) =>
-    ability.can(action, subject as SubjectType, resource as SubjectType)
+    // Type assertion needed as CASL typing is complex with conditional types
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ability.can(action, subject as any, resource as any)
   );
 }
 

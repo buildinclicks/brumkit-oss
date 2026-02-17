@@ -29,6 +29,13 @@ if (typeof window !== 'undefined') {
     },
     writable: true,
   });
+
+  // Mock ResizeObserver for Radix UI components
+  global.ResizeObserver = class ResizeObserver {
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  };
 }
 
 // Establish API mocking before all tests

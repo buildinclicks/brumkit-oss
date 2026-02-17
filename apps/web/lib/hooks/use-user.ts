@@ -6,10 +6,6 @@ import {
 } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 
-import { queryKeys } from './query-keys';
-
-import type { UpdateUserProfileInput } from '@repo/validation';
-
 import {
   deleteUserAccount,
   getCurrentUserProfile,
@@ -18,6 +14,10 @@ import {
   type UserProfile,
   updateUserProfile,
 } from '@/app/actions';
+
+import { queryKeys } from './query-keys';
+
+import type { UpdateUserProfileInput } from '@repo/validation';
 
 /**
  * Hook to get current authenticated user from session

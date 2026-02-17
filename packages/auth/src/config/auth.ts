@@ -10,7 +10,9 @@ import type { NextAuthConfig } from 'next-auth';
 
 const config = {
   ...authConfig,
-  adapter: PrismaAdapter(prisma),
+  // Type assertion needed due to minor version mismatch in @auth/core dependency
+  // between next-auth and @auth/prisma-adapter
+  adapter: PrismaAdapter(prisma) as any,
   session: {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 days

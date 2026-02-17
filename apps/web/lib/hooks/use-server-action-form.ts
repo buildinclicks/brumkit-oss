@@ -99,7 +99,7 @@ export function useServerActionForm<TData, TVariables extends FieldValues>(
       // Only call onError callback for non-field errors (server/business logic errors)
       // Field errors are displayed inline, so no toast needed
       if (!hasFieldErrors) {
-        onError?.(error as TError);
+        onError?.(error as Error);
       }
     },
     ...mutationOptions,

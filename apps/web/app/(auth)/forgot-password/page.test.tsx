@@ -14,9 +14,9 @@
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-import ForgotPasswordPage from './page';
-
 import { renderWithProviders, screen, waitFor, userEvent } from '@/lib/test';
+
+import ForgotPasswordPage from './page';
 
 // Import the component
 

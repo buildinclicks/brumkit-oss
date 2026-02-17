@@ -9,9 +9,9 @@
 
 import { NextResponse } from 'next/server';
 
-import type { NextRequest } from 'next/server';
-
 import { cleanupDeletedAccounts } from '@/lib/services/account-cleanup.service';
+
+import type { NextRequest } from 'next/server';
 
 /**
  * Verify the request is from Vercel Cron

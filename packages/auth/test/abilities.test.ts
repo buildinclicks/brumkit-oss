@@ -1,9 +1,11 @@
 import { describe, it, expect } from 'vitest';
+
 import {
   defineAbilitiesFor,
   createAbility,
   subject,
 } from '../src/permissions/abilities';
+
 import type { UserContext } from '../src/permissions/abilities';
 
 describe('CASL Abilities', () => {
@@ -76,19 +78,35 @@ describe('CASL Abilities', () => {
     it('can manage own notifications', () => {
       const ability = defineAbilitiesFor(moderator);
       const ownNotification = subject('Notification', {
+        id: 'notif-1',
         recipientId: moderator.id,
+        type: 'SYSTEM' as const,
+        title: 'Test',
+        message: 'Test message',
+        link: null,
+        readAt: null,
+        createdAt: new Date(),
       });
 
-      expect(ability.can('update', ownNotification)).toBe(true);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect(ability.can('update', ownNotification as any)).toBe(true);
     });
 
     it('cannot manage other users notifications', () => {
       const ability = defineAbilitiesFor(moderator);
       const othersNotification = subject('Notification', {
+        id: 'notif-2',
         recipientId: 'other-user-id',
+        type: 'SYSTEM' as const,
+        title: 'Test',
+        message: 'Test message',
+        link: null,
+        readAt: null,
+        createdAt: new Date(),
       });
 
-      expect(ability.can('update', othersNotification)).toBe(false);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect(ability.can('update', othersNotification as any)).toBe(false);
     });
 
     it('cannot manage users', () => {
@@ -111,15 +129,18 @@ describe('CASL Abilities', () => {
       const ability = defineAbilitiesFor(user);
       const ownProfile = subject('User', { id: user.id });
 
-      expect(ability.can('update', ownProfile)).toBe(true);
-      expect(ability.can('read', ownProfile)).toBe(true);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect(ability.can('update', ownProfile as any)).toBe(true);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect(ability.can('read', ownProfile as any)).toBe(true);
     });
 
     it('cannot update other users profile', () => {
       const ability = defineAbilitiesFor(user);
       const othersProfile = subject('User', { id: 'other-user-id' });
 
-      expect(ability.can('update', othersProfile)).toBe(false);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect(ability.can('update', othersProfile as any)).toBe(false);
     });
 
     it('cannot delete any user', () => {
@@ -138,37 +159,69 @@ describe('CASL Abilities', () => {
     it('can read own notifications', () => {
       const ability = defineAbilitiesFor(user);
       const ownNotification = subject('Notification', {
+        id: 'notif-3',
         recipientId: user.id,
+        type: 'SYSTEM' as const,
+        title: 'Test',
+        message: 'Test message',
+        link: null,
+        readAt: null,
+        createdAt: new Date(),
       });
 
-      expect(ability.can('read', ownNotification)).toBe(true);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect(ability.can('read', ownNotification as any)).toBe(true);
     });
 
     it('can update own notifications', () => {
       const ability = defineAbilitiesFor(user);
       const ownNotification = subject('Notification', {
+        id: 'notif-4',
         recipientId: user.id,
+        type: 'SYSTEM' as const,
+        title: 'Test',
+        message: 'Test message',
+        link: null,
+        readAt: null,
+        createdAt: new Date(),
       });
 
-      expect(ability.can('update', ownNotification)).toBe(true);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect(ability.can('update', ownNotification as any)).toBe(true);
     });
 
     it('cannot read other users notifications', () => {
       const ability = defineAbilitiesFor(user);
       const othersNotification = subject('Notification', {
+        id: 'notif-5',
         recipientId: 'other-user-id',
+        type: 'SYSTEM' as const,
+        title: 'Test',
+        message: 'Test message',
+        link: null,
+        readAt: null,
+        createdAt: new Date(),
       });
 
-      expect(ability.can('read', othersNotification)).toBe(false);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect(ability.can('read', othersNotification as any)).toBe(false);
     });
 
     it('cannot update other users notifications', () => {
       const ability = defineAbilitiesFor(user);
       const othersNotification = subject('Notification', {
+        id: 'notif-6',
         recipientId: 'other-user-id',
+        type: 'SYSTEM' as const,
+        title: 'Test',
+        message: 'Test message',
+        link: null,
+        readAt: null,
+        createdAt: new Date(),
       });
 
-      expect(ability.can('update', othersNotification)).toBe(false);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      expect(ability.can('update', othersNotification as any)).toBe(false);
     });
   });
 
