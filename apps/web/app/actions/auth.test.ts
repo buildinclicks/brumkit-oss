@@ -184,25 +184,14 @@ describe('changePassword Server Action', () => {
         password: 'OldPassword123!',
       });
 
-      // Mock email service
-      const mockSendPasswordChangedEmail = vi
-        .fn()
-        .mockResolvedValue({ success: true });
-      vi.mock('@repo/email', () => ({
-        sendPasswordChangedEmail: mockSendPasswordChangedEmail,
-      }));
+      // Mock email service using vi.mocked instead of vi.mock
+      const { sendPasswordChangedEmail } = await import('@repo/email');
+      const mockSendEmail = vi
+        .mocked(sendPasswordChangedEmail)
+        .mockResolvedValue({ success: true } as any);
 
-      vi.mock('@repo/auth', () => ({
-        getCurrentUser: vi.fn().mockResolvedValue({ id: testUser.id }),
-        verifyPassword: async (password: string, hash: string) => {
-          const { verifyPassword } = await import('bcryptjs');
-          return verifyPassword(password, hash);
-        },
-        hashPassword: async (password: string) => {
-          const { hash } = await import('bcryptjs');
-          return hash(password, 10);
-        },
-      }));
+      const { getCurrentUser } = await import('@repo/auth');
+      vi.mocked(getCurrentUser).mockResolvedValue({ id: testUser.id } as any);
 
       await changePassword({
         currentPassword: 'OldPassword123!',
@@ -210,7 +199,7 @@ describe('changePassword Server Action', () => {
       });
 
       // EMAIL NOTIFICATION SHOULD BE SENT
-      expect(mockSendPasswordChangedEmail).toHaveBeenCalledWith({
+      expect(mockSendEmail).toHaveBeenCalledWith({
         to: 'test@example.com',
         name: 'Test User',
       });
@@ -223,25 +212,16 @@ describe('changePassword Server Action', () => {
         password: 'OldPassword123!',
       });
 
-      // Mock email service to fail
-      const mockSendPasswordChangedEmail = vi
-        .fn()
-        .mockRejectedValue(new Error('Email service down'));
-      vi.mock('@repo/email', () => ({
-        sendPasswordChangedEmail: mockSendPasswordChangedEmail,
-      }));
+      // Mock email service to fail using vi.mocked
+      const { sendPasswordChangedEmail } = await import('@repo/email');
+      vi.mocked(sendPasswordChangedEmail).mockRejectedValue(
+        new Error('Email service down')
+      );
 
-      vi.mock('@repo/auth', () => ({
-        getCurrentUser: vi.fn().mockResolvedValue({ id: testUser.id }),
-        verifyPassword: async (password: string, hash: string) => {
-          const { verifyPassword } = await import('bcryptjs');
-          return verifyPassword(password, hash);
-        },
-        hashPassword: async (password: string) => {
-          const { hash } = await import('bcryptjs');
-          return hash(password, 10);
-        },
-      }));
+      const { getCurrentUser } = await import('@repo/auth');
+      vi.mocked(getCurrentUser).mockResolvedValue({
+        id: _testUser.id,
+      } as any);
 
       const result = await changePassword({
         currentPassword: 'OldPassword123!',

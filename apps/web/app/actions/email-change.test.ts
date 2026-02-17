@@ -65,6 +65,7 @@ import {
   sendEmailChangeVerification,
   sendEmailChangeNotification,
 } from '@repo/email';
+import { RedisRateLimiter } from '@repo/rate-limit';
 
 import { requestEmailChange, verifyEmailChange } from './email-change';
 

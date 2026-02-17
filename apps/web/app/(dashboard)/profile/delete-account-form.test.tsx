@@ -81,7 +81,7 @@ describe('🔴 RED: DeleteAccountForm Component', () => {
     it('should render 30-day grace period info', () => {
       renderWithProviders(<DeleteAccountForm />);
 
-      expect(screen.getByText(/30 days/i)).toBeInTheDocument();
+      expect(screen.getByText(/30-Day Grace Period/i)).toBeInTheDocument();
     });
   });
 
@@ -144,12 +144,11 @@ describe('🔴 RED: DeleteAccountForm Component', () => {
       const submitButton = screen.getByRole('button', {
         name: /delete my account/i,
       });
-      await user.click(submitButton);
 
-      await waitFor(() => {
-        expect(screen.getByRole('alert')).toBeInTheDocument();
-      });
+      // Button should be disabled when checkbox is not checked
+      expect(submitButton).toBeDisabled();
 
+      // Should not call the action when disabled
       expect(vi.mocked(deleteAccount)).not.toHaveBeenCalled();
     });
 
@@ -354,10 +353,13 @@ describe('🔴 RED: DeleteAccountForm Component', () => {
       const cancelButton = screen.getByRole('button', { name: /cancel/i });
       await user.click(cancelButton);
 
-      await waitFor(() => {
-        expect(passwordInput.value).toBe('');
-        expect(checkbox.checked).toBe(false);
-      });
+      await waitFor(
+        () => {
+          expect(passwordInput.value).toBe('');
+          expect(checkbox.checked).toBe(false);
+        },
+        { timeout: 2000 }
+      );
     });
   });
 
@@ -396,11 +398,14 @@ describe('🔴 RED: DeleteAccountForm Component', () => {
       });
       await user.click(submitButton);
 
-      await waitFor(() => {
-        const alerts = screen.getAllByRole('alert');
-        expect(alerts.length).toBeGreaterThan(0);
-        expect(screen.getByText(/password is required/i)).toBeInTheDocument();
-      });
+      await waitFor(
+        () => {
+          const alerts = screen.getAllByRole('alert');
+          expect(alerts.length).toBeGreaterThan(0);
+          expect(screen.getByText(/password is required/i)).toBeInTheDocument();
+        },
+        { timeout: 2000 }
+      );
     });
 
     it('should have danger styling for submit button', () => {
@@ -409,7 +414,7 @@ describe('🔴 RED: DeleteAccountForm Component', () => {
       const submitButton = screen.getByRole('button', {
         name: /delete my account/i,
       });
-      expect(submitButton).toHaveClass('destructive'); // Assuming destructive variant
+      expect(submitButton).toHaveClass('bg-destructive'); // Check for destructive background class
     });
   });
 

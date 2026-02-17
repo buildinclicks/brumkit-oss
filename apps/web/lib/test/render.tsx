@@ -74,6 +74,8 @@ export function createTestQueryClient(): QueryClient {
       },
       mutations: {
         retry: false,
+        // Don't throw errors on mutations to avoid unhandled promise rejections in tests
+        throwOnError: false,
       },
     },
   });

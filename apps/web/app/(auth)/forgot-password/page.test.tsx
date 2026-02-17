@@ -126,9 +126,9 @@ describe('🟢 GREEN: ForgotPasswordPage (TDD)', () => {
 
       await waitFor(
         () => {
-          expect(mockRequestPasswordReset).toHaveBeenCalledWith(
-            'test@example.com'
-          );
+          expect(mockRequestPasswordReset).toHaveBeenCalledWith({
+            email: 'test@example.com',
+          });
         },
         { timeout: 3000 }
       );
