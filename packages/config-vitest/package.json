@@ -1,0 +1,37 @@
+{
+  "name": "@repo/config-vitest",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared Vitest configuration for React Masters monorepo",
+  "main": "base.ts",
+  "exports": {
+    "./base": "./base.ts",
+    "./base.js": "./base.ts",
+    "./react": "./react.ts",
+    "./react.js": "./react.ts",
+    "./node": "./node.ts",
+    "./node.js": "./node.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage"
+  },
+  "files": [
+    "base.ts",
+    "react.ts",
+    "node.ts"
+  ],
+  "peerDependencies": {
+    "vitest": "^4.0.0"
+  },
+  "devDependencies": {
+    "@repo/config-typescript": "workspace:*"
+  },
+  "keywords": [
+    "vitest",
+    "testing",
+    "config"
+  ]
+}

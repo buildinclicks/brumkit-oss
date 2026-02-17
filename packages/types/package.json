@@ -1,0 +1,32 @@
+{
+  "name": "@repo/types",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Shared TypeScript types for React Masters monorepo",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./common": "./src/common.ts",
+    "./api": "./src/api.ts",
+    "./auth": "./src/auth.ts",
+    "./utils": "./src/utils.ts"
+  },
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest watch"
+  },
+  "devDependencies": {
+    "@repo/config-typescript": "workspace:*",
+    "@repo/config-vitest": "workspace:*",
+    "@types/node": "^25.0.6",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16"
+  },
+  "keywords": [
+    "typescript",
+    "types",
+    "shared"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "extends": "../react-library.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": "."
+  },
+  "include": ["react-library.test.tsx"],
+  "exclude": []
+}

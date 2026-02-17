@@ -1,0 +1,39 @@
+{
+  "name": "@repo/config-eslint",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared ESLint configurations for React Masters monorepo",
+  "main": "./base.js",
+  "exports": {
+    "./base": "./base.js",
+    "./node": "./node.js",
+    "./react-library": "./react-library.js",
+    "./nextjs": "./nextjs.js"
+  },
+  "files": [
+    "base.js",
+    "nextjs.js",
+    "react-library.js",
+    "node.js"
+  ],
+  "dependencies": {
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.39.2",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^5.0.0",
+    "typescript-eslint": "^8.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^15.0.0",
+    "eslint-import-resolver-typescript": "^4.4.4"
+  },
+  "peerDependencies": {
+    "eslint": "^9.0.0",
+    "typescript": "^5.0.0"
+  }
+}

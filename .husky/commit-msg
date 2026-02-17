@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# Commit message hook
+# Enforce conventional commit format
+
+commit_msg_file=$1
+commit_msg=$(cat "$commit_msg_file")
+
+# Conventional commit pattern
+# Format: type(scope): subject
+# Types: feat, fix, docs, style, refactor, test, chore
+pattern="^(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)(\(.+\))?: .{1,}"
+
+if ! echo "$commit_msg" | grep -qE "$pattern"; then
+  echo "❌ Invalid commit message format!"
+  echo ""
+  echo "Commit message must follow conventional commits:"
+  echo "  <type>(<scope>): <subject>"
+  echo ""
+  echo "Types: feat, fix, docs, style, refactor, test, chore, perf, ci, build, revert"
+  echo ""
+  echo "Examples:"
+  echo "  feat: add user authentication"
+  echo "  fix(api): resolve database connection issue"
+  echo "  docs: update README with setup instructions"
+  echo ""
+  exit 1
+fi
+

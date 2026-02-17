@@ -1,0 +1,142 @@
+# Services = Containers to run
+services:
+  # PostgreSQL Database
+  postgres:
+    # Image: What container to use (from Docker Hub)
+    # postgres:16-alpine = PostgreSQL version 16, Alpine Linux (smaller size)
+    image: postgres:16-alpine
+
+    # Container name (easier to reference)
+    container_name: bk-postgres
+
+    # Restart policy
+    restart: unless-stopped
+
+    # Environment variables (configuration)
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: broom_kit
+
+    # Ports: host:container
+    # Your machine:5432 -> Container:5432
+    ports:
+      - '5432:5432'
+
+    # Volume: Persist data outside container
+    # When container stops, data is NOT lost
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    # Health check: Is PostgreSQL ready?
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis (Cache, Sessions, Job Queues)
+  redis:
+    # Image: Redis version 7 on Alpine Linux
+    image: redis:7-alpine
+
+    # Container name
+    container_name: bk-redis
+
+    # Restart policy
+    restart: unless-stopped
+
+    # Ports: host:container
+    # Your machine:6379 -> Container:6379
+    ports:
+      - '6379:6379'
+
+    # Volume: Persist Redis data
+    volumes:
+      - redis_data:/data
+
+    # Health check: Is Redis ready?
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # MinIO (S3-Compatible Object Storage)
+  minio:
+    # Image: MinIO latest version
+    image: minio/minio:latest
+
+    # Container name
+    container_name: bk-minio
+
+    # Restart policy
+    restart: unless-stopped
+
+    # Environment variables (credentials)
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+
+    # Ports:
+    # 9000 = API (S3-compatible)
+    # 9001 = Web Console UI
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+
+    # Volume: Persist uploaded files
+    volumes:
+      - minio_data:/data
+
+    # Command: Start MinIO server with console
+    command: server /data --console-address ":9001"
+
+    # Health check: Is MinIO ready?
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:9000/minio/health/live']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Mailhog (Email Testing)
+  mailhog:
+    # Image: Mailhog latest version
+    image: mailhog/mailhog:latest
+
+    # Container name
+    container_name: bk-mailhog
+
+    # Restart policy
+    restart: unless-stopped
+
+    # Ports:
+    # 1025 = SMTP (send emails to this)
+    # 8025 = Web UI (view emails here)
+    ports:
+      - '1025:1025'
+      - '8025:8025'
+
+    # Health check: Is Mailhog ready?
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'wget',
+          '--quiet',
+          '--tries=1',
+          '--spider',
+          'http://localhost:8025',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+# Volumes: Named storage for persistent data
+volumes:
+  postgres_data:
+    name: bk-postgres-data
+  redis_data:
+    name: bk-redis-data
+  minio_data:
+    name: bk-minio-data

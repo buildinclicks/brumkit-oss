@@ -1,0 +1,50 @@
+feat(security): add Redis rate limiting for password reset
+
+## Implementation
+
+- Create @repo/rate-limit package with Upstash Redis integration
+- Add rate limiting to requestPasswordReset (3 attempts/5 min)
+- Apply rate limit to all emails (prevent enumeration attacks)
+- Use fail-open strategy for high availability
+- Normalize emails before rate limiting (case-insensitive)
+
+## Testing
+
+- Add 20 unit tests for RedisRateLimiter class (all passing)
+- Add 6 integration tests for password reset flow (all passing)
+- Follow TDD approach: RED → GREEN → REFACTOR
+- Total: 26/26 tests passing ✅
+
+## Documentation
+
+- Create Upstash Redis setup guide (docs/setup/upstash-redis-setup.md)
+- Add package README with API docs and examples
+- Document implementation details and technical decisions
+- Add task completion summary
+
+## Technical Details
+
+- Rate limiter uses atomic INCR with sliding window algorithm
+- Redis key format: `ratelimit:password-reset:{normalized_email}`
+- Sub-5ms latency with Upstash REST API
+- Graceful degradation if Redis is unavailable
+
+## Files Changed
+
+**Created:**
+- packages/rate-limit/* (entire package)
+- apps/web/app/actions/auth-rate-limit.test.ts
+- docs/setup/upstash-redis-setup.md
+- docs/development/phase-7/task-7.1-*.md
+
+**Modified:**
+- apps/web/app/actions/auth.ts
+- apps/web/package.json
+
+**Status**: ✅ Task 7.1 COMPLETED
+**Tests**: 26 passing
+**Build**: ✅ Successful
+**Follows**: TDD, .cursor/rules
+
+BREAKING CHANGE: None (additive feature)
+

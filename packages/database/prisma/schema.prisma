@@ -1,0 +1,145 @@
+// Prisma Schema for Broom Kit
+// Simplified schema with only Auth and Notification models
+// Database: broom_kit
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// ENUMS
+// ============================================
+
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  MODERATOR
+  USER
+}
+
+enum NotificationType {
+  SYSTEM
+  ACCOUNT
+  SECURITY
+}
+
+// ============================================
+// AUTH MODELS (Auth.js compatible)
+// ============================================
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  username      String?   @unique // Public handle (@username)
+  password      String?   // Hashed password for email/password auth
+  image         String?
+  bio           String?   @db.Text
+  role          UserRole  @default(USER)
+
+  // Email change flow
+  emailChangeToken       String?   @unique
+  emailChangeTokenExpiry DateTime?
+  newEmail               String?
+
+  // Soft delete (30-day grace period)
+  deletedAt DateTime?
+  isDeleted Boolean   @default(false)
+
+  // Auth.js relations
+  accounts Account[]
+  sessions Session[]
+
+  // Notifications
+  notifications Notification[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([username])
+  @@index([role])
+  @@index([emailChangeToken])
+  @@index([deletedAt])
+  @@index([isDeleted])
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([expires])
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@index([expires])
+  @@map("verification_tokens")
+}
+
+// ============================================
+// SYSTEM MODELS
+// ============================================
+
+model Notification {
+  id          String           @id @default(cuid())
+  recipientId String
+  type        NotificationType
+  title       String           @db.VarChar(255)
+  message     String           @db.Text
+  link        String?          @db.VarChar(500)
+  readAt      DateTime?
+
+  recipient User @relation(fields: [recipientId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([recipientId])
+  @@index([readAt])
+  @@index([createdAt])
+  @@map("notifications")
+}

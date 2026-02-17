@@ -1,0 +1,9 @@
+{
+  "extends": "../node.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": "."
+  },
+  "include": ["node.test.ts"],
+  "exclude": []
+}

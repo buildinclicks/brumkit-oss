@@ -1,0 +1,291 @@
+{
+  "validation": {
+    "common": {
+      "required": "This field is required",
+      "invalid_format": "Invalid format",
+      "too_short": "Too short",
+      "too_long": "Too long",
+      "invalid_type": "Invalid type",
+      "invalid_value": "Invalid value"
+    },
+    "email": {
+      "required": "Email is required",
+      "invalid": "Please enter a valid email address",
+      "too_short": "Email must be at least 5 characters",
+      "too_long": "Email must not exceed 255 characters",
+      "already_exists": "This email is already registered. Please login instead."
+    },
+    "password": {
+      "required": "Password is required",
+      "too_short": "Password must be at least 8 characters",
+      "too_long": "Password must not exceed 128 characters",
+      "no_uppercase": "Password must contain at least one uppercase letter",
+      "no_lowercase": "Password must contain at least one lowercase letter",
+      "no_number": "Password must contain at least one number",
+      "mismatch": "Passwords do not match"
+    },
+    "username": {
+      "required": "Username is required",
+      "invalid_format": "Username can only contain letters, numbers, underscores, and hyphens",
+      "too_short": "Username must be at least 3 characters",
+      "too_long": "Username must not exceed 20 characters"
+    },
+    "user": {
+      "name_required": "Name is required",
+      "name_too_long": "Name must not exceed 255 characters",
+      "bio_too_long": "Bio must not exceed 500 characters",
+      "image_invalid_url": "Please enter a valid image URL"
+    },
+    "article": {
+      "title_required": "Article title is required",
+      "title_too_long": "Title must not exceed 255 characters",
+      "content_required": "Article content is required",
+      "slug_required": "Slug is required",
+      "slug_invalid_format": "Slug can only contain lowercase letters, numbers, and hyphens",
+      "slug_too_long": "Slug must not exceed 255 characters",
+      "excerpt_too_long": "Excerpt must not exceed 500 characters",
+      "cover_image_invalid_url": "Please enter a valid cover image URL",
+      "meta_title_too_long": "Meta title must not exceed 60 characters",
+      "meta_description_too_long": "Meta description must not exceed 160 characters",
+      "tags_minimum": "Please select at least one tag",
+      "tags_maximum": "Maximum 10 tags allowed"
+    },
+    "tag": {
+      "name_required": "Tag name is required",
+      "name_too_short": "Tag name must be at least 2 characters",
+      "name_too_long": "Tag name must not exceed 50 characters",
+      "slug_required": "Tag slug is required",
+      "slug_invalid_format": "Slug can only contain lowercase letters, numbers, and hyphens",
+      "slug_too_long": "Slug must not exceed 100 characters",
+      "color_invalid_hex": "Please enter a valid hex color code"
+    },
+    "comment": {
+      "content_required": "Comment cannot be empty",
+      "content_too_short": "Comment must be at least 1 character",
+      "content_too_long": "Comment must not exceed 2000 characters",
+      "article_id_required": "Article ID is required"
+    },
+    "notification": {
+      "title_required": "Notification title is required",
+      "title_too_long": "Title must not exceed 255 characters",
+      "message_required": "Notification message is required",
+      "link_invalid_url": "Please enter a valid URL",
+      "link_too_long": "Link must not exceed 500 characters"
+    },
+    "follow": {
+      "follower_id_required": "Follower ID is required",
+      "following_id_required": "Following ID is required",
+      "self_not_allowed": "You cannot follow yourself"
+    },
+    "bookmark": {
+      "user_id_required": "User ID is required",
+      "article_id_required": "Article ID is required"
+    },
+    "reaction": {
+      "type_required": "Reaction type is required",
+      "type_invalid": "Invalid reaction type",
+      "user_id_required": "User ID is required",
+      "article_id_required": "Article ID is required"
+    },
+    "slug": {
+      "invalid_format": "Slug can only contain lowercase letters, numbers, and hyphens",
+      "too_short": "Slug must be at least 3 characters",
+      "too_long": "Slug must not exceed 255 characters"
+    },
+    "token": {
+      "required": "Token is required",
+      "invalid": "Invalid token format"
+    },
+    "pagination": {
+      "page_invalid": "Invalid page number",
+      "page_too_small": "Page number must be at least 1",
+      "limit_invalid": "Invalid limit value",
+      "limit_too_small": "Limit must be at least 1",
+      "limit_too_large": "Limit must not exceed 100"
+    },
+    "sort": {
+      "field_invalid": "Invalid sort field",
+      "direction_invalid": "Sort direction must be 'asc' or 'desc'"
+    },
+    "cuid": {
+      "invalid_format": "Invalid ID format"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Sign In",
+      "subtitle": "Enter your email and password to sign in to your account",
+      "email_label": "Email",
+      "password_label": "Password",
+      "submit_button": "Sign In",
+      "submitting": "Signing in...",
+      "no_account": "Don't have an account?",
+      "sign_up_link": "Sign up"
+    },
+    "register": {
+      "title": "Create an account",
+      "subtitle": "Enter your details below to create your account",
+      "name_label": "Full Name",
+      "name_placeholder": "John Doe",
+      "email_label": "Email",
+      "email_placeholder": "name@example.com",
+      "password_label": "Password",
+      "password_hint": "At least 8 characters with uppercase, lowercase, and a number",
+      "confirm_password_label": "Confirm Password",
+      "submit_button": "Create Account",
+      "submitting": "Creating account...",
+      "already_have_account": "Already have an account?",
+      "sign_in_link": "Sign in"
+    },
+    "forgot_password": {
+      "title": "Forgot Password",
+      "subtitle": "Enter your email address and we'll send you a link to reset your password",
+      "email_label": "Email",
+      "email_placeholder": "name@example.com",
+      "submit_button": "Send Reset Link",
+      "submitting": "Sending...",
+      "back_to_login": "Back to login",
+      "success_title": "Check your email",
+      "success_message": "If that email exists in our system, we've sent you a password reset link.",
+      "success_instruction": "Click the link in the email to reset your password. The link will expire in 1 hour.",
+      "rate_limit_error": "Too many requests. Please try again later."
+    },
+    "reset_password": {
+      "title": "Reset Password",
+      "subtitle": "Enter your new password below",
+      "password_label": "New Password",
+      "confirm_password_label": "Confirm New Password",
+      "submit_button": "Reset Password",
+      "submitting": "Resetting...",
+      "success": "Password reset successfully! You can now sign in.",
+      "invalid_token": "This reset link is invalid or has expired. Please request a new one.",
+      "expired_token": "This reset link has expired. Please request a new one."
+    },
+    "change_password": {
+      "title": "Change Password",
+      "subtitle": "Update your password to keep your account secure",
+      "current_password_label": "Current Password",
+      "current_password_placeholder": "Enter your current password",
+      "new_password_label": "New Password",
+      "new_password_placeholder": "Enter your new password",
+      "confirm_password_label": "Confirm New Password",
+      "confirm_password_placeholder": "Confirm your new password",
+      "password_hint": "At least 8 characters with uppercase, lowercase, number, and special character",
+      "submit_button": "Update Password",
+      "submitting": "Updating...",
+      "cancel_button": "Cancel",
+      "success_title": "Password Updated",
+      "success_message": "Your password has been changed successfully.",
+      "error_title": "Failed to Change Password",
+      "error_message": "Please check your current password and try again.",
+      "incorrect_current_password": "Current password is incorrect",
+      "same_as_current": "New password must be different from current password"
+    },
+    "email_change": {
+      "title": "Change Email Address",
+      "subtitle": "Update your account email address",
+      "current_email_label": "Current Email",
+      "new_email_label": "New Email Address",
+      "new_email_placeholder": "Enter your new email",
+      "password_label": "Current Password",
+      "password_placeholder": "Confirm with your password",
+      "password_hint": "We need your password to confirm this change",
+      "submit_button": "Request Email Change",
+      "submitting": "Requesting...",
+      "cancel_button": "Cancel",
+      "success_title": "Verification Email Sent",
+      "success_message": "We've sent a verification link to your new email address. Click the link to complete the email change.",
+      "success_instruction": "The verification link will expire in 1 hour.",
+      "error_title": "Failed to Change Email",
+      "error_message": "Please check your information and try again.",
+      "same_email": "New email must be different from current email",
+      "email_in_use": "This email address is already in use",
+      "incorrect_password": "Incorrect password",
+      "rate_limit_error": "Too many email change requests. Please try again later."
+    },
+    "delete_account": {
+      "title": "Delete Account",
+      "subtitle": "Permanently delete your account and data",
+      "warning_title": "⚠️ Warning",
+      "warning_message": "This action cannot be undone. Your account will be permanently deleted after 30 days.",
+      "password_label": "Confirm Password",
+      "password_placeholder": "Enter your password to confirm",
+      "password_hint": "We need your password to confirm this deletion",
+      "checkbox_label": "I understand that this action is permanent",
+      "submit_button": "Delete My Account",
+      "submitting": "Processing...",
+      "cancel_button": "Cancel",
+      "success_title": "Account Deletion Scheduled",
+      "success_message": "Your account will be permanently deleted in 30 days. You can cancel this within the grace period by logging in.",
+      "error_title": "Failed to Delete Account",
+      "error_message": "Please check your information and try again.",
+      "incorrect_password": "Incorrect password",
+      "rate_limit_error": "Too many deletion attempts. Please try again later.",
+      "confirmation_modal_title": "Are you absolutely sure?",
+      "confirmation_modal_message": "Please type CONFIRM to delete your account",
+      "confirmation_input_placeholder": "Type CONFIRM",
+      "grace_period_info": "You have 30 days to cancel this action by logging in again."
+    },
+    "verify_email_change": {
+      "title": "Verify Email Change",
+      "verifying": "Verifying your new email...",
+      "success_title": "Email Changed Successfully",
+      "success_message": "Your email address has been updated.",
+      "success_instruction": "You'll need to sign in again with your new email.",
+      "error_title": "Verification Failed",
+      "error_message": "This verification link is invalid or has expired.",
+      "invalid_token": "Invalid or expired verification link",
+      "already_used": "This verification link has already been used",
+      "go_to_login": "Go to Login",
+      "try_again": "Request New Email Change"
+    }
+  },
+  "errors": {
+    "404": {
+      "title": "Page Not Found",
+      "heading": "404 - Page Not Found",
+      "description": "Sorry, we couldn't find the page you're looking for.",
+      "suggestions": "You might want to check the URL or try one of these options:",
+      "go_home": "Go to Home",
+      "go_back": "Go Back",
+      "browse_articles": "Browse Articles",
+      "contact_support": "Contact Support"
+    },
+    "500": {
+      "title": "Server Error",
+      "heading": "500 - Server Error",
+      "description": "Oops! Something went wrong on our end.",
+      "message": "We're working on fixing this. Please try again later.",
+      "go_home": "Go to Home",
+      "try_again": "Try Again"
+    },
+    "403": {
+      "title": "Access Denied",
+      "heading": "403 - Access Denied",
+      "description": "You don't have permission to access this resource.",
+      "message": "If you believe this is an error, please contact support.",
+      "go_home": "Go to Home",
+      "go_back": "Go Back"
+    },
+    "429": {
+      "title": "Too Many Requests",
+      "heading": "429 - Rate Limit Exceeded",
+      "description": "You've made too many requests in a short period.",
+      "message": "Please wait a moment before trying again.",
+      "go_home": "Go to Home",
+      "try_again": "Try Again Later"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "No notifications",
+    "empty_description": "You don't have any notifications yet",
+    "mark_read": "Mark as read",
+    "mark_all_read": "Mark all as read",
+    "unread_count": "{count} unread",
+    "load_more": "Load more",
+    "type_system": "System",
+    "type_account": "Account",
+    "type_security": "Security"
+  }
+}

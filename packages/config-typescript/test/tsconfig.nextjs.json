@@ -1,0 +1,9 @@
+{
+  "extends": "../nextjs.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "noEmit": true
+  },
+  "include": ["nextjs.test.tsx"],
+  "exclude": []
+}

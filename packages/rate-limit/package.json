@@ -1,0 +1,25 @@
+{
+  "name": "@repo/rate-limit",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Redis-based rate limiting for React Masters",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@upstash/redis": "^1.31.1",
+    "ioredis": "^5.4.2"
+  },
+  "devDependencies": {
+    "@repo/config-typescript": "workspace:*",
+    "@repo/config-vitest": "workspace:*",
+    "@types/node": "^25.0.6",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16"
+  }
+}

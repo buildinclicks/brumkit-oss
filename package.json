@@ -1,0 +1,73 @@
+{
+  "name": "brumkit",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Production-ready Next.js 15 starter kit with authentication, authorization, and essential features",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/buildinclicks/brumkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/buildinclicks/brumkit/issues"
+  },
+  "homepage": "https://github.com/buildinclicks/brumkit#readme",
+  "author": "BuildInClicks",
+  "license": "MIT",
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "dev:web": "turbo dev --filter=web",
+    "build:web": "turbo build --filter=web",
+    "lint": "turbo lint",
+    "type-check": "turbo type-check",
+    "test": "turbo test",
+    "test:watch": "turbo test:watch",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,md,json}\"",
+    "clean": "turbo clean && rm -rf node_modules",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.1",
+    "@testing-library/user-event": "^14.6.1",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "@vitest/coverage-v8": "^4.0.16",
+    "@vitest/ui": "^4.0.16",
+    "eslint": "^9.0.0",
+    "happy-dom": "^20.1.0",
+    "husky": "^9.1.7",
+    "ioredis": "^5.4.2",
+    "jsdom": "^27.4.0",
+    "lint-staged": "^16.2.7",
+    "nodemailer": "^7.0.11",
+    "prettier": "^3.2.4",
+    "turbo": "^2.0.3",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16"
+  },
+  "packageManager": "pnpm@10.0.0",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "prismjs@<1.30.0": ">=1.30.0",
+      "lodash-es@>=4.0.0 <=4.17.22": ">=4.17.23",
+      "next@>=10.0.0 <15.5.10": ">=15.5.10",
+      "next@>=15.5.1-canary.0 <15.5.10": ">=15.5.10",
+      "fast-xml-parser@>=5.0.9 <=5.3.3": ">=5.3.4"
+    }
+  }
+}
