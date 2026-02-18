@@ -17,7 +17,8 @@
     "./badge": "./src/components/ui/badge.tsx",
     "./textarea": "./src/components/ui/textarea.tsx",
     "./checkbox": "./src/components/ui/checkbox.tsx",
-    "./skeleton": "./src/components/ui/skeleton.tsx"
+    "./skeleton": "./src/components/ui/skeleton.tsx",
+    "./form": "./src/components/ui/form.tsx"
   },
   "scripts": {
     "test": "vitest run",

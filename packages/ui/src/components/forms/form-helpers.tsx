@@ -68,9 +68,7 @@ export function FormError({ message, errors, className }: FormErrorProps) {
       {errors && errors.length > 0 && (
         <ul className="mt-2 list-disc list-inside space-y-1">
           {errors.map((error) => (
-            <li key={`error-${error.replace(/\s+/g, '-').substring(0, 50)}`}>
-              {error}
-            </li>
+            <li key={error}>{error}</li>
           ))}
         </ul>
       )}
