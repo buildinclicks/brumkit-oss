@@ -4,6 +4,7 @@
   "private": true,
   "description": "Shared UI components with shadcn/ui and Tailwind CSS for React Masters",
   "main": "./src/index.tsx",
+  "type": "module",
   "types": "./src/index.tsx",
   "exports": {
     ".": "./src/index.tsx",

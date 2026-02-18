@@ -10,7 +10,7 @@ import type { Session } from 'next-auth';
 
 export const NavBarHeader = ({ session }: { session: Session }) => {
   const pathname = usePathname();
-  console.log(pathname);
+
   const isActive = (path: string) => {
     // Exact match for dashboard to prevent it from matching all routes
     if (path === '/dashboard') {

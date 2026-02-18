@@ -4,6 +4,7 @@
   "private": true,
   "description": "Shared validation schemas and rules using Zod for React Masters",
   "main": "./src/index.ts",
+  "type": "module",
   "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts"
