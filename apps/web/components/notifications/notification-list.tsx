@@ -1,17 +1,26 @@
 'use client';
 
-import { Button } from '@repo/ui/button';
-import { useEffect, useState } from 'react';
-
 import {
-  getNotifications,
-  markAsRead,
-  markAllAsRead,
-} from '@/app/actions/notification';
+  Alert,
+  AlertDescription,
+  AlertTitle,
+  Button,
+  Card,
+  CardContent,
+} from '@repo/ui';
+import { AlertCircle, BellOff } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 import { NotificationItem } from './notification-item';
 
 import type { Notification } from '@prisma/client';
+
+import {
+  getNotifications,
+  markAllAsRead,
+  markAsRead,
+} from '@/app/actions/notification';
+import { NotificationSkeleton } from '@/components/skeletons/notification-skeleton';
 
 export function NotificationList() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -55,18 +64,30 @@ export function NotificationList() {
   };
 
   if (loading) {
-    return <div>Loading notifications...</div>;
+    return <NotificationSkeleton />;
   }
 
   if (error) {
-    return <div>Error loading notifications: {error}</div>;
+    return (
+      <Alert variant="destructive">
+        <AlertCircle className="h-4 w-4" />
+        <AlertTitle>Error</AlertTitle>
+        <AlertDescription>{error}</AlertDescription>
+      </Alert>
+    );
   }
 
   if (notifications.length === 0) {
     return (
-      <div className="text-center py-12">
-        <p className="text-muted-foreground">No notifications</p>
-      </div>
+      <Card className="bg-muted/50 border-dashed">
+        <CardContent className="flex flex-col items-center justify-center py-12 text-center">
+          <BellOff className="text-muted-foreground h-12 w-12 mb-4" />
+          <h3 className="text-lg font-semibold">No notifications</h3>
+          <p className="text-muted-foreground text-sm">
+            You&apos;re all caught up! check back later for new updates.
+          </p>
+        </CardContent>
+      </Card>
     );
   }
 

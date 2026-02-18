@@ -6,21 +6,29 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '@repo/ui/card';
 import { Checkbox } from '@repo/ui/checkbox';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@repo/ui/form';
 import { Input } from '@repo/ui/input';
-import { Label } from '@repo/ui/label';
 import { deleteAccountSchema } from '@repo/validation';
+import { AlertTriangle, Loader2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { deleteAccount } from '@/app/actions';
-import { FieldError } from '@/components/form';
 import { getErrorMessage } from '@/lib/api-error';
 import { useServerActionForm } from '@/lib/hooks/use-server-action-form';
 
@@ -35,7 +43,6 @@ type DeleteAccountFormInput = z.infer<typeof deleteAccountFormSchema>;
 
 export function DeleteAccountForm() {
   const router = useRouter();
-  const [isConfirmed, setIsConfirmed] = useState(false);
 
   const form = useForm<DeleteAccountFormInput>({
     resolver: zodResolver(deleteAccountFormSchema),
@@ -86,96 +93,106 @@ export function DeleteAccountForm() {
 
   const handleCancel = () => {
     form.reset();
-    setIsConfirmed(false);
   };
 
   return (
-    <Card className="border-destructive">
+    <Card className="border-red-200 dark:border-red-900">
       <CardHeader>
-        <CardTitle className="text-destructive">Delete Account</CardTitle>
+        <CardTitle className="text-red-600 dark:text-red-500">
+          Delete Account
+        </CardTitle>
         <CardDescription>
           Permanently delete your account and data
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="bg-destructive/10 border border-destructive rounded-md p-4">
-          <p className="text-sm font-semibold text-destructive mb-2">
-            ⚠️ Warning
-          </p>
-          <p className="text-sm text-destructive">
-            This action cannot be undone. Your account will be permanently
-            deleted after 30 days.
-          </p>
-        </div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <CardContent className="space-y-4">
+            <div className="bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 rounded-md p-4">
+              <div className="flex items-center gap-2 mb-2 text-red-600 dark:text-red-400">
+                <AlertTriangle className="h-4 w-4" />
+                <p className="text-sm font-semibold">Warning</p>
+              </div>
+              <p className="text-sm text-red-600 dark:text-red-400">
+                This action cannot be undone. Your account will be permanently
+                deleted after 30 days.
+              </p>
+            </div>
 
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="password">Confirm Password</Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="Enter your password to confirm"
-              {...form.register('password')}
-              disabled={mutation.isPending}
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder="Enter your password to confirm"
+                      disabled={mutation.isPending}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    We need your password to confirm this deletion
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            <p className="text-sm text-muted-foreground">
-              We need your password to confirm this deletion
-            </p>
-            <FieldError error={form.formState.errors.password} />
-          </div>
 
-          <div className="flex items-start space-x-2">
-            <Checkbox
-              id="confirmation"
-              checked={isConfirmed}
-              onCheckedChange={(checked) => {
-                setIsConfirmed(checked as boolean);
-                form.setValue('confirmation', checked as boolean, {
-                  shouldValidate: true,
-                });
-              }}
-              disabled={mutation.isPending}
+            <FormField
+              control={form.control}
+              name="confirmation"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 bg-muted/50">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      disabled={mutation.isPending}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>
+                      I understand that this action is permanent
+                    </FormLabel>
+                  </div>
+                </FormItem>
+              )}
             />
-            <label
-              htmlFor="confirmation"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              I understand that this action is permanent
-            </label>
-          </div>
-          {form.formState.errors.confirmation && (
-            <FieldError error={form.formState.errors.confirmation} />
-          )}
 
-          <div className="bg-muted rounded-md p-4">
-            <p className="text-sm font-medium mb-2">30-Day Grace Period</p>
-            <p className="text-sm text-muted-foreground">
-              You have 30 days to cancel this action by logging in again. After
-              that, your personal information will be removed and your content
-              will be anonymized.
-            </p>
-          </div>
-
-          <div className="flex gap-3">
-            <Button
-              type="submit"
-              variant="destructive"
-              className="flex-1"
-              disabled={mutation.isPending || !isConfirmed}
-            >
-              {mutation.isPending ? 'Processing...' : 'Delete My Account'}
-            </Button>
+            <div className="bg-muted/50 dark:bg-muted/20 border border-border/50 rounded-md p-4">
+              <p className="text-sm font-medium mb-2">30-Day Grace Period</p>
+              <p className="text-sm text-muted-foreground">
+                You have 30 days to cancel this action by logging in again.
+                After that, your personal information will be removed and your
+                content will be anonymized.
+              </p>
+            </div>
+          </CardContent>
+          <CardFooter className="border-t bg-red-50/50 dark:bg-red-950/10 px-6 py-4 flex justify-end gap-3">
             <Button
               type="button"
-              variant="outline"
+              variant="ghost"
               onClick={handleCancel}
               disabled={mutation.isPending}
             >
               Cancel
             </Button>
-          </div>
+            <Button
+              type="submit"
+              variant="destructive"
+              disabled={mutation.isPending || !form.watch('confirmation')}
+            >
+              {mutation.isPending && (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              )}
+              {mutation.isPending ? 'Processing...' : 'Delete My Account'}
+            </Button>
+          </CardFooter>
         </form>
-      </CardContent>
+      </Form>
     </Card>
   );
 }
