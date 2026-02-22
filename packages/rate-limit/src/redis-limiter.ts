@@ -138,8 +138,11 @@ export class RedisRateLimiter {
    * Close Redis connection (important for local Redis)
    */
   async disconnect(): Promise<void> {
-    if (!this.isUpstash && this.redis.disconnect) {
-      await this.redis.disconnect();
+    if (!this.isUpstash) {
+      const ioRedis = this.redis as IORedis;
+      if (ioRedis.disconnect) {
+        await ioRedis.disconnect();
+      }
     }
   }
 
