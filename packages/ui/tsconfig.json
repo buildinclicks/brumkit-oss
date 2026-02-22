@@ -9,6 +9,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*", "../../apps/web/components/header"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
