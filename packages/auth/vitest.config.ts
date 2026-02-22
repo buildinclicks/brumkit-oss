@@ -1,5 +1,5 @@
-import { defineConfig, mergeConfig } from 'vitest/config';
 import { baseConfig } from '@repo/config-vitest/node';
+import { defineConfig, mergeConfig } from 'vitest/config';
 
 export default mergeConfig(
   baseConfig,

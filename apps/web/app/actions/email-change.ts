@@ -18,9 +18,9 @@ import {
 import { headers } from 'next/headers';
 import { ZodError } from 'zod';
 
-import { formatRetryAfter, getClientIp } from '@/lib/utils/rate-limit-helpers';
-
 import type { ActionResult } from './auth';
+
+import { formatRetryAfter, getClientIp } from '@/lib/utils/rate-limit-helpers';
 
 // Import ActionResult from auth
 
