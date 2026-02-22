@@ -1,8 +1,8 @@
 import { AlertCircle } from 'lucide-react';
 
-import type { FieldError as RHFFieldError } from 'react-hook-form';
-
 import { useValidationMessages } from '@/lib/hooks/use-translations';
+
+import type { FieldError as RHFFieldError } from 'react-hook-form';
 
 interface FieldErrorProps {
   error?: RHFFieldError;
