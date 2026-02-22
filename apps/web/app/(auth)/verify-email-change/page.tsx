@@ -119,7 +119,7 @@ function VerifyEmailChangeContent() {
 
         {(state === 'success' || state === 'error' || state === 'no-token') && (
           <CardFooter className="flex justify-center">
-            <Button asChild>
+            <Button asChild className="cursor-pointer">
               <Link href="/profile">
                 {state === 'success' ? 'Go to Profile' : 'Back to Profile'}
               </Link>

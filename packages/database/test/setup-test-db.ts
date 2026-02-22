@@ -31,10 +31,11 @@ try {
       { stdio: 'inherit' }
     );
     console.log('✅ Test database created');
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const execError = error as Error & { stderr?: Buffer };
     if (
-      error.message.includes('already exists') ||
-      error.stderr?.toString().includes('already exists')
+      execError.message?.includes('already exists') ||
+      execError.stderr?.toString().includes('already exists')
     ) {
       console.log('ℹ️  Test database already exists');
     } else {

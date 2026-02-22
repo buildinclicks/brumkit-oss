@@ -10,14 +10,21 @@ import {
   CardHeader,
   CardTitle,
 } from '@repo/ui/card';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@repo/ui/form';
 import { Input } from '@repo/ui/input';
-import { Label } from '@repo/ui/label';
 import { loginSchema, type LoginInput } from '@repo/validation';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { FieldError } from '@/components/form';
+import { PasswordInput } from '@/components/form';
 import { getErrorMessage } from '@/lib/api-error';
 import { useLogin } from '@/lib/hooks';
 import { useAuthMessages } from '@/lib/hooks/use-translations';
@@ -26,14 +33,10 @@ export default function LoginPage() {
   const loginMutation = useLogin();
   const t = useAuthMessages();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginInput>({
+  const form = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
-    mode: 'onBlur', // Validate on blur for better UX
-    reValidateMode: 'onChange', // Re-validate on change after first blur
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
   });
 
   const onSubmit = async (data: LoginInput) => {
@@ -56,42 +59,62 @@ export default function LoginPage() {
         <CardDescription>{t('login.subtitle')}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">{t('login.email_label')}</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder={t('register.email_placeholder')}
-              {...register('email')}
-              disabled={isLoading}
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('login.email_label')}</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      placeholder={t('register.email_placeholder')}
+                      disabled={isLoading}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            <FieldError error={errors.email} />
-          </div>
 
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="password">{t('login.password_label')}</Label>
-              <Link
-                href="/forgot-password"
-                className="text-xs text-primary hover:underline"
-              >
-                Forgot password?
-              </Link>
-            </div>
-            <Input
-              id="password"
-              type="password"
-              {...register('password')}
-              disabled={isLoading}
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="flex items-center justify-between">
+                    <FormLabel>{t('login.password_label')}</FormLabel>
+                    <Link
+                      href="/forgot-password"
+                      className="text-xs text-primary hover:underline"
+                    >
+                      Forgot password?
+                    </Link>
+                  </div>
+                  <FormControl>
+                    <PasswordInput
+                      {...field}
+                      disabled={isLoading}
+                      placeholder="password"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            <FieldError error={errors.password} />
-          </div>
 
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? t('login.submitting') : t('login.submit_button')}
-          </Button>
-        </form>
+            <Button
+              type="submit"
+              className="w-full cursor-pointer"
+              disabled={isLoading}
+            >
+              {isLoading ? t('login.submitting') : t('login.submit_button')}
+            </Button>
+          </form>
+        </Form>
       </CardContent>
       <CardFooter className="flex flex-col space-y-2">
         <div className="text-sm text-muted-foreground">

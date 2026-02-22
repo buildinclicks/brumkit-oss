@@ -4,24 +4,34 @@
   "private": true,
   "type": "module",
   "description": "Shared Vitest configuration for React Masters monorepo",
-  "main": "base.ts",
+  "main": "./dist/base.js",
+  "types": "./dist/base.d.ts",
   "exports": {
-    "./base": "./base.ts",
-    "./base.js": "./base.ts",
-    "./react": "./react.ts",
-    "./react.js": "./react.ts",
-    "./node": "./node.ts",
-    "./node.js": "./node.ts"
+    "./base": {
+      "import": "./dist/base.js",
+      "require": "./dist/base.js",
+      "types": "./dist/base.d.ts"
+    },
+    "./node": {
+      "import": "./dist/node.js",
+      "require": "./dist/node.js",
+      "types": "./dist/node.d.ts"
+    },
+    "./react": {
+      "import": "./dist/react.js",
+      "require": "./dist/react.js",
+      "types": "./dist/react.d.ts"
+    }
   },
   "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
     "test": "vitest run",
     "test:watch": "vitest watch",
     "test:coverage": "vitest run --coverage"
   },
   "files": [
-    "base.ts",
-    "react.ts",
-    "node.ts"
+    "dist"
   ],
   "peerDependencies": {
     "vitest": "^4.0.0"

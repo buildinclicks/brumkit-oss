@@ -46,6 +46,7 @@
     "@repo/config-typescript": "workspace:*",
     "@repo/config-vitest": "workspace:*",
     "@tailwindcss/postcss": "^4.1.18",
+    "@tailwindcss/typography": "^0.5.19",
     "@testing-library/react": "^16.3.1",
     "@testing-library/user-event": "^14.6.1",
     "@types/node": "^25.0.6",
@@ -54,12 +55,12 @@
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.23",
     "bcryptjs": "^2.4.3",
-    "eslint": "^10.0.0",
+    "eslint": "^9.39.2",
     "jsdom": "^27.4.0",
     "msw": "^2.12.7",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.18"
+    "vitest": "^4.0.16"
   }
 }

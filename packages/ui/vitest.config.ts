@@ -1,6 +1,6 @@
-import { defineConfig, mergeConfig } from 'vitest/config';
 import reactConfig from '@repo/config-vitest/react';
 import react from '@vitejs/plugin-react';
+import { defineConfig, mergeConfig } from 'vitest/config';
 
 export default mergeConfig(
   reactConfig,

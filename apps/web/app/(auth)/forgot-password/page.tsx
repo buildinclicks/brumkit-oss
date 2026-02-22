@@ -10,8 +10,15 @@ import {
   CardHeader,
   CardTitle,
 } from '@repo/ui/card';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@repo/ui/form';
 import { Input } from '@repo/ui/input';
-import { Label } from '@repo/ui/label';
 import {
   resetPasswordRequestSchema,
   type ResetPasswordRequestInput,
@@ -22,7 +29,6 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { requestPasswordReset } from '@/app/actions';
-import { FieldError } from '@/components/form';
 import { getErrorMessage } from '@/lib/api-error';
 import { useServerActionForm } from '@/lib/hooks/use-server-action-form';
 import { useAuthMessages } from '@/lib/hooks/use-translations';
@@ -90,29 +96,38 @@ export default function ForgotPasswordPage() {
         <CardDescription>{t('forgot_password.subtitle')}</CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">{t('forgot_password.email_label')}</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder={t('forgot_password.email_placeholder')}
-              {...form.register('email')}
-              disabled={mutation.isPending}
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('forgot_password.email_label')}</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      placeholder={t('forgot_password.email_placeholder')}
+                      disabled={mutation.isPending}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            <FieldError error={form.formState.errors.email} />
-          </div>
 
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={mutation.isPending}
-          >
-            {mutation.isPending
-              ? t('forgot_password.submitting')
-              : t('forgot_password.submit_button')}
-          </Button>
-        </form>
+            <Button
+              type="submit"
+              className="w-full cursor-pointer"
+              disabled={mutation.isPending}
+            >
+              {mutation.isPending
+                ? t('forgot_password.submitting')
+                : t('forgot_password.submit_button')}
+            </Button>
+          </form>
+        </Form>
       </CardContent>
       <CardFooter>
         <Link
