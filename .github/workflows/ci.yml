@@ -211,3 +211,5 @@ jobs:
           NEXTAUTH_SECRET: build-secret
           NEXTAUTH_URL: http://localhost:3000
           DATABASE_URL: postgresql://localhost:5432/build_db
+          RESEND_API_KEY: re_dummy_key_for_build
+          NODE_ENV: production
