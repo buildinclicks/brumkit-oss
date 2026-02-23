@@ -22,8 +22,6 @@ import { formatRetryAfter, getClientIp } from '@/lib/utils/rate-limit-helpers';
 
 import type { ActionResult } from './auth';
 
-// Import ActionResult from auth
-
 /**
  * Request email change with password confirmation
  * Sends verification email to new address and notification to old address

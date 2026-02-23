@@ -4,6 +4,7 @@
   "private": true,
   "description": "Prisma database client and schema for React Masters",
   "main": "./src/index.ts",
+  "type": "module",
   "types": "./src/index.ts",
   "exports": {
     ".": {

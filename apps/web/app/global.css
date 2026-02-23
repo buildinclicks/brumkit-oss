@@ -1,5 +1,8 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@plugin "@tailwindcss/typography";
 @source "../../../packages/ui/src/**/*.{ts,tsx}";
+
+@variant dark (&:where(.dark, .dark *));
 
 /* Define Tailwind theme using @theme directive */
 @theme {
@@ -8,29 +11,51 @@
   --color-ring: hsl(222.2 84% 4.9%);
   --color-background: hsl(0 0% 100%);
   --color-foreground: hsl(222.2 84% 4.9%);
-  
+
   --color-primary: hsl(222.2 47.4% 11.2%);
   --color-primary-foreground: hsl(210 40% 98%);
-  
+
   --color-secondary: hsl(210 40% 96.1%);
   --color-secondary-foreground: hsl(222.2 47.4% 11.2%);
-  
+
   --color-destructive: hsl(0 84.2% 60.2%);
   --color-destructive-foreground: hsl(210 40% 98%);
-  
+
   --color-muted: hsl(210 40% 96.1%);
   --color-muted-foreground: hsl(215.4 16.3% 46.9%);
-  
+
   --color-accent: hsl(210 40% 96.1%);
   --color-accent-foreground: hsl(222.2 47.4% 11.2%);
-  
+
   --color-popover: hsl(0 0% 100%);
   --color-popover-foreground: hsl(222.2 84% 4.9%);
-  
+
   --color-card: hsl(0 0% 100%);
   --color-card-foreground: hsl(222.2 84% 4.9%);
-  
+
   --radius: 0.5rem;
+
+  /* Accordion animations */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
 }
 
 /* Dark mode styles */
@@ -56,14 +81,13 @@
     --color-input: hsl(217.2 32.6% 17.5%);
     --color-ring: hsl(212.7 26.8% 83.9%);
   }
-  
+
   * {
-    border-color: hsl(var(--color-border));
+    border-color: var(--color-border);
   }
-  
+
   body {
-    background-color: hsl(var(--color-background));
-    color: hsl(var(--color-foreground));
+    background-color: var(--color-background);
+    color: var(--color-foreground);
   }
 }
-

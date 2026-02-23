@@ -1,5 +1,5 @@
 import { defineConfig, mergeConfig } from 'vitest/config';
-import baseConfig from './base.ts';
+import baseConfig from './base.js';
 
 /**
  * React Vitest Configuration

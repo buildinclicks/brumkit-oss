@@ -2,8 +2,16 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@repo/ui/button';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@repo/ui/form';
 import { Input } from '@repo/ui/input';
-import { Label } from '@repo/ui/label';
 import { Textarea } from '@repo/ui/textarea';
 import {
   updateUserProfileSchema,
@@ -13,7 +21,6 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { updateUserProfile } from '@/app/actions';
-import { FieldError } from '@/components/form';
 import { getErrorMessage } from '@/lib/api-error';
 import { useServerActionForm } from '@/lib/hooks/use-server-action-form';
 
@@ -57,62 +64,92 @@ export function ProfileForm({ user }: ProfileFormProps) {
   };
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-      <div className="space-y-2">
-        <Label htmlFor="name">Full Name</Label>
-        <Input
-          id="name"
-          placeholder="John Doe"
-          {...form.register('name')}
-          disabled={mutation.isPending}
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Full Name</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="John Doe"
+                  disabled={mutation.isPending}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <FieldError error={form.formState.errors.name} />
-      </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="username">Username</Label>
-        <Input
-          id="username"
-          placeholder="johndoe"
-          {...form.register('username')}
-          disabled={mutation.isPending}
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <Input
+                  placeholder="johndoe"
+                  disabled={mutation.isPending}
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                Your unique username for your profile URL
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <FieldError error={form.formState.errors.username} />
-        <p className="text-xs text-muted-foreground">
-          Your unique username for your profile URL
-        </p>
-      </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="bio">Bio</Label>
-        <Textarea
-          id="bio"
-          placeholder="Tell us about yourself..."
-          rows={4}
-          {...form.register('bio')}
-          disabled={mutation.isPending}
+        <FormField
+          control={form.control}
+          name="bio"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Bio</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Tell us about yourself..."
+                  rows={4}
+                  disabled={mutation.isPending}
+                  {...field}
+                />
+              </FormControl>
+              <FormDescription>
+                Brief description for your profile (max 500 characters)
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <FieldError error={form.formState.errors.bio} />
-        <p className="text-xs text-muted-foreground">
-          Brief description for your profile (max 500 characters)
-        </p>
-      </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="image">Profile Image URL</Label>
-        <Input
-          id="image"
-          type="url"
-          placeholder="https://example.com/avatar.jpg"
-          {...form.register('image')}
-          disabled={mutation.isPending}
+        <FormField
+          control={form.control}
+          name="image"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Profile Image URL</FormLabel>
+              <FormControl>
+                <Input
+                  type="url"
+                  placeholder="https://example.com/avatar.jpg"
+                  disabled={mutation.isPending}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        <FieldError error={form.formState.errors.image} />
-      </div>
 
-      <Button type="submit" disabled={mutation.isPending}>
-        {mutation.isPending ? 'Saving...' : 'Save Changes'}
-      </Button>
-    </form>
+        <Button type="submit" disabled={mutation.isPending}>
+          {mutation.isPending ? 'Saving...' : 'Save Changes'}
+        </Button>
+      </form>
+    </Form>
   );
 }

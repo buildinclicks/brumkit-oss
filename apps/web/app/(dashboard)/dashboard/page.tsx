@@ -1,12 +1,13 @@
 import { auth, defineAbilitiesFor } from '@repo/auth';
-import { Badge } from '@repo/ui/badge';
 import {
+  Badge,
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@repo/ui/card';
+  Label,
+} from '@repo/ui';
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -43,15 +44,15 @@ export default async function DashboardPage() {
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Email</span>
+              <Label className="text-muted-foreground">Email</Label>
               <span className="text-sm font-medium">{session.user.email}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Role</span>
+              <Label className="text-muted-foreground">Role</Label>
               <Badge variant="secondary">{session.user.role}</Badge>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">Username</span>
+              <Label className="text-muted-foreground">Username</Label>
               <span className="text-sm font-medium">
                 {session.user.username || 'Not set'}
               </span>
@@ -66,9 +67,7 @@ export default async function DashboardPage() {
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">
-                Manage Users
-              </span>
+              <Label className="text-muted-foreground">Manage Users</Label>
               <Badge
                 variant={permissions.canManageUsers ? 'default' : 'secondary'}
               >
@@ -76,9 +75,9 @@ export default async function DashboardPage() {
               </Badge>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">
+              <Label className="text-muted-foreground">
                 Read Notifications
-              </span>
+              </Label>
               <Badge
                 variant={
                   permissions.canReadNotifications ? 'default' : 'secondary'
@@ -97,9 +96,7 @@ export default async function DashboardPage() {
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-muted-foreground">
-                Notifications
-              </span>
+              <Label className="text-muted-foreground">Notifications</Label>
               <span className="text-2xl font-bold">0</span>
             </div>
           </CardContent>

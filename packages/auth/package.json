@@ -4,7 +4,12 @@
   "private": true,
   "description": "Authentication and authorization package with Auth.js v5 and CASL for React Masters",
   "main": "./src/index.ts",
+  "type": "module",
   "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./edge": "./src/edge.ts"
+  },
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest watch",

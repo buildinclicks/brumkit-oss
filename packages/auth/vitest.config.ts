@@ -1,8 +1,8 @@
+import nodeConfig from '@repo/config-vitest/node';
 import { defineConfig, mergeConfig } from 'vitest/config';
-import { baseConfig } from '@repo/config-vitest/node';
 
 export default mergeConfig(
-  baseConfig,
+  nodeConfig,
   defineConfig({
     test: {
       // Auth-specific test configuration

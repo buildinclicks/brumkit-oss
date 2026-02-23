@@ -1,3 +1,10 @@
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@repo/ui';
 import { Suspense } from 'react';
 
 import { NotificationList } from '@/components/notifications/notification-list';
@@ -5,11 +12,20 @@ import { NotificationSkeleton } from '@/components/skeletons/notification-skelet
 
 export default function NotificationsPage() {
   return (
-    <div className="container mx-auto py-8">
-      <h1 className="text-3xl font-bold mb-6">Notifications</h1>
-      <Suspense fallback={<NotificationSkeleton />}>
-        <NotificationList />
-      </Suspense>
+    <div className="flex-1 space-y-4 p-8 pt-6">
+      <Card>
+        <CardHeader>
+          <CardTitle>Notifications</CardTitle>
+          <CardDescription>
+            View and manage all your notifications.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Suspense fallback={<NotificationSkeleton />}>
+            <NotificationList />
+          </Suspense>
+        </CardContent>
+      </Card>
     </div>
   );
 }

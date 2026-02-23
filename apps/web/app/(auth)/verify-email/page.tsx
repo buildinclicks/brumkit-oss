@@ -34,7 +34,7 @@ async function VerifyEmailContent({ token }: { token: string | undefined }) {
             Please check your email for the correct verification link, or
             request a new one.
           </p>
-          <Button asChild className="w-full">
+          <Button asChild className="w-full cursor-pointer">
             <Link href="/dashboard">Go to Dashboard</Link>
           </Button>
         </CardContent>
@@ -67,10 +67,10 @@ async function VerifyEmailContent({ token }: { token: string | undefined }) {
             <li>Receive notifications</li>
           </ul>
           <div className="flex flex-col gap-2">
-            <Button asChild className="w-full">
+            <Button asChild className="w-full cursor-pointer">
               <Link href="/dashboard">Go to Dashboard</Link>
             </Button>
-            <Button asChild variant="outline" className="w-full">
+            <Button asChild variant="outline" className="w-full cursor-pointer">
               <Link href="/">Explore Articles</Link>
             </Button>
           </div>
@@ -97,10 +97,10 @@ async function VerifyEmailContent({ token }: { token: string | undefined }) {
           verification email.
         </p>
         <div className="flex flex-col gap-2">
-          <Button asChild className="w-full">
+          <Button asChild className="w-full cursor-pointer">
             <Link href="/dashboard">Go to Dashboard</Link>
           </Button>
-          <Button asChild variant="outline" className="w-full">
+          <Button asChild variant="outline" className="w-full cursor-pointer">
             <Link href="/resend-verification">Resend Verification Email</Link>
           </Button>
         </div>

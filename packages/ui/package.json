@@ -4,6 +4,7 @@
   "private": true,
   "description": "Shared UI components with shadcn/ui and Tailwind CSS for React Masters",
   "main": "./src/index.tsx",
+  "type": "module",
   "types": "./src/index.tsx",
   "exports": {
     ".": "./src/index.tsx",
@@ -17,7 +18,8 @@
     "./badge": "./src/components/ui/badge.tsx",
     "./textarea": "./src/components/ui/textarea.tsx",
     "./checkbox": "./src/components/ui/checkbox.tsx",
-    "./skeleton": "./src/components/ui/skeleton.tsx"
+    "./skeleton": "./src/components/ui/skeleton.tsx",
+    "./form": "./src/components/ui/form.tsx"
   },
   "scripts": {
     "test": "vitest run",

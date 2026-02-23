@@ -32,6 +32,7 @@ export function ThemeToggle() {
     <Button
       variant="ghost"
       size="icon"
+      className="cursor-pointer"
       onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
       title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
     >

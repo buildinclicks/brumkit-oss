@@ -1,4 +1,6 @@
 import { Redis as UpstashRedis } from '@upstash/redis';
+import type { Redis as IORedis } from 'ioredis';
+
 import type {
   RateLimitConfig,
   RateLimitResult,
@@ -6,7 +8,7 @@ import type {
 } from './types';
 
 // Type for Redis client (either Upstash or ioredis)
-type RedisClient = UpstashRedis | any;
+type RedisClient = UpstashRedis | IORedis;
 
 /**
  * Redis-based rate limiter
@@ -136,8 +138,11 @@ export class RedisRateLimiter {
    * Close Redis connection (important for local Redis)
    */
   async disconnect(): Promise<void> {
-    if (!this.isUpstash && this.redis.disconnect) {
-      await this.redis.disconnect();
+    if (!this.isUpstash) {
+      const ioRedis = this.redis as IORedis;
+      if (ioRedis.disconnect) {
+        await ioRedis.disconnect();
+      }
     }
   }
 

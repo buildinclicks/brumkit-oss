@@ -10,8 +10,15 @@ import {
   CardHeader,
   CardTitle,
 } from '@repo/ui/card';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@repo/ui/form';
 import { Input } from '@repo/ui/input';
-import { Label } from '@repo/ui/label';
 import { resetPasswordSchema, type ResetPasswordInput } from '@repo/validation';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
@@ -19,7 +26,6 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { resetPassword } from '@/app/actions';
-import { FieldError } from '@/components/form';
 import { getErrorMessage } from '@/lib/api-error';
 import { useServerActionForm } from '@/lib/hooks/use-server-action-form';
 import { useAuthMessages } from '@/lib/hooks/use-translations';
@@ -67,7 +73,7 @@ function ResetPasswordForm() {
         <CardFooter>
           <Button
             onClick={() => router.push('/forgot-password')}
-            className="w-full"
+            className="w-full cursor-pointer"
           >
             Request New Reset Link
           </Button>
@@ -89,49 +95,63 @@ function ResetPasswordForm() {
         <CardDescription>{t('reset_password.subtitle')}</CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          {/* Hidden token field */}
-          <input type="hidden" {...form.register('token')} />
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            {/* Hidden token field */}
+            <input type="hidden" {...form.register('token')} />
 
-          <div className="space-y-2">
-            <Label htmlFor="password">
-              {t('reset_password.password_label')}
-            </Label>
-            <Input
-              id="password"
-              type="password"
-              {...form.register('password')}
-              disabled={resetMutation.isPending}
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t('reset_password.password_label')}</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      disabled={resetMutation.isPending}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                  <p className="text-xs text-muted-foreground">
+                    {t('register.password_hint')}
+                  </p>
+                </FormItem>
+              )}
             />
-            <FieldError error={form.formState.errors.password} />
-            <p className="text-xs text-muted-foreground">
-              {t('register.password_hint')}
-            </p>
-          </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="confirmPassword">
-              {t('reset_password.confirm_password_label')}
-            </Label>
-            <Input
-              id="confirmPassword"
-              type="password"
-              {...form.register('confirmPassword')}
-              disabled={resetMutation.isPending}
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    {t('reset_password.confirm_password_label')}
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      disabled={resetMutation.isPending}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-            <FieldError error={form.formState.errors.confirmPassword} />
-          </div>
 
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={resetMutation.isPending}
-          >
-            {resetMutation.isPending
-              ? t('reset_password.submitting')
-              : t('reset_password.submit_button')}
-          </Button>
-        </form>
+            <Button
+              type="submit"
+              className="w-full cursor-pointer"
+              disabled={resetMutation.isPending}
+            >
+              {resetMutation.isPending
+                ? t('reset_password.submitting')
+                : t('reset_password.submit_button')}
+            </Button>
+          </form>
+        </Form>
       </CardContent>
     </Card>
   );

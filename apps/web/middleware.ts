@@ -1,4 +1,4 @@
-import { auth } from '@repo/auth';
+import { auth } from '@repo/auth/edge';
 import { NextResponse } from 'next/server';
 
 import type { NextRequest } from 'next/server';
