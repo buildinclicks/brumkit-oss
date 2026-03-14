@@ -28,9 +28,11 @@
     "prepare": "husky"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
+    "apps/web/**/*.{js,jsx,ts,tsx}": [
+      "pnpm --filter web lint:fix"
+    ],
+    "packages/ui/src/**/*.{js,jsx,ts,tsx}": [
+      "pnpm --filter @repo/ui lint:fix"
     ],
     "*.{json,md,yml,yaml}": [
       "prettier --write"

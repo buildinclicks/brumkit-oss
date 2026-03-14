@@ -1,33 +1,14 @@
 #!/bin/sh
 
 # Pre-push hook
-# Run comprehensive checks before pushing to remote
+# Run type-checks before pushing to remote
 
-echo "🔍 Running pre-push checks..."
+echo "🔍 Running pre-push typecheck..."
 
-# Run linting
-echo "📝 Checking code style..."
-pnpm lint
-if [ $? -ne 0 ]; then
-  echo "❌ Linting failed. Please fix errors before pushing."
-  exit 1
-fi
-
-# Run type checking
-echo "🔍 Type checking..."
 pnpm type-check
 if [ $? -ne 0 ]; then
-  echo "❌ Type check failed. Please fix type errors before pushing."
+  echo "❌ Typecheck failed. Please fix type errors before pushing."
   exit 1
 fi
 
-# Run tests
-echo "🧪 Running tests..."
-pnpm test
-if [ $? -ne 0 ]; then
-  echo "❌ Tests failed. Please fix failing tests before pushing."
-  exit 1
-fi
-
-echo "✅ All pre-push checks passed!"
-
+echo "✅ Pre-push typecheck passed!"

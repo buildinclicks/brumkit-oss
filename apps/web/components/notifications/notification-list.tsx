@@ -11,16 +11,16 @@ import {
 import { AlertCircle, BellOff } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-import { NotificationItem } from './notification-item';
-
-import type { Notification } from '@prisma/client';
-
 import {
   getNotifications,
   markAllAsRead,
   markAsRead,
 } from '@/app/actions/notification';
 import { NotificationSkeleton } from '@/components/skeletons/notification-skeleton';
+
+import { NotificationItem } from './notification-item';
+
+import type { Notification } from '@prisma/client';
 
 export function NotificationList() {
   const [notifications, setNotifications] = useState<Notification[]>([]);

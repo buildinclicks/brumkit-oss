@@ -5,7 +5,7 @@
 
 echo "🔍 Running pre-commit checks..."
 
-pnpm lint-staged
+pnpm lint-staged --allow-empty
 
 if [ $? -ne 0 ]; then
   echo "❌ Pre-commit checks failed. Please fix errors before committing."
