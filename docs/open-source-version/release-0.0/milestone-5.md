@@ -207,7 +207,7 @@ pnpm clean            # Remove all node_modules and build artifacts
 ### Project Structure
 
 ```
-broomkit/
+brumkit/
 ├── apps/
 │   └── web/                 # Next.js application
 ├── packages/

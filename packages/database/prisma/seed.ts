@@ -42,7 +42,7 @@ async function main() {
   const superAdminPassword = await hashPassword('SuperAdmin123!');
   const superAdmin = await prisma.user.create({
     data: {
-      email: 'superadmin@broomkit.com',
+      email: 'superadmin@brumkit.com',
       name: 'Super Admin',
       username: 'superadmin',
       password: superAdminPassword,
@@ -59,7 +59,7 @@ async function main() {
   const adminPassword = await hashPassword('Admin123!');
   const admin = await prisma.user.create({
     data: {
-      email: 'admin@broomkit.com',
+      email: 'admin@brumkit.com',
       name: 'Admin User',
       username: 'admin',
       password: adminPassword,
@@ -76,7 +76,7 @@ async function main() {
   const moderatorPassword = await hashPassword('Moderator123!');
   const moderator = await prisma.user.create({
     data: {
-      email: 'moderator@broomkit.com',
+      email: 'moderator@brumkit.com',
       name: 'Moderator User',
       username: 'moderator',
       password: moderatorPassword,
@@ -175,9 +175,9 @@ async function main() {
   console.log(`  • Users: ${users.length}`);
   console.log(`  • Notifications: ${notificationCount}`);
   console.log('\n🔐 Test Credentials:');
-  console.log(`  Super Admin: superadmin@broomkit.com / SuperAdmin123!`);
-  console.log(`  Admin: admin@broomkit.com / Admin123!`);
-  console.log(`  Moderator: moderator@broomkit.com / Moderator123!`);
+  console.log(`  Super Admin: superadmin@brumkit.com / SuperAdmin123!`);
+  console.log(`  Admin: admin@brumkit.com / Admin123!`);
+  console.log(`  Moderator: moderator@brumkit.com / Moderator123!`);
   console.log(`  Regular Users: User123!`);
 }
 

@@ -1,6 +1,6 @@
-# Testing Guide - BroomKit
+# Testing Guide - brumkit
 
-Quick reference for testing in BroomKit.
+Quick reference for testing in brumkit.
 
 ## Test Database Setup
 

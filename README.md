@@ -198,7 +198,7 @@ pnpm --filter @repo/auth test
 ### Project Structure
 
 ```
-broomkit/
+brumkit/
 ├── apps/
 │   └── web/                 # Next.js application
 ├── packages/

@@ -113,7 +113,7 @@ BrumKit is a **production-ready Next.js 15 starter kit** designed for building m
 ## Monorepo Architecture
 
 ```
-broomkit/
+brumkit/
 ├── apps/
 │   └── web/                    # Main Next.js application
 │       ├── app/                # App Router pages and API routes
@@ -605,7 +605,7 @@ Create `.cursor/rules/development.md`:
 ```bash
 # 1. Clone the repository
 git clone <repo-url>
-cd broomkit
+cd brumkit
 
 # 2. Install dependencies
 pnpm install
@@ -1016,12 +1016,12 @@ This open-source edition is feature-complete for its intended scope. Community c
 
 For local development after seeding:
 
-| Role          | Email                     | Password         |
-| ------------- | ------------------------- | ---------------- |
-| Super Admin   | `superadmin@broomkit.com` | `SuperAdmin123!` |
-| Admin         | `admin@broomkit.com`      | `Admin123!`      |
-| Moderator     | `moderator@broomkit.com`  | `Moderator123!`  |
-| Regular Users | `user1-7@broomkit.com`    | `User123!`       |
+| Role          | Email                    | Password         |
+| ------------- | ------------------------ | ---------------- |
+| Super Admin   | `superadmin@brumkit.com` | `SuperAdmin123!` |
+| Admin         | `admin@brumkit.com`      | `Admin123!`      |
+| Moderator     | `moderator@brumkit.com`  | `Moderator123!`  |
+| Regular Users | `user1-7@brumkit.com`    | `User123!`       |
 
 ---
 

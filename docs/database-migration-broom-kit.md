@@ -143,12 +143,12 @@ pnpm type-check
 
 ## 🎓 Test Credentials
 
-| Role          | Email                   | Password       |
-| ------------- | ----------------------- | -------------- |
-| Super Admin   | superadmin@broomkit.com | SuperAdmin123! |
-| Admin         | admin@broomkit.com      | Admin123!      |
-| Moderator     | moderator@broomkit.com  | Moderator123!  |
-| Regular Users | (various)               | User123!       |
+| Role          | Email                  | Password       |
+| ------------- | ---------------------- | -------------- |
+| Super Admin   | superadmin@brumkit.com | SuperAdmin123! |
+| Admin         | admin@brumkit.com      | Admin123!      |
+| Moderator     | moderator@brumkit.com  | Moderator123!  |
+| Regular Users | (various)              | User123!       |
 
 ---
 
