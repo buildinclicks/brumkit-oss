@@ -3,8 +3,14 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": ".",
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals"],
+    "module": "Node16",
+    "moduleResolution": "Node16",
+    "target": "ES2022",
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true
   },
-  "include": ["**/*.ts"],
-  "exclude": ["node_modules", "dist", "coverage"]
+  "include": ["base.ts", "node.ts", "react.ts"],
+  "exclude": ["node_modules", "dist", "coverage", "vitest.config.ts", "test"]
 }

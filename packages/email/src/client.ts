@@ -2,18 +2,20 @@ import { Resend } from 'resend';
 import nodemailer from 'nodemailer';
 import type { Transporter } from 'nodemailer';
 
-// Determine which email service to use
-const isDevelopment = process.env.NODE_ENV === 'development';
-const useMailhog =
-  isDevelopment &&
-  process.env.USE_MAILHOG !== 'false' &&
-  !process.env.RESEND_API_KEY;
-
 // Email client types
 type EmailClient = Resend | Transporter;
 
+// Lazy-initialized email client singleton
+let _emailClient: EmailClient | null = null;
+
 // Create appropriate email client
 export const createEmailClient = (): EmailClient => {
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  const useMailhog =
+    isDevelopment &&
+    process.env.USE_MAILHOG !== 'false' &&
+    !process.env.RESEND_API_KEY;
+
   if (useMailhog) {
     // Use Mailhog for local development
     console.log('📧 Using Mailhog for email (http://localhost:8025)');
@@ -37,8 +39,23 @@ export const createEmailClient = (): EmailClient => {
   }
 };
 
-// Export client
-export const emailClient = createEmailClient();
+// Get or create email client (lazy initialization)
+export const getEmailClient = (): EmailClient => {
+  if (!_emailClient) {
+    _emailClient = createEmailClient();
+  }
+  return _emailClient;
+};
+
+// Export client with lazy initialization via Proxy
+// This maintains backward compatibility while deferring initialization
+export const emailClient = new Proxy({} as EmailClient, {
+  get(_, prop) {
+    const client = getEmailClient();
+    const value = client[prop as keyof EmailClient];
+    return typeof value === 'function' ? value.bind(client) : value;
+  },
+});
 
 // Type guard to check if client is Resend
 export const isResendClient = (client: EmailClient): client is Resend => {
@@ -54,6 +71,12 @@ export const isNodemailerClient = (
 
 // Helper function to get email service info
 export const getEmailServiceInfo = () => {
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  const useMailhog =
+    isDevelopment &&
+    process.env.USE_MAILHOG !== 'false' &&
+    !process.env.RESEND_API_KEY;
+
   return {
     service: useMailhog ? 'mailhog' : 'resend',
     isDevelopment,

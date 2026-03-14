@@ -14,6 +14,8 @@ module.exports = [
       '**/build/**',
       '**/coverage/**',
       '**/.turbo/**',
+      // Intentional violation fixtures used to test ESLint config behaviour
+      'packages/config-eslint/test/**',
     ],
   },
   // JavaScript files
