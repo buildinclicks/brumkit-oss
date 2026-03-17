@@ -1,34 +1,11 @@
-import { auth } from '@repo/auth/edge';
-import { NextResponse } from 'next/server';
+import { authMiddleware } from '@repo/auth/edge';
 
-import type { NextRequest } from 'next/server';
-
-export default auth((req) => {
-  const { nextUrl } = req;
-  const isLoggedIn = !!req.auth;
-
-  const isAuthRoute =
-    nextUrl.pathname.startsWith('/login') ||
-    nextUrl.pathname.startsWith('/register');
-  const isProtectedRoute =
-    nextUrl.pathname.startsWith('/dashboard') ||
-    nextUrl.pathname.startsWith('/profile');
-
-  // Redirect logged-in users away from auth pages
-  if (isAuthRoute && isLoggedIn) {
-    return NextResponse.redirect(new URL('/dashboard', nextUrl));
-  }
-
-  // Redirect non-logged-in users to login
-  if (isProtectedRoute && !isLoggedIn) {
-    const callbackUrl = nextUrl.pathname + nextUrl.search;
-    const loginUrl = new URL('/login', nextUrl);
-    loginUrl.searchParams.set('callbackUrl', callbackUrl);
-    return NextResponse.redirect(loginUrl);
-  }
-
-  return NextResponse.next();
-}) as (request: NextRequest) => Promise<Response | undefined>;
+export default authMiddleware({
+  publicRoutes: ['/'],
+  authRoutes: ['/login', '/register'],
+  protectedRoutes: ['/dashboard/*', '/profile/*', '/settings/*'],
+  adminRoutes: ['/admin/*'],
+});
 
 export const config = {
   matcher: [

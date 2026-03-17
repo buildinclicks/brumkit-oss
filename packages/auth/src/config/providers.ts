@@ -1,13 +1,10 @@
+import { prisma } from '@repo/database';
 import { loginSchema } from '@repo/validation';
 import Credentials from 'next-auth/providers/credentials';
 
 import { verifyPassword } from '../utils/password';
 
-import type { PrismaClient } from '@prisma/client';
 import type { NextAuthConfig } from 'next-auth';
-
-// Import prisma from the database package
-declare const prisma: PrismaClient;
 
 /**
  * Auth.js Providers Configuration

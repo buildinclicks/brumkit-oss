@@ -7,9 +7,16 @@ import type { NextRequest } from 'next/server';
 export interface AuthMiddlewareConfig {
   /**
    * Public routes that don't require authentication
-   * @example ['/login', '/register', '/']
+   * @example ['/about', '/']
    */
   publicRoutes?: string[];
+
+  /**
+   * Routes for guest users only (e.g., login, register)
+   * Logged-in users will be redirected to the dashboard.
+   * @example ['/login', '/register']
+   */
+  authRoutes?: string[];
 
   /**
    * Routes that require authentication
@@ -49,10 +56,11 @@ export interface AuthMiddlewareConfig {
 }
 
 const defaultConfig: Required<AuthMiddlewareConfig> = {
-  publicRoutes: ['/login', '/register', '/'],
-  protectedRoutes: ['/dashboard'],
-  adminRoutes: ['/admin'],
-  moderatorRoutes: ['/moderate'],
+  publicRoutes: ['/'],
+  authRoutes: ['/login', '/register'],
+  protectedRoutes: ['/dashboard/*'],
+  adminRoutes: ['/admin/*'],
+  moderatorRoutes: ['/moderate/*'],
   loginPath: '/login',
   unauthorizedPath: '/unauthorized',
   callbackUrlParam: 'callbackUrl',
@@ -93,14 +101,22 @@ export function authMiddleware(config: AuthMiddlewareConfig = {}) {
   return async function middleware(request: NextRequest) {
     const path = request.nextUrl.pathname;
 
-    // Check if route is public
-    if (isInRoutes(path, cfg.publicRoutes)) {
-      return NextResponse.next();
-    }
-
     // Get session
     const session = await auth();
     const isAuthenticated = !!session?.user;
+
+    // Redirect logged-in users away from auth routes
+    if (isAuthenticated && isInRoutes(path, cfg.authRoutes)) {
+      return NextResponse.redirect(new URL('/dashboard', request.url));
+    }
+
+    // Allow access to public and auth routes (if not handled above)
+    if (
+      isInRoutes(path, cfg.publicRoutes) ||
+      isInRoutes(path, cfg.authRoutes)
+    ) {
+      return NextResponse.next();
+    }
 
     // Check if route requires authentication
     if (
