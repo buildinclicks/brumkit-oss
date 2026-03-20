@@ -8,9 +8,11 @@ import {
   CardTitle,
   Label,
 } from '@repo/ui';
+import { getTranslations } from 'next-intl/server';
 
 export default async function DashboardPage() {
   const session = await auth();
+  const t = await getTranslations('dashboard');
 
   if (!session?.user) {
     return null;
@@ -30,31 +32,41 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+        <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
         <p className="text-muted-foreground">
-          Welcome back, {session.user.name || session.user.email}!
+          {t('welcome', {
+            name: session.user.name || session.user.email || 'User',
+          })}
         </p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Card>
           <CardHeader>
-            <CardTitle>Account Status</CardTitle>
-            <CardDescription>Your account details</CardDescription>
+            <CardTitle>{t('cards.account_status.title')}</CardTitle>
+            <CardDescription>
+              {t('cards.account_status.description')}
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label className="text-muted-foreground">Email</Label>
+              <Label className="text-muted-foreground">
+                {t('cards.account_status.email')}
+              </Label>
               <span className="text-sm font-medium">{session.user.email}</span>
             </div>
             <div className="flex items-center justify-between">
-              <Label className="text-muted-foreground">Role</Label>
+              <Label className="text-muted-foreground">
+                {t('cards.account_status.role')}
+              </Label>
               <Badge variant="secondary">{session.user.role}</Badge>
             </div>
             <div className="flex items-center justify-between">
-              <Label className="text-muted-foreground">Username</Label>
+              <Label className="text-muted-foreground">
+                {t('cards.account_status.username')}
+              </Label>
               <span className="text-sm font-medium">
-                {session.user.username || 'Not set'}
+                {session.user.username || t('cards.account_status.not_set')}
               </span>
             </div>
           </CardContent>
@@ -62,28 +74,36 @@ export default async function DashboardPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Permissions</CardTitle>
-            <CardDescription>What you can do</CardDescription>
+            <CardTitle>{t('cards.permissions.title')}</CardTitle>
+            <CardDescription>
+              {t('cards.permissions.description')}
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label className="text-muted-foreground">Manage Users</Label>
+              <Label className="text-muted-foreground">
+                {t('cards.permissions.manage_users')}
+              </Label>
               <Badge
                 variant={permissions.canManageUsers ? 'default' : 'secondary'}
               >
-                {permissions.canManageUsers ? 'Yes' : 'No'}
+                {permissions.canManageUsers
+                  ? t('cards.permissions.yes')
+                  : t('cards.permissions.no')}
               </Badge>
             </div>
             <div className="flex items-center justify-between">
               <Label className="text-muted-foreground">
-                Read Notifications
+                {t('cards.permissions.read_notifications')}
               </Label>
               <Badge
                 variant={
                   permissions.canReadNotifications ? 'default' : 'secondary'
                 }
               >
-                {permissions.canReadNotifications ? 'Yes' : 'No'}
+                {permissions.canReadNotifications
+                  ? t('cards.permissions.yes')
+                  : t('cards.permissions.no')}
               </Badge>
             </div>
           </CardContent>
@@ -91,12 +111,16 @@ export default async function DashboardPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Quick Stats</CardTitle>
-            <CardDescription>Your activity overview</CardDescription>
+            <CardTitle>{t('cards.quick_stats.title')}</CardTitle>
+            <CardDescription>
+              {t('cards.quick_stats.description')}
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label className="text-muted-foreground">Notifications</Label>
+              <Label className="text-muted-foreground">
+                {t('cards.quick_stats.notifications')}
+              </Label>
               <span className="text-2xl font-bold">0</span>
             </div>
           </CardContent>
@@ -105,17 +129,17 @@ export default async function DashboardPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Getting Started</CardTitle>
+          <CardTitle>{t('cards.getting_started.title')}</CardTitle>
           <CardDescription>
-            Here are some things you can do to get started
+            {t('cards.getting_started.description')}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <ul className="list-inside list-disc space-y-2 text-sm text-muted-foreground">
-            <li>Update your profile information</li>
-            <li>Check your notifications</li>
-            <li>Explore the community</li>
-            <li>Connect with other users</li>
+            <li>{t('cards.getting_started.list.profile')}</li>
+            <li>{t('cards.getting_started.list.notifications')}</li>
+            <li>{t('cards.getting_started.list.community')}</li>
+            <li>{t('cards.getting_started.list.connect')}</li>
           </ul>
         </CardContent>
       </Card>

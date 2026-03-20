@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@repo/ui/card';
+import { getTranslations } from 'next-intl/server';
 
 import { ChangePasswordForm } from './change-password-form';
 import { DeleteAccountForm } from './delete-account-form';
@@ -15,6 +16,7 @@ import { ProfileForm } from './profile-form';
 
 export default async function ProfilePage() {
   const session = await auth();
+  const t = await getTranslations('profile');
 
   if (!session?.user) {
     return null;
@@ -42,19 +44,17 @@ export default async function ProfilePage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Profile</h1>
-        <p className="text-muted-foreground">
-          Manage your account settings and preferences
-        </p>
+        <h1 className="text-3xl font-bold tracking-tight">{t('title')}</h1>
+        <p className="text-muted-foreground">{t('subtitle')}</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2 space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Profile Information</CardTitle>
+              <CardTitle>{t('sections.information.title')}</CardTitle>
               <CardDescription>
-                Update your personal information and how others see you
+                {t('sections.information.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -66,9 +66,9 @@ export default async function ProfilePage() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Change Email</CardTitle>
+              <CardTitle>{t('sections.change_email.title')}</CardTitle>
               <CardDescription>
-                Update your email address for account access and notifications
+                {t('sections.change_email.description')}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -82,19 +82,25 @@ export default async function ProfilePage() {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Account Details</CardTitle>
+              <CardTitle>{t('sections.details.title')}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2 text-sm">
               <div>
-                <span className="text-muted-foreground">Email:</span>
+                <span className="text-muted-foreground">
+                  {t('sections.details.email')}
+                </span>
                 <p className="font-medium">{user.email}</p>
               </div>
               <div>
-                <span className="text-muted-foreground">Role:</span>
+                <span className="text-muted-foreground">
+                  {t('sections.details.role')}
+                </span>
                 <p className="font-medium">{user.role}</p>
               </div>
               <div>
-                <span className="text-muted-foreground">Member since:</span>
+                <span className="text-muted-foreground">
+                  {t('sections.details.member_since')}
+                </span>
                 <p className="font-medium">
                   {new Date(user.createdAt).toLocaleDateString()}
                 </p>

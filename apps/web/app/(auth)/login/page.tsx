@@ -58,9 +58,9 @@ function LoginForm() {
   const onSubmit = async (data: LoginInput) => {
     try {
       await loginMutation.mutateAsync(data);
-      toast.success('Signed in successfully');
+      toast.success(t('login.success'));
     } catch (error: unknown) {
-      toast.error('Login Failed', {
+      toast.error(t('login.error_title'), {
         description: getErrorMessage(error),
       });
     }
@@ -107,14 +107,14 @@ function LoginForm() {
                       href="/forgot-password"
                       className="text-xs text-primary hover:underline"
                     >
-                      Forgot password?
+                      {t('login.forgot_password')}
                     </Link>
                   </div>
                   <FormControl>
                     <PasswordInput
                       {...field}
                       disabled={isLoading}
-                      placeholder="password"
+                      placeholder={t('login.password_placeholder')}
                     />
                   </FormControl>
                   <FormMessage />

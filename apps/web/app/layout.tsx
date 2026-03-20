@@ -1,6 +1,6 @@
 import { Inter } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
-import { getLocale, getMessages } from 'next-intl/server';
+import { getLocale, getMessages, getTranslations } from 'next-intl/server';
 
 import { Providers } from '@/app/providers';
 
@@ -11,11 +11,14 @@ import './global.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const metadata: Metadata = {
-  title: 'Brumkit - Full Stack Starter Kit',
-  description:
-    'A modern full-stack starter kit with Next.js, Prisma, and Auth.js',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('metadata');
+
+  return {
+    title: t('title'),
+    description: t('description'),
+  };
+}
 
 export default async function RootLayout({
   children,

@@ -89,9 +89,26 @@ async function main() {
   users.push(moderator);
   console.log(`  ✅ Moderator: ${moderator.email}`);
 
+  // Create Example User
+  const exampleUserPassword = await hashPassword('User123!');
+  const exampleUser = await prisma.user.create({
+    data: {
+      email: 'user@example.com',
+      name: 'Example User',
+      username: 'example',
+      password: exampleUserPassword,
+      emailVerified: new Date(),
+      role: UserRole.USER,
+      bio: 'Regular Example User',
+      image: faker.image.avatar(),
+    },
+  });
+  users.push(exampleUser);
+  console.log(`  ✅ Example User: ${exampleUser.email}`);
+
   // Create regular users
   const defaultPassword = await hashPassword('User123!');
-  for (let i = 0; i < SEED_CONFIG.users - 3; i++) {
+  for (let i = 0; i < SEED_CONFIG.users - 4; i++) {
     const firstName = faker.person.firstName();
     const lastName = faker.person.lastName();
     const username = faker.internet
@@ -178,6 +195,7 @@ async function main() {
   console.log(`  Super Admin: superadmin@brumkit.com / SuperAdmin123!`);
   console.log(`  Admin: admin@brumkit.com / Admin123!`);
   console.log(`  Moderator: moderator@brumkit.com / Moderator123!`);
+  console.log(`  Example User: user@example.com / User123!`);
   console.log(`  Regular Users: User123!`);
 }
 

@@ -1,12 +1,14 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@repo/ui/card';
+import { useTranslations } from 'next-intl';
 import { useEffect } from 'react';
 
 import { useLogout } from '@/lib/hooks';
 
 export default function LogoutPage() {
   const logoutMutation = useLogout();
+  const t = useTranslations('logout');
 
   useEffect(() => {
     // Automatically trigger logout when page loads
@@ -18,28 +20,26 @@ export default function LogoutPage() {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 dark:bg-gray-900">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl text-center">Logging Out</CardTitle>
+          <CardTitle className="text-2xl text-center">{t('title')}</CardTitle>
         </CardHeader>
         <CardContent className="text-center py-8">
           {logoutMutation.isPending ? (
             <div className="space-y-4">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-              <p className="text-muted-foreground">Signing you out...</p>
+              <p className="text-muted-foreground">{t('signing_out')}</p>
             </div>
           ) : logoutMutation.isError ? (
             <div className="space-y-4">
-              <p className="text-destructive">
-                Failed to log out. Please try again.
-              </p>
+              <p className="text-destructive">{t('error')}</p>
               <button
                 onClick={() => logoutMutation.mutate()}
                 className="text-primary hover:underline"
               >
-                Retry
+                {t('retry')}
               </button>
             </div>
           ) : (
-            <p className="text-muted-foreground">Redirecting...</p>
+            <p className="text-muted-foreground">{t('redirecting')}</p>
           )}
         </CardContent>
       </Card>

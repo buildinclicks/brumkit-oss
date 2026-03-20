@@ -2,6 +2,7 @@
 
 import { Button } from '@repo/ui/button';
 import { X, AlertCircle, Mail } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
@@ -14,6 +15,7 @@ interface VerificationBannerProps {
 export function VerificationBanner({ email }: VerificationBannerProps) {
   const [dismissed, setDismissed] = useState(false);
   const [loading, setLoading] = useState(false);
+  const t = useTranslations('verification_banner');
 
   if (dismissed) return null;
 
@@ -23,17 +25,17 @@ export function VerificationBanner({ email }: VerificationBannerProps) {
       const result = await resendVerificationEmail(email);
 
       if (result.success) {
-        toast.success('Verification Email Sent', {
-          description: 'Please check your inbox and spam folder.',
+        toast.success(t('success_title'), {
+          description: t('success_description'),
         });
       } else {
-        toast.error('Failed to send email', {
+        toast.error(t('error_title'), {
           description: result.error,
         });
       }
     } catch (_error) {
-      toast.error('An error occurred', {
-        description: 'Please try again later.',
+      toast.error(t('error_title'), {
+        description: t('error_generic'),
       });
     } finally {
       setLoading(false);
@@ -48,10 +50,10 @@ export function VerificationBanner({ email }: VerificationBannerProps) {
             <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-500 flex-shrink-0" />
             <div className="flex-1">
               <p className="text-sm font-medium text-yellow-900 dark:text-yellow-100">
-                Please verify your email address
+                {t('title')}
               </p>
               <p className="text-xs text-yellow-700 dark:text-yellow-300">
-                Check your inbox for a verification link to unlock all features.
+                {t('description')}
               </p>
             </div>
           </div>
@@ -65,7 +67,7 @@ export function VerificationBanner({ email }: VerificationBannerProps) {
               className="text-yellow-900 border-yellow-300 hover:bg-yellow-100 dark:text-yellow-100 dark:border-yellow-700 dark:hover:bg-yellow-900/40"
             >
               <Mail className="h-4 w-4 mr-2" />
-              {loading ? 'Sending...' : 'Resend Email'}
+              {loading ? t('sending') : t('resend_email')}
             </Button>
 
             <Button
@@ -75,7 +77,7 @@ export function VerificationBanner({ email }: VerificationBannerProps) {
               className="text-yellow-700 hover:text-yellow-900 hover:bg-yellow-100 dark:text-yellow-300 dark:hover:text-yellow-100 dark:hover:bg-yellow-900/40"
             >
               <X className="h-4 w-4" />
-              <span className="sr-only">Dismiss</span>
+              <span className="sr-only">{t('dismiss')}</span>
             </Button>
           </div>
         </div>

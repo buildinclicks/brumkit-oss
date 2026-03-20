@@ -1,123 +1,72 @@
 'use client';
 
 import { Button } from '@repo/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@repo/ui/card';
-import { Shield, User, ShieldCheck, UserCog } from 'lucide-react';
+import { Card, CardDescription, CardHeader, CardTitle } from '@repo/ui/card';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 const ROLES = [
   {
-    name: 'Super Admin',
+    id: 'super_admin',
     email: 'superadmin@brumkit.com',
     password: 'SuperAdmin123!',
-    description: 'Full access to all system features and management tools.',
-    icon: ShieldCheck,
-    color: 'text-rose-500',
-    bgColor: 'bg-rose-500/10',
   },
   {
-    name: 'Admin',
+    id: 'admin',
     email: 'admin@brumkit.com',
     password: 'Admin123!',
-    description: 'Administrative access for managing users and content.',
-    icon: UserCog,
-    color: 'text-amber-500',
-    bgColor: 'bg-amber-500/10',
   },
   {
-    name: 'Moderator',
+    id: 'moderator',
     email: 'moderator@brumkit.com',
     password: 'Moderator123!',
-    description: 'Limited access to moderate content and reports.',
-    icon: Shield,
-    color: 'text-emerald-500',
-    bgColor: 'bg-emerald-500/10',
   },
   {
-    name: 'Regular User',
-    email: 'user@example.com',
+    id: 'user',
+    email: 'user@example.com', // Placeholder for random users, or just use one
     password: 'User123!',
-    description: 'Standard access for regular platform usage.',
-    icon: User,
-    color: 'text-blue-500',
-    bgColor: 'bg-blue-500/10',
   },
-];
+] as const;
 
 export default function LoginDemoPage() {
+  const t = useTranslations('demo');
+
   return (
-    <div className="container relative flex min-h-screen flex-col items-center justify-center lg:max-w-none lg:px-0">
-      <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[800px]">
-        <div className="flex flex-col space-y-2 text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl">
-            Choose Your Role
-          </h1>
-          <p className="text-xl text-muted-foreground">
-            Experience Brumkit with different permission levels pre-configured
-            for you.
-          </p>
-        </div>
+    <div className="container mx-auto max-w-4xl py-12">
+      <div className="mb-8 text-center">
+        <h1 className="text-4xl font-bold tracking-tight">{t('title')}</h1>
+        <p className="mt-2 text-lg text-muted-foreground">{t('subtitle')}</p>
+      </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          {ROLES.map((role) => (
-            <Card
-              key={role.name}
-              className="group relative overflow-hidden border-2 transition-all hover:border-primary/50 hover:shadow-xl"
-            >
-              <div
-                className={`absolute right-0 top-0 -mr-4 -mt-4 h-24 w-24 rounded-full transition-transform group-hover:scale-110 ${role.bgColor}`}
-              />
-
-              <CardHeader>
-                <div className="flex items-center space-x-4">
-                  <div className={`rounded-xl p-3 ${role.bgColor}`}>
-                    <role.icon className={`h-6 w-6 ${role.color}`} />
-                  </div>
-                  <div>
-                    <CardTitle className="text-xl font-bold">
-                      {role.name}
-                    </CardTitle>
-                    <CardDescription className="text-xs font-mono opacity-70">
-                      {role.email}
-                    </CardDescription>
-                  </div>
-                </div>
-              </CardHeader>
-
-              <CardContent className="space-y-4">
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {role.description}
-                </p>
-                <Link
-                  href={`/login?email=${encodeURIComponent(role.email)}&password=${encodeURIComponent(role.password)}`}
-                  passHref
-                >
-                  <Button
-                    className="w-full group-hover:bg-primary/90 transition-colors"
-                    variant="outline"
-                  >
-                    Login as {role.name}
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        <div className="text-center">
-          <Link
-            href="/login"
-            className="text-sm text-muted-foreground hover:text-primary hover:underline transition-colors"
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
+        {ROLES.map((role) => (
+          <Card
+            key={role.id}
+            className="flex flex-col justify-between transition-all hover:shadow-md"
           >
-            Go back to standard login
-          </Link>
-        </div>
+            <CardHeader>
+              <CardTitle className="text-xl">{t(`roles.${role.id}`)}</CardTitle>
+              <CardDescription>{t(`descriptions.${role.id}`)}</CardDescription>
+            </CardHeader>
+            <div className="p-6 pt-0 mt-auto">
+              <Button asChild className="w-full">
+                <Link
+                  href={`/login?email=${encodeURIComponent(
+                    role.email
+                  )}&password=${encodeURIComponent(role.password)}`}
+                >
+                  {t('login_button', { role: t(`roles.${role.id}`) })}
+                </Link>
+              </Button>
+            </div>
+          </Card>
+        ))}
+      </div>
+
+      <div className="mt-12 text-center">
+        <Button variant="ghost" asChild>
+          <Link href="/login">{t('back_to_login')}</Link>
+        </Button>
       </div>
     </div>
   );

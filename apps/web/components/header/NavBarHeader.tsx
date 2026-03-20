@@ -2,6 +2,7 @@
 import { Button } from '@repo/ui/button';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 import { NotificationBell } from '../notifications/notification-bell';
 import { ThemeToggle } from '../theme-toggle';
@@ -10,6 +11,7 @@ import type { Session } from 'next-auth';
 
 export const NavBarHeader = ({ session }: { session: Session }) => {
   const pathname = usePathname();
+  const t = useTranslations('navigation');
 
   const isActive = (path: string) => {
     // Exact match for dashboard to prevent it from matching all routes
@@ -35,16 +37,16 @@ export const NavBarHeader = ({ session }: { session: Session }) => {
           </Link>
           <nav className="flex items-center gap-4 text-sm">
             <Link href="/dashboard" className={getLinkClassName('/dashboard')}>
-              Dashboard
+              {t('dashboard')}
             </Link>
             <Link href="/profile" className={getLinkClassName('/profile')}>
-              Profile
+              {t('profile')}
             </Link>
             <Link
               href="/notifications"
               className={getLinkClassName('/notifications')}
             >
-              Notifications
+              {t('notifications')}
             </Link>
           </nav>
         </div>
@@ -55,7 +57,7 @@ export const NavBarHeader = ({ session }: { session: Session }) => {
           <NotificationBell />
           <ThemeToggle />
           <Button asChild variant="ghost" size="sm">
-            <Link href="/api/auth/signout">Sign Out</Link>
+            <Link href="/api/auth/signout">{t('sign_out')}</Link>
           </Button>
         </div>
       </div>

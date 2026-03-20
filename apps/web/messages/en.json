@@ -120,7 +120,11 @@
       "submit_button": "Sign In",
       "submitting": "Signing in...",
       "no_account": "Don't have an account?",
-      "sign_up_link": "Sign up"
+      "sign_up_link": "Sign up",
+      "success": "Signed in successfully",
+      "error_title": "Login Failed",
+      "forgot_password": "Forgot password?",
+      "password_placeholder": "password"
     },
     "register": {
       "title": "Create an account",
@@ -287,5 +291,121 @@
     "type_system": "System",
     "type_account": "Account",
     "type_security": "Security"
+  },
+  "home": {
+    "title": "Brumkit",
+    "subtitle": "A modern full-stack starter kit with Next.js, Prisma, and Auth.js",
+    "get_started": "Get Started",
+    "sign_up": "Sign Up",
+    "go_to_dashboard": "Go to Dashboard",
+    "sign_out": "Sign Out",
+    "signed_in_as": "Signed in as:",
+    "role": "Role: {role}"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "profile": "Profile",
+    "notifications": "Notifications",
+    "sign_out": "Sign Out"
+  },
+  "verification_banner": {
+    "title": "Please verify your email address",
+    "description": "Check your inbox for a verification link to unlock all features.",
+    "resend_email": "Resend Email",
+    "sending": "Sending...",
+    "dismiss": "Dismiss",
+    "success_title": "Verification Email Sent",
+    "success_description": "Please check your inbox and spam folder.",
+    "error_title": "Failed to send email",
+    "error_generic": "An error occurred. Please try again later."
+  },
+  "demo": {
+    "title": "Login Role Demo",
+    "subtitle": "Choose a role to quickly login and test specialized permissions",
+    "back_to_login": "Back to Standard Login",
+    "login_button": "Login as {role}",
+    "roles": {
+      "super_admin": "Super Admin",
+      "admin": "Admin",
+      "moderator": "Moderator",
+      "user": "Regular User"
+    },
+    "descriptions": {
+      "super_admin": "Full system access with all permissions and user management.",
+      "admin": "Manage content, users, and view reports.",
+      "moderator": "Moderate comments and review reported content.",
+      "user": "Standard access to browse and interact with content."
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back, {name}!",
+    "cards": {
+      "account_status": {
+        "title": "Account Status",
+        "description": "Your account details",
+        "email": "Email",
+        "role": "Role",
+        "username": "Username",
+        "not_set": "Not set"
+      },
+      "permissions": {
+        "title": "Permissions",
+        "description": "What you can do",
+        "manage_users": "Manage Users",
+        "read_notifications": "Read Notifications",
+        "yes": "Yes",
+        "no": "No"
+      },
+      "quick_stats": {
+        "title": "Quick Stats",
+        "description": "Your activity overview",
+        "notifications": "Notifications"
+      },
+      "getting_started": {
+        "title": "Getting Started",
+        "description": "Here are some things you can do to get started",
+        "list": {
+          "profile": "Update your profile information",
+          "notifications": "Check your notifications",
+          "community": "Explore the community",
+          "connect": "Connect with other users"
+        }
+      }
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "subtitle": "Manage your account settings and preferences",
+    "sections": {
+      "information": {
+        "title": "Profile Information",
+        "description": "Update your personal information and how others see you"
+      },
+      "change_email": {
+        "title": "Change Email",
+        "description": "Update your email address for account access and notifications"
+      },
+      "details": {
+        "title": "Account Details",
+        "email": "Email:",
+        "role": "Role:",
+        "member_since": "Member since:"
+      }
+    }
+  },
+  "common": {
+    "loading": "Loading..."
+  },
+  "logout": {
+    "title": "Logging Out",
+    "signing_out": "Signing you out...",
+    "error": "Failed to log out. Please try again.",
+    "retry": "Retry",
+    "redirecting": "Redirecting..."
+  },
+  "metadata": {
+    "title": "Brumkit - Full Stack Starter Kit",
+    "description": "A modern full-stack starter kit with Next.js, Prisma, and Auth.js"
   }
 }
