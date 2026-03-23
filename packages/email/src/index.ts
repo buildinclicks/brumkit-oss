@@ -12,7 +12,7 @@ import { AdminDeletionSummaryEmail } from './templates/admin-deletion-summary';
 
 const FROM_EMAIL = process.env.FROM_EMAIL || 'onboarding@resend.dev';
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@example.com';
-const APP_URL = process.env.NEXTAUTH_URL || 'http://localhost:3000';
+const APP_URL = process.env.NEXTAUTH_URL || 'http://localhost:4000';
 
 /**
  * Universal email sender that works with both Resend and Mailhog

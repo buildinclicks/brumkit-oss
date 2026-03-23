@@ -28,7 +28,7 @@ export class RedisRateLimiter {
     const upstashToken = options.token || process.env.UPSTASH_REDIS_REST_TOKEN;
 
     // Determine which provider to use
-    if (upstashUrl && upstashToken) {
+    if (upstashUrl && upstashToken && !isDevelopment) {
       // 1. Use Upstash if explicitly configured via URL and Token
       this.redis = new UpstashRedis({ url: upstashUrl, token: upstashToken });
       this.isUpstash = true;

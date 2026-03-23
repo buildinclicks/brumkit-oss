@@ -34,17 +34,6 @@ export function VerificationEmail({
               verify your email address.
             </Text>
 
-            <Text style={text}>
-              <strong>Why verify?</strong> Verified users can:
-            </Text>
-
-            <ul style={list}>
-              <li>Publish articles</li>
-              <li>Comment on posts</li>
-              <li>Follow other users</li>
-              <li>Receive important notifications</li>
-            </ul>
-
             <Button href={verificationLink} style={button}>
               Verify Email Address
             </Button>

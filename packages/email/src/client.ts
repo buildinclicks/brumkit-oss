@@ -10,11 +10,8 @@ let _emailClient: EmailClient | null = null;
 
 // Create appropriate email client
 export const createEmailClient = (): EmailClient => {
-  const isDevelopment = process.env.NODE_ENV === 'development';
-  // Use Mailhog if explicitly requested OR in development without a Resend key
-  const useMailhog =
-    process.env.USE_MAILHOG === 'true' ||
-    (isDevelopment && !process.env.RESEND_API_KEY);
+  const isProduction = process.env.NODE_ENV === 'production';
+  const useMailhog = !isProduction;
 
   if (useMailhog) {
     // Use Mailhog for local development
@@ -55,6 +52,15 @@ export const emailClient = new Proxy({} as EmailClient, {
     const value = client[prop as keyof EmailClient];
     return typeof value === 'function' ? value.bind(client) : value;
   },
+  has(_, prop) {
+    return prop in getEmailClient();
+  },
+  ownKeys(_) {
+    return Reflect.ownKeys(getEmailClient());
+  },
+  getOwnPropertyDescriptor(_, prop) {
+    return Reflect.getOwnPropertyDescriptor(getEmailClient(), prop);
+  },
 });
 
 // Type guard to check if client is Resend
@@ -71,15 +77,12 @@ export const isNodemailerClient = (
 
 // Helper function to get email service info
 export const getEmailServiceInfo = () => {
-  const isDevelopment = process.env.NODE_ENV === 'development';
-  const useMailhog =
-    isDevelopment &&
-    process.env.USE_MAILHOG !== 'false' &&
-    !process.env.RESEND_API_KEY;
+  const isProduction = process.env.NODE_ENV === 'production';
+  const useMailhog = !isProduction;
 
   return {
     service: useMailhog ? 'mailhog' : 'resend',
-    isDevelopment,
+    isDevelopment: !isProduction,
     mailhogUI: useMailhog ? 'http://localhost:8025' : null,
   };
 };

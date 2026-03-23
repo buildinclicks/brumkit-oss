@@ -31,17 +31,6 @@ export function WelcomeEmail({ name, dashboardLink }: WelcomeEmailProps) {
               Brumkit features.
             </Text>
 
-            <Text style={text}>
-              <strong>Get started:</strong>
-            </Text>
-
-            <ul style={list}>
-              <li>Write your first article</li>
-              <li>Explore trending posts</li>
-              <li>Follow interesting authors</li>
-              <li>Join discussions</li>
-            </ul>
-
             <Button href={dashboardLink} style={button}>
               Go to Dashboard
             </Button>
