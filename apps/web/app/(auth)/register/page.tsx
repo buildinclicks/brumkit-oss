@@ -50,7 +50,7 @@ export default function RegisterPage() {
     },
     onError: (error) => {
       toast.error(t('register.error_title'), {
-        description: t(getErrorMessage(error) as any),
+        description: t(getErrorMessage(error) as Parameters<typeof t>[0]),
       });
     },
   });

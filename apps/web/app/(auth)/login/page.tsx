@@ -61,7 +61,7 @@ function LoginForm() {
       toast.success(t('login.success'));
     } catch (error: unknown) {
       toast.error(t('login.error_title'), {
-        description: t(getErrorMessage(error) as any),
+        description: t(getErrorMessage(error) as Parameters<typeof t>[0]),
       });
     }
   };

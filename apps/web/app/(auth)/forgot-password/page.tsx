@@ -53,7 +53,7 @@ export default function ForgotPasswordPage() {
     },
     onError: (error) => {
       toast.error(t('forgot_password.error_toast_title'), {
-        description: t(getErrorMessage(error) as any),
+        description: t(getErrorMessage(error) as Parameters<typeof t>[0]),
       });
     },
   });
