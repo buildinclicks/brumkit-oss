@@ -1,130 +1,51 @@
-import {
-  Html,
-  Head,
-  Body,
-  Container,
-  Section,
-  Heading,
-  Text,
-  Button,
-  Hr,
-} from '@react-email/components';
+import { Button, Text, Hr } from '@react-email/components';
+import { BaseEmail } from './_components/BaseEmail';
+import * as styles from './_styles/email-styles';
 
 interface PasswordResetEmailProps {
   name: string;
   resetLink: string;
 }
 
-export function PasswordResetEmail({
+export const PasswordResetEmail = ({
   name,
   resetLink,
-}: PasswordResetEmailProps) {
+}: PasswordResetEmailProps) => {
   return (
-    <Html>
-      <Head />
-      <Body style={main}>
-        <Container style={container}>
-          <Section style={box}>
-            <Heading style={h1}>Reset Your Password 🔐</Heading>
+    <BaseEmail
+      previewText="Reset your password for Brumkit"
+      heading="Reset Your Password 🔐"
+    >
+      <Text style={styles.text}>Hi {name},</Text>
 
-            <Text style={text}>Hi {name},</Text>
+      <Text style={styles.text}>
+        We received a request to reset your password for your Brumkit account.
+        Click the button below to choose a new password.
+      </Text>
 
-            <Text style={text}>
-              We received a request to reset your password for your React
-              Masters account. Click the button below to choose a new password.
-            </Text>
+      <Button href={resetLink} style={styles.button}>
+        Reset Password
+      </Button>
 
-            <Button href={resetLink} style={button}>
-              Reset Password
-            </Button>
+      <Text style={styles.text}>
+        Or copy and paste this link into your browser:
+      </Text>
 
-            <Text style={text}>
-              Or copy and paste this link into your browser:
-            </Text>
+      <Text style={styles.link}>{resetLink}</Text>
 
-            <Text style={link}>{resetLink}</Text>
+      <Hr style={styles.hr} />
 
-            <Hr style={hr} />
+      <Text style={styles.footer}>
+        This link will expire in 1 hour for security reasons. If you didn't
+        request a password reset, you can safely ignore this email - your
+        password will not be changed.
+      </Text>
 
-            <Text style={footer}>
-              This link will expire in 1 hour for security reasons. If you
-              didn't request a password reset, you can safely ignore this email
-              - your password will not be changed.
-            </Text>
-
-            <Text style={footer}>
-              For security, never share this link with anyone.
-            </Text>
-          </Section>
-        </Container>
-      </Body>
-    </Html>
+      <Text style={styles.footer}>
+        For security, never share this link with anyone.
+      </Text>
+    </BaseEmail>
   );
-}
-
-// Styles
-const main = {
-  backgroundColor: '#f6f9fc',
-  fontFamily:
-    '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
-};
-
-const container = {
-  backgroundColor: '#ffffff',
-  margin: '0 auto',
-  padding: '20px 0 48px',
-  marginBottom: '64px',
-};
-
-const box = {
-  padding: '0 48px',
-};
-
-const h1 = {
-  color: '#333',
-  fontSize: '24px',
-  fontWeight: 'bold',
-  margin: '40px 0',
-  padding: '0',
-};
-
-const text = {
-  color: '#333',
-  fontSize: '16px',
-  lineHeight: '26px',
-};
-
-const button = {
-  backgroundColor: '#dc2626', // Red color for password reset
-  borderRadius: '5px',
-  color: '#fff',
-  fontSize: '16px',
-  fontWeight: 'bold',
-  textDecoration: 'none',
-  textAlign: 'center' as const,
-  display: 'block',
-  width: '100%',
-  padding: '12px',
-  margin: '24px 0',
-};
-
-const link = {
-  color: '#0070f3',
-  fontSize: '14px',
-  textDecoration: 'underline',
-  wordBreak: 'break-all' as const,
-};
-
-const hr = {
-  borderColor: '#e6ebf1',
-  margin: '20px 0',
-};
-
-const footer = {
-  color: '#8898aa',
-  fontSize: '12px',
-  lineHeight: '16px',
-  marginTop: '8px',
 };
 
 export default PasswordResetEmail;
