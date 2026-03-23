@@ -12,7 +12,6 @@ Set up Docker Compose configuration for local development with all required serv
 
 - PostgreSQL (database)
 - Redis (cache, sessions, job queues)
-- MinIO (S3-compatible file storage)
 - Mailhog (email testing)
 
 This task follows a **learning path approach** to help understand Docker concepts step by step.
@@ -29,13 +28,11 @@ Created `docker/docker-compose.yml` with 4 services:
 services:
   postgres: # PostgreSQL 16 database
   redis: # Redis 7 cache
-  minio: # MinIO S3-compatible storage
   mailhog: # Email testing tool
 
 volumes:
   postgres_data: # Persistent database storage
   redis_data: # Persistent cache storage
-  minio_data: # Persistent file storage
 ```
 
 ### 2. PostgreSQL Configuration
@@ -55,19 +52,6 @@ volumes:
 - **Port**: 6379
 - **Volume**: `rm-redis-data` → `/data`
 - **Health Check**: `redis-cli ping`
-
-### 4. MinIO Configuration
-
-- **Image**: `minio/minio:latest`
-- **Ports**:
-  - 9000 → S3 API
-  - 9001 → Web Console
-- **Credentials**:
-  - Username: `minioadmin`
-  - Password: `minioadmin`
-- **Volume**: `rm-minio-data` → `/data`
-- **Health Check**: `curl -f http://localhost:9000/minio/health/live`
-- **Web Console**: http://localhost:9001
 
 ### 5. Mailhog Configuration
 
@@ -133,22 +117,6 @@ docker compose -f docker/docker-compose.yml exec redis redis-cli INFO server
 
 **Result**: ✅ Redis 7.4.7 running, data persistence working
 
-#### 3. MinIO Tests
-
-```powershell
-# Start MinIO
-docker compose -f docker/docker-compose.yml up -d minio
-
-# Check health
-Invoke-WebRequest -Uri http://localhost:9000/minio/health/live
-
-# Open Web Console
-Start-Process http://localhost:9001
-# Login with: minioadmin / minioadmin
-```
-
-**Result**: ✅ MinIO running, console accessible at http://localhost:9001
-
 #### 4. Mailhog Tests
 
 ```powershell
@@ -182,7 +150,6 @@ No npm packages installed. Only Docker images pulled:
 
 - `postgres:16-alpine` (~76 MB)
 - `redis:7-alpine` (~12 MB)
-- `minio/minio:latest` (~200 MB)
 - `mailhog/mailhog:latest` (~30 MB)
 
 ---
@@ -247,7 +214,6 @@ docker compose -f docker/docker-compose.yml ps
 NAME          STATUS
 rm-postgres   Up (healthy)
 rm-redis      Up (healthy)
-rm-minio      Up (healthy)
 rm-mailhog    Up (healthy)
 ```
 
@@ -271,7 +237,6 @@ docker compose -f docker/docker-compose.yml exec redis redis-cli ping
 
 Open in browser:
 
-- **MinIO Console**: http://localhost:9001 (login: minioadmin/minioadmin)
 - **Mailhog UI**: http://localhost:8025
 
 ---
@@ -320,7 +285,6 @@ Services can talk to each other using service names:
 
 - `postgres:5432`
 - `redis:6379`
-- `minio:9000`
 - `mailhog:1025`
 
 This is important when Next.js apps run inside Docker.

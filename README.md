@@ -151,6 +151,59 @@ pnpm dev
 
 8. Open [http://localhost:3000](http://localhost:3000)
 
+## 🐳 Docker Setup
+
+BrumKit includes a production-ready Docker setup to run the entire stack (PostgreSQL, Redis, Mailhog, and the Next.js app) with a single command.
+
+### 1. Configure Environment Variables
+
+Copy the example Docker environment file:
+
+```bash
+cp docker/.env.docker docker/.env
+```
+
+Open `docker/.env` and set the required secrets:
+
+- `NEXTAUTH_SECRET`: Generate with `openssl rand -base64 32`
+- `CRON_SECRET`: Generate with `openssl rand -base64 32`
+
+### 2. Run the Application
+
+Start all services in detached mode:
+
+```bash
+docker compose -f docker/docker-compose.yml up --build -d
+```
+
+This will:
+
+- Build the Next.js application image
+- Start PostgreSQL (Database)
+- Start Redis (Rate limiting/Caching)
+- Start Mailhog (Email testing)
+
+### 3. Accessing the Services
+
+| Service     | URL                     | Purpose          |
+| ----------- | ----------------------- | ---------------- |
+| Next.js App | <http://localhost:3000> | Main application |
+| Mailhog UI  | <http://localhost:8025> | View test emails |
+
+### 4. Managing Environment Variables in Docker
+
+To add or modify environment variables for the Docker environment:
+
+1. Edit the `docker/.env` file.
+2. If the variable is used in `docker/docker-compose.yml`, ensure it is mapped in the `environment` section of the relevant service.
+3. Restart the containers to apply changes:
+
+```bash
+docker compose -f docker/docker-compose.yml up -d
+```
+
+For more detailed Docker operations, see [docker/README.md](docker/README.md).
+
 ## Development
 
 ### Available Commands

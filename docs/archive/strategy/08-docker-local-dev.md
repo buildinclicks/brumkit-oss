@@ -9,7 +9,6 @@ Simple, learning-friendly local stack.
 - PostgreSQL
 - Redis
 - Meilisearch
-- MinIO (S3-compatible)
 - Mailhog (optional, for local email capture)
 
 ## Expectations

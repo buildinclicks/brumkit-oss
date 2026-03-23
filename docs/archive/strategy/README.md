@@ -32,7 +32,7 @@ This folder captures the agreed architecture and delivery plan for the React Mas
 - Authorization: CASL with granular permissions
 - Editor: TipTap (free)
 - Email: Resend + React Email
-- Storage: S3 + Sharp (resize + thumbnails), MinIO for local
+- Storage: Local filesystem or AWS S3 (future)
 - Realtime: Socket.io (notifications only)
 - Jobs: BullMQ + Redis
 - Search: Meilisearch

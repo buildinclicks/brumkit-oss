@@ -32,7 +32,7 @@
 
 ## File Storage & Images
 
-- AWS S3 (prod), MinIO (local), Sharp for resize/thumbnails
+- AWS S3 (future), Sharp for resize/thumbnails
 
 ## Realtime
 

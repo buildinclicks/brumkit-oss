@@ -4,7 +4,7 @@
 
 - Use presigned URL uploads from client
 - Store object keys in DB
-- Local dev: MinIO via Docker Compose
+- Local dev: Local filesystem
 
 ## Image processing (Sharp)
 

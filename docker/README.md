@@ -1,16 +1,56 @@
-# Docker Services for React Masters
+# Docker Services for BrumKit
 
-This directory contains Docker Compose configuration for local development services.
+This directory contains Docker Compose configuration for local development and production-like services.
 
 ## 🚀 Quick Start
 
-```powershell
-# Start all services
-docker compose -f docker/docker-compose.yml up -d
+1. **Configure environment**:
 
-# Check status
-docker compose -f docker/docker-compose.yml ps
-```
+   ```bash
+   cp docker/.env.docker docker/.env
+   ```
+
+   Then edit `docker/.env` to set your secrets (`NEXTAUTH_SECRET`, `CRON_SECRET`).
+
+2. **Start all services**:
+
+   ```bash
+   docker compose -f docker/docker-compose.yml up --build -d
+   ```
+
+3. **Check status**:
+
+   ```bash
+   docker compose -f docker/docker-compose.yml ps
+   ```
+
+## ⚙️ Configuration & Environment Variables
+
+The Docker setup uses a `.env` file located in the `docker/` directory to manage service configurations.
+
+### Adding New Environment Variables
+
+To add a new environment variable to the application in Docker:
+
+1. **Add to `docker/.env`**: Define the variable in the `.env` file.
+
+   ```env
+   MY_NEW_VAR=some_value
+   ```
+
+2. **Map in `docker-compose.yml`**: Add the variable to the `environment` section of the `web` service.
+
+   ```yaml
+   web:
+     environment:
+       MY_NEW_VAR: ${MY_NEW_VAR}
+   ```
+
+3. **Apply changes**: Restart the containers.
+
+   ```bash
+   docker compose -f docker/docker-compose.yml up -d
+   ```
 
 ---
 
@@ -34,17 +74,9 @@ docker compose -f docker/docker-compose.yml ps
 ### Mailhog (Email Testing) ✅ RECOMMENDED
 
 - **SMTP**: 1025
-- **Web UI**: http://localhost:8025
+- **Web UI**: <http://localhost:8025>
 - **Auto-Used**: When no `RESEND_API_KEY` set
 - **Fallback**: Resend in production
-
-**Benefits**: No API quota, test emails visually, no domain verification
-
-### MinIO (File Storage) ⚠️ OPTIONAL
-
-- **API**: 9000
-- **Console**: http://localhost:9001
-- **Status**: Ready for future features
 
 ---
 
@@ -101,7 +133,7 @@ docker compose -f docker/docker-compose.yml exec redis redis-cli FLUSHALL
 
 ## 📧 Mailhog
 
-**Web UI**: http://localhost:8025
+**Web UI**: <http://localhost:8025>
 
 View all captured emails, test templates, check HTML/text versions.
 
@@ -113,7 +145,6 @@ All data survives container restarts via Docker volumes:
 
 - `rm-postgres-data` - Database
 - `rm-redis-data` - Rate limits
-- `rm-minio-data` - Files
 
 ### Reset All Data
 
@@ -144,7 +175,7 @@ Look for app log: `📦 Using local Redis for rate limiting` ✅
 
 ### Mailhog Not Capturing
 
-1. Check UI: http://localhost:8025
+1. Check UI: <http://localhost:8025>
 2. Verify `NODE_ENV=development`
 3. Verify `RESEND_API_KEY` is empty
 
@@ -154,11 +185,10 @@ Look for app log: `📧 Using Mailhog for email` ✅
 
 ## 🌐 Web Interfaces
 
-| Service       | URL                   | Purpose             |
-| ------------- | --------------------- | ------------------- |
-| Mailhog UI    | http://localhost:8025 | View test emails    |
-| MinIO Console | http://localhost:9001 | Manage file storage |
-| Next.js App   | http://localhost:3000 | Main application    |
+| Service     | URL                     | Purpose          |
+| ----------- | ----------------------- | ---------------- |
+| Mailhog UI  | <http://localhost:8025> | View test emails |
+| Next.js App | <http://localhost:3000> | Main application |
 
 ---
 

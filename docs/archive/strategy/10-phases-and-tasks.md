@@ -11,7 +11,7 @@
 - **Phase 1:** Foundation (monorepo, shared configs, hooks, test runner, docker deps)
 - **Phase 2:** Database & Auth (Prisma schema, migrations, Auth.js providers, seeds)
 - **Phase 3:** Permissions & Core Packages (CASL, validation, UI primitives)
-- **Phase 4:** Storage & i18n (S3/MinIO, Sharp, next-intl baseline)
+- **Phase 4:** Storage & i18n (Sharp, next-intl baseline)
 - **Phase 5:** Queue, Realtime, Apps scaffolding (BullMQ, Socket.io base, admin/web skeletons)
 - **Phase 6:** Admin MVP (users, articles, analytics placeholder, engagement placeholder)
 - **Phase 7:** Web MVP (auth flows, article feed/detail/create/edit, TipTap, follow/unfollow)

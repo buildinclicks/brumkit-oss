@@ -245,13 +245,6 @@ docker inspect rm-postgres
 - **Access**: `http://localhost:7700`
 - **Volume**: `meilisearch_data` (persists search indexes)
 
-### MinIO (S3-Compatible Storage)
-
-- **Purpose**: Local S3 for development (file uploads)
-- **Ports**: 9000 (API), 9001 (Web UI)
-- **Access**: `http://localhost:9000` (API), `http://localhost:9001` (UI)
-- **Volume**: `minio_data` (persists files)
-
 ### Mailhog (Email Testing)
 
 - **Purpose**: Catch all sent emails (see them in browser)

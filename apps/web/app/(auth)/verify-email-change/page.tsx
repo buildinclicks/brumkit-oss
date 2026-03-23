@@ -84,7 +84,7 @@ function VerifyEmailChangeContent() {
     return () => {
       isMounted = false;
     };
-  }, [token, router]);
+  }, [token, router, t]);
 
   return (
     <div className="flex min-h-screen items-center justify-center p-4">

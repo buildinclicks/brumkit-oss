@@ -751,10 +751,6 @@ services:
   mailhog: # Email testing (RECOMMENDED)
     image: mailhog/mailhog:latest
     ports: ['1025:1025', '8025:8025']
-
-  minio: # File storage (OPTIONAL)
-    image: minio/minio:latest
-    ports: ['9000:9000', '9001:9001']
 ```
 
 ### Quick Start Commands
@@ -781,13 +777,12 @@ docker compose -f docker/docker-compose.yml down -v
 
 ### Service URLs
 
-| Service       | URL                     | Purpose          |
-| ------------- | ----------------------- | ---------------- |
-| PostgreSQL    | `localhost:5432`        | Database         |
-| Redis         | `localhost:6379`        | Rate limiting    |
-| Mailhog UI    | `http://localhost:8025` | View test emails |
-| MinIO Console | `http://localhost:9001` | File storage UI  |
-| Next.js App   | `http://localhost:3000` | Application      |
+| Service     | URL                     | Purpose          |
+| ----------- | ----------------------- | ---------------- |
+| PostgreSQL  | `localhost:5432`        | Database         |
+| Redis       | `localhost:6379`        | Rate limiting    |
+| Mailhog UI  | `http://localhost:8025` | View test emails |
+| Next.js App | `http://localhost:3000` | Application      |
 
 ### Environment Detection
 
