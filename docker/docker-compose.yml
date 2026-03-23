@@ -1,123 +1,87 @@
-# Services = Containers to run
+# =============================================================================
+# BrumKit — Production Docker Compose
+# Run: docker-compose -f docker/docker-compose.yml up --build
+# =============================================================================
+
 services:
-  # PostgreSQL Database
+  # ---------------------------------------------------------------------------
+  # PostgreSQL 16 — Primary database
+  # ---------------------------------------------------------------------------
   postgres:
-    # Image: What container to use (from Docker Hub)
-    # postgres:16-alpine = PostgreSQL version 16, Alpine Linux (smaller size)
     image: postgres:16-alpine
-
-    # Container name (easier to reference)
     container_name: bk-postgres
-
-    # Restart policy
     restart: unless-stopped
-
-    # Environment variables (configuration)
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: broom_kit
-
-    # Ports: host:container
-    # Your machine:5432 -> Container:5432
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-broom_kit}
     ports:
-      - '5432:5432'
-
-    # Volume: Persist data outside container
-    # When container stops, data is NOT lost
+      - '${POSTGRES_PORT:-5432}:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
-    # Health check: Is PostgreSQL ready?
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-postgres}']
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - brumkit
 
-  # Redis (Cache, Sessions, Job Queues)
+  # ---------------------------------------------------------------------------
+  # Redis 7 — Rate limiting / sessions / caching
+  # ---------------------------------------------------------------------------
   redis:
-    # Image: Redis version 7 on Alpine Linux
     image: redis:7-alpine
-
-    # Container name
     container_name: bk-redis
-
-    # Restart policy
     restart: unless-stopped
-
-    # Ports: host:container
-    # Your machine:6379 -> Container:6379
+    command: redis-server --requirepass ${REDIS_PASSWORD:-redis_secret}
     ports:
-      - '6379:6379'
-
-    # Volume: Persist Redis data
+      - '${REDIS_PORT:-6379}:6379'
     volumes:
       - redis_data:/data
-
-    # Health check: Is Redis ready?
     healthcheck:
-      test: ['CMD', 'redis-cli', 'ping']
+      test:
+        ['CMD', 'redis-cli', '-a', '${REDIS_PASSWORD:-redis_secret}', 'ping']
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - brumkit
 
-  # MinIO (S3-Compatible Object Storage)
+  # ---------------------------------------------------------------------------
+  # MinIO — S3-compatible object storage
+  # ---------------------------------------------------------------------------
   minio:
-    # Image: MinIO latest version
     image: minio/minio:latest
-
-    # Container name
     container_name: bk-minio
-
-    # Restart policy
     restart: unless-stopped
-
-    # Environment variables (credentials)
     environment:
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin
-
-    # Ports:
-    # 9000 = API (S3-compatible)
-    # 9001 = Web Console UI
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
     ports:
-      - '9000:9000'
-      - '9001:9001'
-
-    # Volume: Persist uploaded files
+      - '${MINIO_API_PORT:-9000}:9000'
+      - '${MINIO_CONSOLE_PORT:-9001}:9001'
     volumes:
       - minio_data:/data
-
-    # Command: Start MinIO server with console
-    command: server /data --console-address ":9001"
-
-    # Health check: Is MinIO ready?
+    command: server /data --console-address ':9001'
     healthcheck:
       test: ['CMD', 'curl', '-f', 'http://localhost:9000/minio/health/live']
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - brumkit
 
-  # Mailhog (Email Testing)
+  # ---------------------------------------------------------------------------
+  # Mailhog — Local SMTP catcher (swap for SES / Resend in production)
+  # ---------------------------------------------------------------------------
   mailhog:
-    # Image: Mailhog latest version
     image: mailhog/mailhog:latest
-
-    # Container name
     container_name: bk-mailhog
-
-    # Restart policy
     restart: unless-stopped
-
-    # Ports:
-    # 1025 = SMTP (send emails to this)
-    # 8025 = Web UI (view emails here)
     ports:
-      - '1025:1025'
-      - '8025:8025'
-
-    # Health check: Is Mailhog ready?
+      - '${MAILHOG_SMTP_PORT:-1025}:1025'
+      - '${MAILHOG_UI_PORT:-8025}:8025'
     healthcheck:
       test:
         [
@@ -131,8 +95,67 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - brumkit
 
-# Volumes: Named storage for persistent data
+  # ---------------------------------------------------------------------------
+  # Web — Next.js app (built from monorepo root Dockerfile)
+  # ---------------------------------------------------------------------------
+  web:
+    build:
+      context: .. # monorepo root (where Dockerfile lives)
+      dockerfile: Dockerfile
+    container_name: bk-web
+    restart: unless-stopped
+
+    # Runtime env vars — these are NOT baked into the image at build time.
+    # Copy .env.production.example → .env.production and fill in real values,
+    # then reference them here via ${VAR} or use env_file.
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+
+      # Database (points to the postgres service above)
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-broom_kit}?sslmode=disable
+
+      # Auth.js
+      NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:?NEXTAUTH_SECRET must be set}
+      AUTH_TRUST_HOST: ${AUTH_TRUST_HOST:-true}
+
+      # Redis (internal service URL)
+      REDIS_URL: redis://:${REDIS_PASSWORD:-redis_secret}@redis:6379
+
+      # Email
+      USE_MAILHOG: ${USE_MAILHOG:-true}
+      FROM_EMAIL: ${FROM_EMAIL:-noreply@brumkit.local}
+      EMAIL_FROM: ${EMAIL_FROM:-noreply@brumkit.local}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@brumkit.local}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+
+      # Public env vars (embedded in client bundle — must be set at BUILD time
+      # too if you want them in client JS; see next.config.js notes below)
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3000/api}
+
+      # Cron
+      CRON_SECRET: ${CRON_SECRET:?CRON_SECRET must be set}
+
+    ports:
+      - '${WEB_PORT:-3000}:3000'
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+    networks:
+      - brumkit
+
+# =============================================================================
+# Volumes
+# =============================================================================
 volumes:
   postgres_data:
     name: bk-postgres-data
@@ -140,3 +163,11 @@ volumes:
     name: bk-redis-data
   minio_data:
     name: bk-minio-data
+
+# =============================================================================
+# Networks — isolate brumkit services from unrelated containers
+# =============================================================================
+networks:
+  brumkit:
+    name: bk-network
+    driver: bridge
