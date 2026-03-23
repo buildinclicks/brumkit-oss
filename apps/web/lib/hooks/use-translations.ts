@@ -13,7 +13,21 @@ export function useValidationMessages() {
   const t = useTranslations('validation');
 
   return (key: ValidationMessageKey | string) => {
-    return t(key as ValidationMessageKey);
+    // Normalize key for common Zod/framework fallbacks
+    let normalizedKey = String(key);
+
+    // Zod's default message is often just 'Required' (uppercase)
+    if (normalizedKey === 'Required') {
+      normalizedKey = 'common.required';
+    } else if (normalizedKey === 'Invalid email') {
+      normalizedKey = 'email.invalid';
+    }
+
+    try {
+      return t(normalizedKey as ValidationMessageKey);
+    } catch {
+      return normalizedKey;
+    }
   };
 }
 

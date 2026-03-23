@@ -22,7 +22,8 @@
       "no_uppercase": "Password must contain at least one uppercase letter",
       "no_lowercase": "Password must contain at least one lowercase letter",
       "no_number": "Password must contain at least one number",
-      "mismatch": "Passwords do not match"
+      "mismatch": "Passwords do not match",
+      "same_as_current": "New password must be different from current password"
     },
     "username": {
       "required": "Username is required",
@@ -123,8 +124,10 @@
       "sign_up_link": "Sign up",
       "success": "Signed in successfully",
       "error_title": "Login Failed",
+      "error_invalid": "Invalid email or password",
       "forgot_password": "Forgot password?",
-      "password_placeholder": "password"
+      "email_placeholder": "name@example.com",
+      "password_placeholder": "Enter your password"
     },
     "register": {
       "title": "Create an account",
@@ -134,12 +137,20 @@
       "email_label": "Email",
       "email_placeholder": "name@example.com",
       "password_label": "Password",
+      "password_placeholder": "Enter your password",
       "password_hint": "At least 8 characters with uppercase, lowercase, and a number",
       "confirm_password_label": "Confirm Password",
+      "confirm_password_placeholder": "Confirm your password",
       "submit_button": "Create Account",
       "submitting": "Creating account...",
       "already_have_account": "Already have an account?",
-      "sign_in_link": "Sign in"
+      "sign_in_link": "Sign in",
+      "success_title": "Account created successfully!",
+      "success_description": "Please login with your new account.",
+      "error_title": "Registration Failed",
+      "error_failed": "Registration failed",
+      "error_unexpected": "An unexpected error occurred during registration",
+      "error_validation": "Validation failed"
     },
     "forgot_password": {
       "title": "Forgot Password",
@@ -149,10 +160,13 @@
       "submit_button": "Send Reset Link",
       "submitting": "Sending...",
       "back_to_login": "Back to login",
+      "success_toast_title": "Email Sent",
+      "error_toast_title": "Failed to Send Reset Link",
       "success_title": "Check your email",
       "success_message": "If that email exists in our system, we've sent you a password reset link.",
       "success_instruction": "Click the link in the email to reset your password. The link will expire in 1 hour.",
-      "rate_limit_error": "Too many requests. Please try again later."
+      "rate_limit_error": "Too many requests. Please try again later.",
+      "error_invalid_email": "Invalid email format"
     },
     "reset_password": {
       "title": "Reset Password",
@@ -162,8 +176,17 @@
       "submit_button": "Reset Password",
       "submitting": "Resetting...",
       "success": "Password reset successfully! You can now sign in.",
+      "success_toast_title": "Password Reset Successfully",
+      "error_toast_title": "Failed to Reset Password",
+      "invalid_link_title": "Invalid Reset Link",
+      "request_new_link_button": "Request New Reset Link",
+      "password_placeholder": "Enter your new password",
+      "confirm_password_placeholder": "Confirm your new password",
       "invalid_token": "This reset link is invalid or has expired. Please request a new one.",
-      "expired_token": "This reset link has expired. Please request a new one."
+      "expired_token": "This reset link has expired. Please request a new one.",
+      "error_user_not_found": "User not found",
+      "error_failed": "Failed to reset password. Please try again.",
+      "error_validation": "Validation failed"
     },
     "change_password": {
       "title": "Change Password",
@@ -183,7 +206,9 @@
       "error_title": "Failed to Change Password",
       "error_message": "Please check your current password and try again.",
       "incorrect_current_password": "Current password is incorrect",
-      "same_as_current": "New password must be different from current password"
+      "same_as_current": "New password must be different from current password",
+      "error_not_authenticated": "Not authenticated",
+      "error_user_not_found": "User not found or password not set"
     },
     "email_change": {
       "title": "Change Email Address",
@@ -242,6 +267,26 @@
       "already_used": "This verification link has already been used",
       "go_to_login": "Go to Login",
       "try_again": "Request New Email Change"
+    },
+    "verify_email": {
+      "title": "Email Verified!",
+      "verifying": "Verifying...",
+      "verifying_description": "Please wait while we verify your email address.",
+      "subtitle": "Your email has been successfully verified.",
+      "access_features": "You now have full access to all features:",
+      "feature_publish": "Publish articles",
+      "feature_comment": "Comment on posts",
+      "feature_follow": "Follow other users",
+      "feature_notifications": "Receive notifications",
+      "go_to_dashboard": "Go to Dashboard",
+      "explore_articles": "Explore Articles",
+      "invalid_link_title": "Invalid Link",
+      "invalid_link_description": "The verification link is invalid or missing.",
+      "invalid_link_instruction": "Please check your email for the correct verification link, or request a new one.",
+      "failed_title": "Verification Failed",
+      "failed_subtitle": "We couldn't verify your email address.",
+      "failed_instruction": "The link may have expired or already been used. Please request a new verification email.",
+      "resend_email": "Resend Verification Email"
     }
   },
   "errors": {
@@ -394,7 +439,7 @@
       }
     }
   },
-  "common": {
+  "generic": {
     "loading": "Loading..."
   },
   "logout": {

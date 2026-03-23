@@ -16,7 +16,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from '@repo/ui/form';
 import { Input } from '@repo/ui/input';
 import { resetPasswordSchema, type ResetPasswordInput } from '@repo/validation';
@@ -26,6 +25,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { resetPassword } from '@/app/actions';
+import { TranslatedFormMessage } from '@/components/form';
 import { getErrorMessage } from '@/lib/api-error';
 import { useServerActionForm } from '@/lib/hooks/use-server-action-form';
 import { useAuthMessages } from '@/lib/hooks/use-translations';
@@ -48,14 +48,14 @@ function ResetPasswordForm() {
   const resetMutation = useServerActionForm(resetPassword, {
     setError: form.setError,
     onSuccess: () => {
-      toast.success('Password Reset Successfully', {
+      toast.success(t('reset_password.success_toast_title'), {
         description: t('reset_password.success'),
       });
       router.push('/login');
     },
     onError: (error) => {
-      toast.error('Failed to Reset Password', {
-        description: getErrorMessage(error),
+      toast.error(t('reset_password.error_toast_title'), {
+        description: t(getErrorMessage(error) as any),
       });
     },
   });
@@ -66,7 +66,7 @@ function ResetPasswordForm() {
       <Card>
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-destructive">
-            Invalid Reset Link
+            {t('reset_password.invalid_link_title')}
           </CardTitle>
           <CardDescription>{t('reset_password.invalid_token')}</CardDescription>
         </CardHeader>
@@ -75,7 +75,7 @@ function ResetPasswordForm() {
             onClick={() => router.push('/forgot-password')}
             className="w-full cursor-pointer"
           >
-            Request New Reset Link
+            {t('reset_password.request_new_link_button')}
           </Button>
         </CardFooter>
       </Card>
@@ -109,11 +109,12 @@ function ResetPasswordForm() {
                   <FormControl>
                     <Input
                       type="password"
+                      placeholder={t('reset_password.password_placeholder')}
                       disabled={resetMutation.isPending}
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <TranslatedFormMessage />
                   <p className="text-xs text-muted-foreground">
                     {t('register.password_hint')}
                   </p>
@@ -132,11 +133,14 @@ function ResetPasswordForm() {
                   <FormControl>
                     <Input
                       type="password"
+                      placeholder={t(
+                        'reset_password.confirm_password_placeholder'
+                      )}
                       disabled={resetMutation.isPending}
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <TranslatedFormMessage />
                 </FormItem>
               )}
             />

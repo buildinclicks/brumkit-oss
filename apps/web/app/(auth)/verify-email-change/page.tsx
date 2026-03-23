@@ -15,6 +15,7 @@ import { useEffect, useState, Suspense } from 'react';
 import { toast } from 'sonner';
 
 import { verifyEmailChange } from '@/app/actions/email-change';
+import { useAuthMessages } from '@/lib/hooks/use-translations';
 
 type VerificationState = 'verifying' | 'success' | 'error' | 'no-token';
 
@@ -22,6 +23,7 @@ function VerifyEmailChangeContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
+  const t = useAuthMessages();
 
   const [state, setState] = useState<VerificationState>('verifying');
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -43,8 +45,8 @@ function VerifyEmailChangeContent() {
 
         if (result.success) {
           setState('success');
-          toast.success('Email Changed Successfully', {
-            description: 'Your email address has been updated.',
+          toast.success(t('verify_email_change.success_title'), {
+            description: t('verify_email_change.success_message'),
           });
 
           // Redirect after a short delay
@@ -55,10 +57,11 @@ function VerifyEmailChangeContent() {
           }, 1500);
         } else {
           setState('error');
-          setErrorMessage(result.error || 'Failed to verify email change');
-          toast.error('Failed to Verify Email Change', {
-            description:
-              result.error || 'Please try again or request a new link.',
+          setErrorMessage(
+            result.error || t('verify_email_change.error_message')
+          );
+          toast.error(t('verify_email_change.error_title'), {
+            description: result.error || t('verify_email_change.error_message'),
           });
         }
       } catch (error: unknown) {
@@ -68,10 +71,10 @@ function VerifyEmailChangeContent() {
         setErrorMessage(
           error instanceof Error
             ? error.message
-            : 'Failed to verify email change'
+            : t('verify_email_change.error_message')
         );
-        toast.error('Failed to Verify Email Change', {
-          description: 'An unexpected error occurred.',
+        toast.error(t('verify_email_change.error_title'), {
+          description: t('verify_email_change.error_message'),
         });
       }
     };
@@ -100,19 +103,16 @@ function VerifyEmailChangeContent() {
           </div>
           <CardTitle className="text-center">
             <h1 className="text-2xl font-semibold leading-none tracking-tight">
-              {state === 'verifying' && 'Verifying Email Change'}
-              {state === 'success' && 'Email Changed Successfully'}
+              {state === 'verifying' && t('verify_email_change.verifying')}
+              {state === 'success' && t('verify_email_change.success_title')}
               {(state === 'error' || state === 'no-token') &&
-                'Verification Failed'}
+                t('verify_email_change.error_title')}
             </h1>
           </CardTitle>
           <CardDescription className="text-center">
-            {state === 'verifying' &&
-              'Please wait while we verify your email change...'}
-            {state === 'success' &&
-              'Your email address has been updated successfully. Redirecting to your profile...'}
-            {state === 'no-token' &&
-              'No verification token provided. Please check your email for the verification link.'}
+            {state === 'verifying' && t('verify_email_change.verifying')}
+            {state === 'success' && t('verify_email_change.success_message')}
+            {state === 'no-token' && t('verify_email_change.invalid_token')}
             {state === 'error' && errorMessage}
           </CardDescription>
         </CardHeader>
@@ -121,7 +121,12 @@ function VerifyEmailChangeContent() {
           <CardFooter className="flex justify-center">
             <Button asChild className="cursor-pointer">
               <Link href="/profile">
-                {state === 'success' ? 'Go to Profile' : 'Back to Profile'}
+                {state === 'success'
+                  ? t('verify_email_change.go_to_login').replace(
+                      'Login',
+                      'Profile'
+                    )
+                  : 'Back to Profile'}
               </Link>
             </Button>
           </CardFooter>

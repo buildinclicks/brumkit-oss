@@ -8,6 +8,7 @@ import {
 } from '@repo/ui/card';
 import { CheckCircle2, XCircle, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
 import { Suspense } from 'react';
 
 import { verifyEmail } from '@/app/actions';
@@ -17,25 +18,24 @@ interface PageProps {
 }
 
 async function VerifyEmailContent({ token }: { token: string | undefined }) {
+  const t = await getTranslations('auth.verify_email');
+
   if (!token) {
     return (
       <Card className="w-full max-w-md">
         <CardHeader>
           <div className="flex items-center gap-2">
             <XCircle className="h-6 w-6 text-destructive" />
-            <CardTitle>Invalid Link</CardTitle>
+            <CardTitle>{t('invalid_link_title')}</CardTitle>
           </div>
-          <CardDescription>
-            The verification link is invalid or missing.
-          </CardDescription>
+          <CardDescription>{t('invalid_link_description')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            Please check your email for the correct verification link, or
-            request a new one.
+            {t('invalid_link_instruction')}
           </p>
           <Button asChild className="w-full cursor-pointer">
-            <Link href="/dashboard">Go to Dashboard</Link>
+            <Link href="/dashboard">{t('go_to_dashboard')}</Link>
           </Button>
         </CardContent>
       </Card>
@@ -50,28 +50,26 @@ async function VerifyEmailContent({ token }: { token: string | undefined }) {
         <CardHeader>
           <div className="flex items-center gap-2">
             <CheckCircle2 className="h-6 w-6 text-green-600" />
-            <CardTitle>Email Verified!</CardTitle>
+            <CardTitle>{t('title')}</CardTitle>
           </div>
-          <CardDescription>
-            Your email has been successfully verified.
-          </CardDescription>
+          <CardDescription>{t('subtitle')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-sm text-muted-foreground">
-            You now have full access to all features:
+            {t('access_features')}
           </p>
           <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1 pl-2">
-            <li>Publish articles</li>
-            <li>Comment on posts</li>
-            <li>Follow other users</li>
-            <li>Receive notifications</li>
+            <li>{t('feature_publish')}</li>
+            <li>{t('feature_comment')}</li>
+            <li>{t('feature_follow')}</li>
+            <li>{t('feature_notifications')}</li>
           </ul>
           <div className="flex flex-col gap-2">
             <Button asChild className="w-full cursor-pointer">
-              <Link href="/dashboard">Go to Dashboard</Link>
+              <Link href="/dashboard">{t('go_to_dashboard')}</Link>
             </Button>
             <Button asChild variant="outline" className="w-full cursor-pointer">
-              <Link href="/">Explore Articles</Link>
+              <Link href="/">{t('explore_articles')}</Link>
             </Button>
           </div>
         </CardContent>
@@ -84,24 +82,21 @@ async function VerifyEmailContent({ token }: { token: string | undefined }) {
       <CardHeader>
         <div className="flex items-center gap-2">
           <XCircle className="h-6 w-6 text-destructive" />
-          <CardTitle>Verification Failed</CardTitle>
+          <CardTitle>{t('failed_title')}</CardTitle>
         </div>
-        <CardDescription>
-          We couldn&apos;t verify your email address.
-        </CardDescription>
+        <CardDescription>{t('failed_subtitle')}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <p className="text-sm text-destructive">{result.error}</p>
         <p className="text-sm text-muted-foreground">
-          The link may have expired or already been used. Please request a new
-          verification email.
+          {t('failed_instruction')}
         </p>
         <div className="flex flex-col gap-2">
           <Button asChild className="w-full cursor-pointer">
-            <Link href="/dashboard">Go to Dashboard</Link>
+            <Link href="/dashboard">{t('go_to_dashboard')}</Link>
           </Button>
           <Button asChild variant="outline" className="w-full cursor-pointer">
-            <Link href="/resend-verification">Resend Verification Email</Link>
+            <Link href="/resend-verification">{t('resend_email')}</Link>
           </Button>
         </div>
       </CardContent>
@@ -111,6 +106,7 @@ async function VerifyEmailContent({ token }: { token: string | undefined }) {
 
 export default async function VerifyEmailPage({ searchParams }: PageProps) {
   const params = await searchParams;
+  const t = await getTranslations('auth.verify_email');
 
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
@@ -120,11 +116,9 @@ export default async function VerifyEmailPage({ searchParams }: PageProps) {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Loader2 className="h-6 w-6 animate-spin" />
-                Verifying...
+                {t('verifying')}
               </CardTitle>
-              <CardDescription>
-                Please wait while we verify your email address.
-              </CardDescription>
+              <CardDescription>{t('verifying_description')}</CardDescription>
             </CardHeader>
           </Card>
         }

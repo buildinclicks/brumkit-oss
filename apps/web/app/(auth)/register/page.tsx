@@ -16,7 +16,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from '@repo/ui/form';
 import { Input } from '@repo/ui/input';
 import { registerSchema, type RegisterInput } from '@repo/validation';
@@ -26,7 +25,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { registerUser } from '@/app/actions';
-import { PasswordInput } from '@/components/form';
+import { PasswordInput, TranslatedFormMessage } from '@/components/form';
 import { getErrorMessage } from '@/lib/api-error';
 import { useServerActionForm } from '@/lib/hooks/use-server-action-form';
 import { useAuthMessages } from '@/lib/hooks/use-translations';
@@ -44,14 +43,14 @@ export default function RegisterPage() {
   const registerMutation = useServerActionForm(registerUser, {
     setError: form.setError,
     onSuccess: () => {
-      toast.success('Account created successfully!', {
-        description: 'Please login with your new account.',
+      toast.success(t('register.success_title'), {
+        description: t('register.success_description'),
       });
       router.push('/login');
     },
     onError: (error) => {
-      toast.error('Registration Failed', {
-        description: getErrorMessage(error),
+      toast.error(t('register.error_title'), {
+        description: t(getErrorMessage(error) as any),
       });
     },
   });
@@ -84,7 +83,7 @@ export default function RegisterPage() {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <TranslatedFormMessage />
                 </FormItem>
               )}
             />
@@ -103,7 +102,7 @@ export default function RegisterPage() {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <TranslatedFormMessage />
                 </FormItem>
               )}
             />
@@ -116,12 +115,12 @@ export default function RegisterPage() {
                   <FormLabel>{t('register.password_label')}</FormLabel>
                   <FormControl>
                     <PasswordInput
-                      placeholder={t('register.password_label')}
+                      placeholder={t('register.password_placeholder')}
                       disabled={registerMutation.isPending}
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <TranslatedFormMessage />
                   <p className="text-xs text-muted-foreground">
                     {t('register.password_hint')}
                   </p>
@@ -137,12 +136,12 @@ export default function RegisterPage() {
                   <FormLabel>{t('register.confirm_password_label')}</FormLabel>
                   <FormControl>
                     <PasswordInput
-                      placeholder={t('register.confirm_password_label')}
+                      placeholder={t('register.confirm_password_placeholder')}
                       disabled={registerMutation.isPending}
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <TranslatedFormMessage />
                 </FormItem>
               )}
             />

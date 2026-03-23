@@ -26,6 +26,7 @@ export const ValidationMessages = {
   EMAIL_INVALID: 'email.invalid',
   EMAIL_TOO_SHORT: 'email.too_short',
   EMAIL_TOO_LONG: 'email.too_long',
+  EMAIL_ALREADY_EXISTS: 'email.already_exists',
 
   // ============================================
   // PASSWORD
@@ -37,6 +38,7 @@ export const ValidationMessages = {
   PASSWORD_NO_LOWERCASE: 'password.no_lowercase',
   PASSWORD_NO_NUMBER: 'password.no_number',
   PASSWORD_MISMATCH: 'password.mismatch',
+  PASSWORD_SAME_AS_CURRENT: 'password.same_as_current',
 
   // ============================================
   // USERNAME

@@ -3,3 +3,4 @@
  */
 export { FieldError } from './field-error';
 export { PasswordInput } from './password-input';
+export { TranslatedFormMessage } from './translated-form-message';

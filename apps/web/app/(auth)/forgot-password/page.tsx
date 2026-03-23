@@ -16,7 +16,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from '@repo/ui/form';
 import { Input } from '@repo/ui/input';
 import {
@@ -29,6 +28,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { requestPasswordReset } from '@/app/actions';
+import { TranslatedFormMessage } from '@/components/form';
 import { getErrorMessage } from '@/lib/api-error';
 import { useServerActionForm } from '@/lib/hooks/use-server-action-form';
 import { useAuthMessages } from '@/lib/hooks/use-translations';
@@ -47,13 +47,13 @@ export default function ForgotPasswordPage() {
     setError: form.setError,
     onSuccess: () => {
       setIsSuccess(true);
-      toast.success('Email Sent', {
+      toast.success(t('forgot_password.success_toast_title'), {
         description: t('forgot_password.success_message'),
       });
     },
     onError: (error) => {
-      toast.error('Failed to Send Reset Link', {
-        description: getErrorMessage(error),
+      toast.error(t('forgot_password.error_toast_title'), {
+        description: t(getErrorMessage(error) as any),
       });
     },
   });
@@ -112,7 +112,7 @@ export default function ForgotPasswordPage() {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <TranslatedFormMessage />
                 </FormItem>
               )}
             />

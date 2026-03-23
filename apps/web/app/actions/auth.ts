@@ -64,7 +64,7 @@ export async function registerUser(
     if (!emailRateLimit.success) {
       return {
         success: false,
-        error: `Too many registration attempts. Try again in ${formatRetryAfter(emailRateLimit.retryAfter!)}.`,
+        error: 'forgot_password.rate_limit_error',
       };
     }
 
@@ -79,7 +79,7 @@ export async function registerUser(
     if (!ipRateLimit.success) {
       return {
         success: false,
-        error: `Too many registration attempts. Try again in ${formatRetryAfter(ipRateLimit.retryAfter!)}.`,
+        error: 'forgot_password.rate_limit_error',
       };
     }
 
@@ -91,7 +91,7 @@ export async function registerUser(
     if (existingUser) {
       return {
         success: false,
-        error: 'Registration failed',
+        error: 'register.error_failed',
         fieldErrors: {
           email: 'email.already_exists',
         },
@@ -148,7 +148,7 @@ export async function registerUser(
 
       return {
         success: false,
-        error: 'Validation failed',
+        error: 'register.error_validation',
         fieldErrors,
       };
     }
@@ -157,7 +157,7 @@ export async function registerUser(
     console.error('Registration error:', error);
     return {
       success: false,
-      error: 'An unexpected error occurred during registration',
+      error: 'register.error_unexpected',
     };
   }
 }
@@ -192,7 +192,7 @@ export async function loginUser(data: LoginInput): Promise<ActionResult> {
     if (!emailRateLimit.success) {
       return {
         success: false,
-        error: `Too many login attempts. Try again in ${formatRetryAfter(emailRateLimit.retryAfter!)}.`,
+        error: 'forgot_password.rate_limit_error',
       };
     }
 
@@ -207,7 +207,7 @@ export async function loginUser(data: LoginInput): Promise<ActionResult> {
     if (!ipRateLimit.success) {
       return {
         success: false,
-        error: `Too many login attempts. Try again in ${formatRetryAfter(ipRateLimit.retryAfter!)}.`,
+        error: 'forgot_password.rate_limit_error',
       };
     }
 
@@ -221,7 +221,7 @@ export async function loginUser(data: LoginInput): Promise<ActionResult> {
     if (!user || !user.password) {
       return {
         success: false,
-        error: 'Invalid email or password',
+        error: 'login.error_invalid',
       };
     }
 
@@ -230,7 +230,7 @@ export async function loginUser(data: LoginInput): Promise<ActionResult> {
     if (!isValid) {
       return {
         success: false,
-        error: 'Invalid email or password',
+        error: 'login.error_invalid',
       };
     }
 
@@ -249,7 +249,7 @@ export async function loginUser(data: LoginInput): Promise<ActionResult> {
 
       return {
         success: false,
-        error: 'Validation failed',
+        error: 'register.error_validation',
         fieldErrors,
       };
     }
@@ -257,7 +257,7 @@ export async function loginUser(data: LoginInput): Promise<ActionResult> {
     console.error('Login error:', error);
     return {
       success: false,
-      error: 'An unexpected error occurred during login',
+      error: 'register.error_unexpected',
     };
   }
 }
@@ -279,7 +279,7 @@ export async function changePassword(data: {
     if (!currentUser?.id) {
       return {
         success: false,
-        error: 'Not authenticated',
+        error: 'change_password.error_not_authenticated',
       };
     }
 
@@ -292,7 +292,7 @@ export async function changePassword(data: {
     if (!user || !user.password) {
       return {
         success: false,
-        error: 'User not found or password not set',
+        error: 'change_password.error_user_not_found',
       };
     }
 
@@ -303,9 +303,9 @@ export async function changePassword(data: {
     if (!isValid) {
       return {
         success: false,
-        error: 'Current password is incorrect',
+        error: 'change_password.error_title',
         fieldErrors: {
-          currentPassword: 'Current password is incorrect',
+          currentPassword: 'change_password.incorrect_current_password',
         },
       };
     }
@@ -344,7 +344,7 @@ export async function changePassword(data: {
     console.error('Change password error:', error);
     return {
       success: false,
-      error: 'Failed to change password',
+      error: 'change_password.error_title',
     };
   }
 }
@@ -440,7 +440,7 @@ export async function requestPasswordReset(data: {
     if (error instanceof z.ZodError) {
       return {
         success: false,
-        error: 'Invalid email format',
+        error: 'forgot_password.error_invalid_email',
         fieldErrors: { email: 'email.invalid' },
       };
     }
@@ -448,7 +448,7 @@ export async function requestPasswordReset(data: {
     console.error('Password reset request error:', error);
     return {
       success: false,
-      error: 'Failed to process password reset request',
+      error: 'forgot_password.error_toast_title',
     };
   }
 }
@@ -516,7 +516,7 @@ export async function resetPassword(
 
       return {
         success: false,
-        error: 'Validation failed',
+        error: 'reset_password.error_validation',
         fieldErrors,
       };
     }
@@ -524,7 +524,7 @@ export async function resetPassword(
     console.error('Password reset error:', error);
     return {
       success: false,
-      error: 'Failed to reset password. Please try again.',
+      error: 'reset_password.error_failed',
     };
   }
 }

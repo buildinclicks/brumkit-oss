@@ -16,7 +16,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from '@repo/ui/form';
 import { Input } from '@repo/ui/input';
 import { loginSchema, type LoginInput } from '@repo/validation';
@@ -26,7 +25,7 @@ import { useEffect, Suspense } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { PasswordInput } from '@/components/form';
+import { PasswordInput, TranslatedFormMessage } from '@/components/form';
 import { AuthSkeleton } from '@/components/skeletons';
 import { getErrorMessage } from '@/lib/api-error';
 import { useLogin } from '@/lib/hooks';
@@ -62,7 +61,7 @@ function LoginForm() {
       toast.success(t('login.success'));
     } catch (error: unknown) {
       toast.error(t('login.error_title'), {
-        description: getErrorMessage(error),
+        description: t(getErrorMessage(error) as any),
       });
     }
   };
@@ -87,12 +86,12 @@ function LoginForm() {
                   <FormControl>
                     <Input
                       type="email"
-                      placeholder={t('register.email_placeholder')}
+                      placeholder={t('login.email_placeholder')}
                       disabled={isLoading}
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <TranslatedFormMessage />
                 </FormItem>
               )}
             />
@@ -118,7 +117,7 @@ function LoginForm() {
                       placeholder={t('login.password_placeholder')}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <TranslatedFormMessage />
                 </FormItem>
               )}
             />

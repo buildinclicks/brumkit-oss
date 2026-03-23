@@ -26,7 +26,7 @@ export const registerSchema = z
       .max(255, ValidationMessages.USER_NAME_TOO_LONG),
     email: emailRule.required,
     password: passwordSchema,
-    confirmPassword: z.string(),
+    confirmPassword: z.string().min(1, ValidationMessages.PASSWORD_REQUIRED),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: ValidationMessages.PASSWORD_MISMATCH,
@@ -55,7 +55,7 @@ export const resetPasswordSchema = z
   .object({
     token: z.string().min(1, ValidationMessages.REQUIRED),
     password: passwordSchema,
-    confirmPassword: z.string(),
+    confirmPassword: z.string().min(1, ValidationMessages.PASSWORD_REQUIRED),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: ValidationMessages.PASSWORD_MISMATCH,
@@ -72,14 +72,14 @@ export const changePasswordSchema = z
   .object({
     currentPassword: z.string().min(1, ValidationMessages.PASSWORD_REQUIRED),
     newPassword: passwordSchema,
-    confirmPassword: z.string(),
+    confirmPassword: z.string().min(1, ValidationMessages.PASSWORD_REQUIRED),
   })
   .refine((data) => data.newPassword === data.confirmPassword, {
     message: ValidationMessages.PASSWORD_MISMATCH,
     path: ['confirmPassword'],
   })
   .refine((data) => data.currentPassword !== data.newPassword, {
-    message: 'validation.password.same_as_current',
+    message: ValidationMessages.PASSWORD_SAME_AS_CURRENT,
     path: ['newPassword'],
   });
 
