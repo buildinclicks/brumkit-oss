@@ -97,29 +97,39 @@ pnpm install
 3. Set up environment variables:
 
 ```bash
-cp .env.example .env
+cp .env.development.example .env.development
+# Also configure the package/database environment for Prisma:
+cp .env.development.example packages/database/.env
 ```
 
-4. Configure your `.env` file:
+4. Configure your `.env.development` and `packages/database/.env` files:
 
 ```env
-# Database
-DATABASE_URL="postgresql://user:password@localhost:5432/brumkit"
+# DATABASE
+DATABASE_URL="postgresql://postgres:postgres@127.0.0.1:5432/broom_kit_dev"
 
-# Auth
-NEXTAUTH_SECRET="your-secret-here"
+# AUTH.JS
 NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="dev-secret-key-1234567890-not-secure!"
 
-# Redis (for rate limiting)
+# REDIS (Local caching/rate limiting)
 REDIS_URL="redis://localhost:6379"
 
-# Email (SMTP)
-SMTP_HOST="smtp.gmail.com"
-SMTP_PORT="587"
-SMTP_USER="your-email@gmail.com"
-SMTP_PASSWORD="your-app-password"
-SMTP_FROM="noreply@yourdomain.com"
+# EMAIL (Local SMTP trapping / Resend)
+USE_MAILHOG="true"
+MAILHOG_HOST="localhost"
+MAILHOG_PORT="1025"
+FROM_EMAIL="noreply@brumkit.localhost"
+
+# CRON JOBS
+CRON_SECRET="dev-my-local-cron-secret"
+
+# ENVIRONMENT
+NODE_ENV="development"
+NEXT_PUBLIC_API_URL="http://localhost:4000/api"
 ```
+
+> **Note:** A `.env.production.example` is also provided for your production environment.
 
 5. Run database migrations:
 
