@@ -12,10 +12,16 @@ This directory contains Docker Compose configuration for local development and p
 
    Then edit `docker/.env` to set your secrets (`NEXTAUTH_SECRET`, `CRON_SECRET`).
 
-2. **Start all services**:
+2. **Build and Run (with logs in terminal)**:
 
    ```bash
-   docker compose -f docker/docker-compose.yml up --build -d
+   docker compose --env-file docker/.env -f docker/docker-compose.yml up --build
+   ```
+
+   To run in the background (detached mode), add the `-d` flag:
+
+   ```bash
+   docker compose --env-file docker/.env -f docker/docker-compose.yml up --build -d
    ```
 
 3. **Check status**:
@@ -189,6 +195,23 @@ Look for app log: `📧 Using Mailhog for email` ✅
 | ----------- | ----------------------- | ---------------- |
 | Mailhog UI  | <http://localhost:8025> | View test emails |
 | Next.js App | <http://localhost:3000> | Main application |
+
+---
+
+## 🌐 Network & Port Mapping
+
+To avoid conflicts with local services, Docker is configured with specific port mappings:
+
+| Service    | Internal Port | External (Host) Port | Connection String (Local Host) |
+| ---------- | ------------- | -------------------- | ------------------------------ |
+| PostgreSQL | 5432          | **5433**             | `localhost:5433`               |
+| Redis      | 6379          | **6379**             | `localhost:6379`               |
+| Mailhog    | 1025 / 8025   | **1025 / 8025**      | `localhost:8025` (UI)          |
+
+### Connecting correctly
+
+- **From your machine (Host)**: Use the Host ports (e.g., `localhost:5433` for DB).
+- **Inside Docker (App)**: Services talk to each other via internal names (e.g., `postgres:5432`).
 
 ---
 

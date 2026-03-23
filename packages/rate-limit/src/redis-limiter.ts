@@ -27,10 +27,15 @@ export class RedisRateLimiter {
     const upstashUrl = options.url || process.env.UPSTASH_REDIS_REST_URL;
     const upstashToken = options.token || process.env.UPSTASH_REDIS_REST_TOKEN;
 
-    // Prefer local Redis in development if available
-    if (isDevelopment && !upstashUrl && !upstashToken) {
+    // Determine which provider to use
+    if (upstashUrl && upstashToken) {
+      // 1. Use Upstash if explicitly configured via URL and Token
+      this.redis = new UpstashRedis({ url: upstashUrl, token: upstashToken });
+      this.isUpstash = true;
+      console.log('☁️  Using Upstash Redis for rate limiting');
+    } else if (process.env.REDIS_URL || isDevelopment) {
+      // 2. Use local Redis if REDIS_URL is provided OR if we are in development
       try {
-        // Dynamically import ioredis (only if needed)
         const Redis = require('ioredis');
         this.redis = new Redis(localRedisUrl, {
           maxRetriesPerRequest: 3,
@@ -46,16 +51,11 @@ export class RedisRateLimiter {
           'Local Redis is not configured. Install ioredis: pnpm add ioredis'
         );
       }
-    } else if (upstashUrl && upstashToken) {
-      // Use Upstash in production or if explicitly configured
-      this.redis = new UpstashRedis({ url: upstashUrl, token: upstashToken });
-      this.isUpstash = true;
-      console.log('☁️  Using Upstash Redis for rate limiting');
     } else {
       throw new Error(
         'Redis not configured. Either:\n' +
-          '1. Set REDIS_URL for local Redis (development)\n' +
-          '2. Set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN (production)'
+          '1. Set REDIS_URL for local Redis\n' +
+          '2. Set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN (Upstash)'
       );
     }
   }

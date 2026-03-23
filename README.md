@@ -170,10 +170,16 @@ Open `docker/.env` and set the required secrets:
 
 ### 2. Run the Application
 
-Start all services in detached mode:
+Start all services and view live logs in your terminal:
 
 ```bash
-docker compose -f docker/docker-compose.yml up --build -d
+docker compose --env-file docker/.env -f docker/docker-compose.yml up --build
+```
+
+If you prefer to run in the background (detached), add the `-d` flag:
+
+```bash
+docker compose --env-file docker/.env -f docker/docker-compose.yml up --build -d
 ```
 
 This will:

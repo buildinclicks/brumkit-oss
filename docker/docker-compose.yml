@@ -1,6 +1,6 @@
 # =============================================================================
 # BrumKit — Production Docker Compose
-# Run: docker-compose -f docker/docker-compose.yml up --build
+# Run from root: docker compose --env-file docker/.env -f docker/docker-compose.yml up --build
 # =============================================================================
 
 services:

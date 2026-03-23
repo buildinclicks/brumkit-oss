@@ -58,6 +58,11 @@ async function sendEmail({
 
       return { success: true, data: { id: info.messageId } };
     } else {
+      console.error(
+        '❌ Unknown email client. Client object structure:',
+        typeof emailClient,
+        Object.keys(emailClient)
+      );
       throw new Error('Unknown email client');
     }
   } catch (error) {

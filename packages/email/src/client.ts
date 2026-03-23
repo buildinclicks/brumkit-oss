@@ -11,10 +11,10 @@ let _emailClient: EmailClient | null = null;
 // Create appropriate email client
 export const createEmailClient = (): EmailClient => {
   const isDevelopment = process.env.NODE_ENV === 'development';
+  // Use Mailhog if explicitly requested OR in development without a Resend key
   const useMailhog =
-    isDevelopment &&
-    process.env.USE_MAILHOG !== 'false' &&
-    !process.env.RESEND_API_KEY;
+    process.env.USE_MAILHOG === 'true' ||
+    (isDevelopment && !process.env.RESEND_API_KEY);
 
   if (useMailhog) {
     // Use Mailhog for local development
