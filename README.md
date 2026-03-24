@@ -102,34 +102,7 @@ cp .env.development.example .env.development
 cp .env.development.example packages/database/.env
 ```
 
-4. Configure your `.env.development` and `packages/database/.env` files:
-
-```env
-# DATABASE
-DATABASE_URL="postgresql://postgres:postgres@127.0.0.1:5432/broom_kit_dev"
-
-# AUTH.JS
-NEXTAUTH_URL="http://localhost:3000"
-NEXTAUTH_SECRET="dev-secret-key-1234567890-not-secure!"
-
-# REDIS (Local caching/rate limiting)
-REDIS_URL="redis://localhost:6379"
-
-# EMAIL (Local SMTP trapping / Resend)
-USE_MAILHOG="true"
-MAILHOG_HOST="localhost"
-MAILHOG_PORT="1025"
-FROM_EMAIL="noreply@brumkit.localhost"
-
-# CRON JOBS
-CRON_SECRET="dev-my-local-cron-secret"
-
-# ENVIRONMENT
-NODE_ENV="development"
-NEXT_PUBLIC_API_URL="http://localhost:4000/api"
-```
-
-> **Note:** A `.env.production.example` is also provided for your production environment.
+4. Configure your `.env.development` and `packages/database/.env` files. The `.env.development` file at the root now manages both the web app and the Docker infrastructure (PostgreSQL, Redis, Mailhog).
 
 5. Run database migrations:
 
@@ -151,64 +124,49 @@ pnpm dev
 
 8. Open [http://localhost:3000](http://localhost:3000)
 
-## 🐳 Docker Setup
+## 🐳 Docker Infrastructure
 
-BrumKit includes a production-ready Docker setup to run the entire stack (PostgreSQL, Redis, Mailhog, and the Next.js app) with a single command.
+BrumKit includes a simplified Docker setup to run essential background services (PostgreSQL, Redis, and Mailhog) while you develop the application locally.
 
-### 1. Configure Environment Variables
+### 1. Configure Environment
 
-Copy the example Docker environment file:
+Ensure you have created your root `.env.development` file (as mentioned in the installation steps). All infrastructure credentials (DB passwords, ports) are managed in this single file.
 
-```bash
-cp docker/.env.docker docker/.env
-```
+### 2. Start Services
 
-Open `docker/.env` and set the required secrets:
-
-- `NEXTAUTH_SECRET`: Generate with `openssl rand -base64 32`
-- `CRON_SECRET`: Generate with `openssl rand -base64 32`
-
-### 2. Run the Application
-
-Start all services and view live logs in your terminal:
+Run everything in the background with a single command:
 
 ```bash
-docker compose --env-file docker/.env -f docker/docker-compose.yml up --build
+docker compose --env-file .env.development up -d
 ```
 
-If you prefer to run in the background (detached), add the `-d` flag:
+This will start:
+
+- **PostgreSQL 16**: Primary database (Host port: `5433`)
+- **Redis 7**: Rate limiting & Caching (Host port: `6379`)
+- **Mailhog**: Local SMTP catcher (SMTP: `1025`, Web UI: `8025`)
+
+### 3. Accessing Web Tools
+
+| Service    | URL                     | Purpose          |
+| ---------- | ----------------------- | ---------------- |
+| Mailhog UI | <http://localhost:8025> | View test emails |
+
+### 4. Common Commands
 
 ```bash
-docker compose --env-file docker/.env -f docker/docker-compose.yml up --build -d
+# Start infrastructure
+docker compose --env-file .env.development up -d
+
+# Stop infrastructure
+docker compose stop
+
+# Check health
+docker compose ps
+
+# Reset all data (deletes volumes)
+docker compose down -v
 ```
-
-This will:
-
-- Build the Next.js application image
-- Start PostgreSQL (Database)
-- Start Redis (Rate limiting/Caching)
-- Start Mailhog (Email testing)
-
-### 3. Accessing the Services
-
-| Service     | URL                     | Purpose          |
-| ----------- | ----------------------- | ---------------- |
-| Next.js App | <http://localhost:3000> | Main application |
-| Mailhog UI  | <http://localhost:8025> | View test emails |
-
-### 4. Managing Environment Variables in Docker
-
-To add or modify environment variables for the Docker environment:
-
-1. Edit the `docker/.env` file.
-2. If the variable is used in `docker/docker-compose.yml`, ensure it is mapped in the `environment` section of the relevant service.
-3. Restart the containers to apply changes:
-
-```bash
-docker compose -f docker/docker-compose.yml up -d
-```
-
-For more detailed Docker operations, see [docker/README.md](docker/README.md).
 
 ## Development
 

@@ -1,6 +1,7 @@
 # =============================================================================
-# BrumKit — Production Docker Compose
-# Run from root: docker compose --env-file docker/.env -f docker/docker-compose.yml up --build
+# BrumKit — Local Development Infrastructure
+# Services: PostgreSQL, Redis, Mailhog
+# Usage: docker compose --env-file .env.development up -d
 # =============================================================================
 
 services:
@@ -49,7 +50,7 @@ services:
       - brumkit
 
   # ---------------------------------------------------------------------------
-  # Mailhog — Local SMTP catcher (swap for SES / Resend in production)
+  # Mailhog — Local SMTP catcher
   # ---------------------------------------------------------------------------
   mailhog:
     image: mailhog/mailhog:latest
@@ -74,61 +75,6 @@ services:
     networks:
       - brumkit
 
-  # ---------------------------------------------------------------------------
-  # Web — Next.js app (built from monorepo root Dockerfile)
-  # ---------------------------------------------------------------------------
-  web:
-    build:
-      context: .. # monorepo root (where Dockerfile lives)
-      dockerfile: Dockerfile
-    container_name: bk-web
-    restart: unless-stopped
-
-    # Runtime env vars — these are NOT baked into the image at build time.
-    # Copy .env.production.example → .env.production and fill in real values,
-    # then reference them here via ${VAR} or use env_file.
-    environment:
-      NODE_ENV: production
-      PORT: 3000
-
-      # Database (points to the postgres service above)
-      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-broom_kit}?sslmode=disable
-
-      # Auth.js
-      NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
-      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:?NEXTAUTH_SECRET must be set}
-      AUTH_TRUST_HOST: ${AUTH_TRUST_HOST:-true}
-
-      # Redis (internal service URL)
-      REDIS_URL: redis://:${REDIS_PASSWORD:-redis_secret}@redis:6379
-
-      # Email
-      USE_MAILHOG: ${USE_MAILHOG:-true}
-      FROM_EMAIL: ${FROM_EMAIL:-noreply@brumkit.local}
-      EMAIL_FROM: ${EMAIL_FROM:-noreply@brumkit.local}
-      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@brumkit.local}
-      RESEND_API_KEY: ${RESEND_API_KEY:-}
-
-      # Public env vars (embedded in client bundle — must be set at BUILD time
-      # too if you want them in client JS; see next.config.js notes below)
-      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
-      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3000/api}
-
-      # Cron
-      CRON_SECRET: ${CRON_SECRET:?CRON_SECRET must be set}
-
-    ports:
-      - '${WEB_PORT:-3000}:3000'
-
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-
-    networks:
-      - brumkit
-
 # =============================================================================
 # Volumes
 # =============================================================================
@@ -139,7 +85,7 @@ volumes:
     name: bk-redis-data
 
 # =============================================================================
-# Networks — isolate brumkit services from unrelated containers
+# Networks
 # =============================================================================
 networks:
   brumkit:
