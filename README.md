@@ -1,277 +1,208 @@
-# BrumKit - Open Source Edition
+![BrumKit Banner](apps/web/public/images/brumkit_banner.png)
+
+# 🚀 BrumKit - Open Source Edition (Lite)
 
 **Version 0.1.0** | A production-ready Next.js 15 starter kit with authentication, authorization, and essential features.
 
-> **Release 0.1.0** - February 2026: Dependency updates, version alignment, ESLint 10 migration, and comprehensive testing. See [CHANGELOG.md](CHANGELOG.md) for details.
+Start building your SaaS faster with our Next.js 15 + Prisma + Tailwind CSS v4 starter kit.
 
-## Features
+👉 **Looking for a full-featured SaaS Starter Kit?** [Check out BrumKit Pro](#comparing-oss-vs-pro-version)
 
-### 🔐 Authentication & Security
+⭐️ **Why Developers Trust BrumKit:**
 
-- Email/password authentication
-- JWT-based session management
-- Password reset flow with email
-- Email verification system
-- Account deletion with 30-day grace period
-- Redis-based rate limiting
+- 🏗️ **Production-grade architecture**: Scalable monorepo with Turborepo.
+- 🔐 **Comprehensive Security**: Built-in RBAC and CASL-powered permissions.
+- 🧪 **Strict Quality**: 80%+ test coverage requirement with Vitest.
+- ⚡ **Modern Stack**: Next.js 15, Prisma 6, Tailwind CSS 4.
+- 📦 **Type-Safe**: End-to-end TypeScript implementation.
 
-### 👤 User Management
+---
 
-- Complete profile management
-- Password change functionality
-- Email change with verification
-- Avatar upload support
-- Username system
+## 🏗️ What's Included
 
-### 🔔 Notifications
+### Core Architecture
 
-- Basic notification system
-- Mark as read functionality
-- Notification types (System, Account, Security)
-- Unread count badge
+- 📦 **Turborepo monorepo**: Optimized build system and pnpm workspaces.
+- 🏗️ **Next.js 15 (App Router)**: The latest features of React server components.
+- 🎨 **Shadcn UI + Tailwind 4**: Clean, modern, and highly customizable UI system.
+- 🗄️ **PostgreSQL + Prisma**: Reliable and type-safe database management.
+- 🔐 **Auth.js v5**: Robust authentication for Next.js applications.
+- 🌐 **next-intl**: Full i18n support for global applications.
 
-### 🛡️ Authorization
+### Key Features
 
-- Role-based access control (RBAC)
-- CASL-powered permissions
-- Four roles: USER, MODERATOR, ADMIN, SUPER_ADMIN
+- 👤 **Complete Auth Flow**: Email/password, verification, and password reset.
+- 🛡️ **RBAC Authorization**: Fine-grained permissions (USER, MODERATOR, ADMIN, SUPER_ADMIN).
+- 👤 **User Profiles**: Profile management, avatar uploads, and account settings.
+- 🔔 **Notifications**: Real-time ready notification system with read/unread tracking.
+- 🚀 **Rate Limiting**: Redis-based protection for sensitive routes.
+- 🐳 **Docker-Ready**: Local containerized development environment.
 
-### 🎨 UI/UX
+---
 
-- Modern UI with shadcn/ui components
-- Dark mode support
-- Responsive design
-- Loading skeletons
-- Form validation with React Hook Form + Zod
+## 🛠️ Technology Stack
 
-### 🏗️ Architecture
+BrumKit provides a rock-solid foundation for high-performance applications:
 
-- Turborepo monorepo
-- pnpm workspaces
-- Next.js 15 with App Router
-- Prisma ORM with PostgreSQL
-- Docker development environment
-- Type-safe across the stack
+| Category       | Technology                                   | Description                                                            |
+| -------------- | -------------------------------------------- | ---------------------------------------------------------------------- |
+| **Framework**  | [Next.js 15](https://nextjs.org/)            | Modern React framework with App Router and Server Components.          |
+| **Styling**    | [Tailwind CSS 4](https://tailwindcss.com/)   | A utility-first CSS framework for rapid UI development.                |
+| **Database**   | [Prisma 6](https://www.prisma.io/)           | Type-safe ORM for Node.js and TypeScript.                              |
+| **Auth**       | [Auth.js](https://authjs.dev/)               | Authentication for Next.js applications (formerly NextAuth).           |
+| **Monorepo**   | [Turborepo](https://turbo.build/)            | High-performance build system for JavaScript and TypeScript codebases. |
+| **Validation** | [Zod](https://zod.dev/)                      | TypeScript-first schema validation with static type inference.         |
+| **State**      | [TanStack Query](https://tanstack.com/query) | Powerful asynchronous state management for TS/JS.                      |
+| **Testing**    | [Vitest](https://vitest.dev/)                | Blazing fast unit test framework powered by Vite.                      |
 
-## Tech Stack
+---
 
-- **Framework**: Next.js 15.5.12
-- **Language**: TypeScript 5.9.3
-- **Styling**: Tailwind CSS 4.1.18
-- **UI Components**: shadcn/ui
-- **Authentication**: Auth.js 5.0.0
-- **Authorization**: CASL
-- **Database**: PostgreSQL + Prisma 6.19.2
-- **Forms**: React Hook Form + Zod 3.23.8
-- **State**: TanStack Query 5.90.21
-- **i18n**: next-intl 4.8.3
-- **Testing**: Vitest 4.0.18 + React Testing Library
-- **Linting**: ESLint 10.0.0
-- **Monorepo**: Turborepo + pnpm 10.0.0
+## 📉 Comparing OSS vs Pro Version
 
-## Quick Start
+BrumKit OSS is the **"Lite"** foundation, focused on the core authentication, authorization, and architectural essentials.
+
+| Feature                     | OSS (Lite) | Pro Version |
+| --------------------------- | ---------- | ----------- |
+| **Authentication**          | ✅         | ✅          |
+| **Authorization (RBAC)**    | ✅         | ✅          |
+| **Global i18n**             | ✅         | ✅          |
+| **Database (Prisma)**       | ✅         | ✅          |
+| **Team Management**         | ❌         | ✅          |
+| **Billing & Subscriptions** | ❌         | ✅          |
+| **Advanced Admin Panel**    | ❌         | ✅          |
+| **Priority Support**        | ❌         | ✅          |
+
+---
+
+## 🏁 Getting Started
 
 ### Prerequisites
 
-- Node.js >= 20.19.0
-- pnpm >= 10.0.0
-- PostgreSQL database
-- Redis (for rate limiting)
-- SMTP server (for emails)
+- **Node.js**: >= 20.19.0
+- **PNPM**: >= 10.0.0
+- **Docker**: For running infrastructure (PostgreSQL, Redis)
 
 ### Installation
 
-1. Clone the repository:
+1. **Clone the repository:**
 
-```bash
-git clone <repository-url>
-cd brumkit
-```
+   ```bash
+   git clone <repository-url>
+   cd brumkit
+   ```
 
-2. Install dependencies:
+2. **Install dependencies:**
 
-```bash
-pnpm install
-```
+   ```bash
+   pnpm install
+   ```
 
-3. Set up environment variables:
+3. **Set up environment variables:**
 
-```bash
-cp .env.development.example .env.development
-# Also configure the package/database environment for Prisma:
-cp .env.development.example packages/database/.env
-```
+   ```bash
+   cp .env.development.example .env.development
+   # Also copy for the database package:
+   cp .env.development.example packages/database/.env
+   ```
 
-4. Configure your `.env.development` and `packages/database/.env` files. The `.env.development` file at the root now manages both the web app and the Docker infrastructure (PostgreSQL, Redis, Mailhog).
+4. **Start infrastructure (Docker):**
 
-5. Run database migrations:
+   ```bash
+   docker compose --env-file .env.development up -d
+   ```
 
-```bash
-pnpm --filter @repo/database db:migrate
-```
+5. **Run migrations & setup:**
 
-6. Seed the database (optional):
+   ```bash
+   pnpm --filter @repo/database db:migrate
+   pnpm --filter @repo/database db:seed
+   ```
 
-```bash
-pnpm --filter @repo/database db:seed
-```
+6. **Start development server:**
+   ```bash
+   pnpm dev
+   ```
 
-7. Start the development server:
+The application will be available at [http://localhost:3000](http://localhost:3000).
 
-```bash
-pnpm dev
-```
+---
 
-8. Open [http://localhost:3000](http://localhost:3000)
-
-## 🐳 Docker Infrastructure
-
-BrumKit includes a simplified Docker setup to run essential background services (PostgreSQL, Redis, and Mailhog) while you develop the application locally.
-
-### 1. Configure Environment
-
-Ensure you have created your root `.env.development` file (as mentioned in the installation steps). All infrastructure credentials (DB passwords, ports) are managed in this single file.
-
-### 2. Start Services
-
-Run everything in the background with a single command:
-
-```bash
-docker compose --env-file .env.development up -d
-```
-
-This will start:
-
-- **PostgreSQL 16**: Primary database (Host port: `5433`)
-- **Redis 7**: Rate limiting & Caching (Host port: `6379`)
-- **Mailhog**: Local SMTP catcher (SMTP: `1025`, Web UI: `8025`)
-
-### 3. Accessing Web Tools
-
-| Service    | URL                     | Purpose          |
-| ---------- | ----------------------- | ---------------- |
-| Mailhog UI | <http://localhost:8025> | View test emails |
-
-### 4. Common Commands
-
-```bash
-# Start infrastructure
-docker compose --env-file .env.development up -d
-
-# Stop infrastructure
-docker compose stop
-
-# Check health
-docker compose ps
-
-# Reset all data (deletes volumes)
-docker compose down -v
-```
-
-## Development
-
-### Available Commands
-
-```bash
-# Development
-pnpm dev              # Start all apps in development mode
-pnpm dev:web          # Start web app only
-
-# Build
-pnpm build            # Build all apps
-pnpm build:web        # Build web app only
-
-# Testing (80%+ coverage required)
-pnpm test             # Run all tests
-pnpm test:watch       # Run tests in watch mode
-pnpm test:coverage    # Run tests with coverage report
-
-# Code Quality
-pnpm lint             # Run ESLint 10
-pnpm format           # Format code with Prettier
-pnpm format:check     # Check code formatting
-pnpm type-check       # Run TypeScript type checking
-
-# Database
-pnpm --filter @repo/database db:generate      # Generate Prisma Client
-pnpm --filter @repo/database db:migrate       # Run Prisma migrations
-pnpm --filter @repo/database db:seed          # Seed the database
-pnpm --filter @repo/database db:studio        # Open Prisma Studio
-
-# Clean
-pnpm clean            # Remove all node_modules and build artifacts
-```
-
-### Testing Strategy
-
-BrumKit follows Test-Driven Development (TDD) with strict quality standards:
-
-- **Coverage Requirement**: Minimum 80% coverage across all packages
-- **TDD Approach**: Red-Green-Refactor cycle for all new features
-- **Testing Framework**: Vitest 4.0.18 + React Testing Library
-- **Run Before Commit**: All tests must pass before committing changes
-
-```bash
-# Run tests with coverage report
-pnpm test:coverage
-
-# Watch mode for development
-pnpm test:watch
-
-# Test specific package
-pnpm --filter @repo/auth test
-```
-
-### Project Structure
+## 📂 Project Structure
 
 ```
 brumkit/
 ├── apps/
-│   └── web/                 # Next.js application
+│   └── web/                 # Next.js 15 application
 ├── packages/
-│   ├── auth/                # Authentication & authorization
+│   ├── auth/                # Auth.js integration
 │   ├── database/            # Prisma schema & client
-│   ├── email/               # Email templates & sending
+│   ├── email/               # Templates & sending
 │   ├── rate-limit/          # Redis rate limiting
-│   ├── ui/                  # Shared UI components
+│   ├── ui/                  # Shared Shadcn components
 │   ├── validation/          # Zod schemas
-│   ├── types/               # Shared TypeScript types
-│   ├── utils/               # Utility functions
-│   ├── config-eslint/       # ESLint configurations
-│   ├── config-typescript/   # TypeScript configurations
-│   ├── config-tailwind/     # Tailwind configurations
-│   └── config-vitest/       # Vitest configurations
-├── docs/                    # Documentation
-└── docker/                  # Docker configurations
+│   ├── types/               # Shared TS types
+│   └── branding/            # Brand assets
+└── docker/                  # Local infrastructure config
 ```
 
-## Documentation
+---
 
-- [CHANGELOG](CHANGELOG.md) - Release notes and version history
-- [Contributing Guidelines](CONTRIBUTING.md) - How to contribute
-- [Release 0.1 Documentation](docs/open-source-version/release-0.1/) - Detailed release notes and milestones
+## 🔑 Environment Variables
 
-## Contributing
+The root `.env.development` file manages both the web app and the Docker infrastructure.
 
-We welcome contributions! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details on our TDD approach, code style, and pull request process.
+| Variable              | Description                        | Default                 |
+| --------------------- | ---------------------------------- | ----------------------- |
+| `NEXT_PUBLIC_APP_URL` | The URL of your application        | `http://localhost:3000` |
+| `DATABASE_URL`        | Connection string for Prisma       | `postgresql://...`      |
+| `NEXTAUTH_SECRET`     | Secret for session encryption      | `replace-me`            |
+| `REDIS_URL`           | Redis connection for rate limiting | `redis://...`           |
+| `USE_MAILHOG`         | Enables local mail catching        | `true`                  |
 
-**Key Requirements**:
+---
 
-- Node.js >= 20.19.0
-- pnpm >= 10.0.0
-- Follow TDD (Test-Driven Development)
-- Maintain 80%+ test coverage
-- Use ESLint 10 and Prettier
+## 🧪 Testing Strategy
 
-## License
+BrumKit follows Test-Driven Development (TDD) with strict quality standards:
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- **Minimum Coverage**: 80%+ across all packages.
+- **Framework**: Vitest 4 + React Testing Library.
 
-## Credits
+```bash
+pnpm test             # Run all tests
+pnpm test:coverage    # Generate coverage report
+pnpm test:watch       # Watch mode for development
+```
 
-Built and maintained by **BuildInClicks**
+---
 
-## Support
+## 🚀 Deployment
 
-- Documentation: [docs/](docs/)
-- Issues: [GitHub Issues](<repository-url>/issues)
+BrumKit is optimized for deployment on **Vercel**.
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=<repository-url>)
+
+### Instructions:
+
+1. Push your code to GitHub.
+2. Link your repository to Vercel.
+3. Add your environment variables in the Vercel Dashboard.
+4. Set the build command to `pnpm run build`.
+
+---
+
+## 🤝 Contributing & Support
+
+- **Contributing**: Please see [CONTRIBUTING.md](CONTRIBUTING.md) for our TDD flow.
+- **Issues**: Report bugs in [GitHub Issues](<repository-url>/issues).
+- **Documentation**: Explore the [docs/](docs/) folder for detailed guides.
+
+---
+
+## ⚖️ License
+
+Licensed under the [MIT License](LICENSE).
+
+---
+
+**Built and maintained by [BuildInClicks](https://buildinclicks.com)**
