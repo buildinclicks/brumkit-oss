@@ -24,10 +24,7 @@ import { requestEmailChange } from '@/app/actions/email-change';
 import { TranslatedFormMessage } from '@/components/form/translated-form-message';
 import { getErrorMessage } from '@/lib/api-error';
 import { useServerActionForm } from '@/lib/hooks/use-server-action-form';
-import {
-  useAuthMessages,
-  useValidationMessages,
-} from '@/lib/hooks/use-translations';
+import { useAuthMessages } from '@/lib/hooks/use-translations';
 
 interface EmailChangeFormProps {
   currentEmail: string;
@@ -36,7 +33,6 @@ interface EmailChangeFormProps {
 export function EmailChangeForm({ currentEmail }: EmailChangeFormProps) {
   const [showPassword, setShowPassword] = useState(false);
   const tAuth = useAuthMessages();
-  const tVal = useValidationMessages();
 
   const form = useForm<RequestEmailChangeInput>({
     resolver: zodResolver(requestEmailChangeSchema),
@@ -53,7 +49,6 @@ export function EmailChangeForm({ currentEmail }: EmailChangeFormProps) {
     {
       setError: form.setError,
       onSuccess: () => {
-        const newEmail = form.getValues('newEmail');
         toast.success(tAuth('email_change.success_title'), {
           description: tAuth('email_change.success_message'),
         });
