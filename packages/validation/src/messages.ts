@@ -27,6 +27,8 @@ export const ValidationMessages = {
   EMAIL_TOO_SHORT: 'email.too_short',
   EMAIL_TOO_LONG: 'email.too_long',
   EMAIL_ALREADY_EXISTS: 'email.already_exists',
+  EMAIL_IN_USE: 'email.in_use',
+  EMAIL_SAME_AS_CURRENT: 'email.same_as_current',
 
   // ============================================
   // PASSWORD
@@ -39,6 +41,7 @@ export const ValidationMessages = {
   PASSWORD_NO_NUMBER: 'password.no_number',
   PASSWORD_MISMATCH: 'password.mismatch',
   PASSWORD_SAME_AS_CURRENT: 'password.same_as_current',
+  PASSWORD_INCORRECT: 'password.incorrect',
 
   // ============================================
   // USERNAME
@@ -47,6 +50,7 @@ export const ValidationMessages = {
   USERNAME_INVALID: 'username.invalid_format',
   USERNAME_TOO_SHORT: 'username.too_short',
   USERNAME_TOO_LONG: 'username.too_long',
+  USERNAME_ALREADY_EXISTS: 'username.already_exists',
 
   // ============================================
   // USER

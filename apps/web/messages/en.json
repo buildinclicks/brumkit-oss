@@ -13,7 +13,9 @@
       "invalid": "Please enter a valid email address",
       "too_short": "Email must be at least 5 characters",
       "too_long": "Email must not exceed 255 characters",
-      "already_exists": "This email is already registered. Please login instead."
+      "already_exists": "This email is already registered. Please login instead.",
+      "in_use": "This email address is already in use",
+      "same_as_current": "New email must be different from current email"
     },
     "password": {
       "required": "Password is required",
@@ -23,13 +25,15 @@
       "no_lowercase": "Password must contain at least one lowercase letter",
       "no_number": "Password must contain at least one number",
       "mismatch": "Passwords do not match",
-      "same_as_current": "New password must be different from current password"
+      "same_as_current": "New password must be different from current password",
+      "incorrect": "Incorrect password"
     },
     "username": {
       "required": "Username is required",
       "invalid_format": "Username can only contain letters, numbers, underscores, and hyphens",
       "too_short": "Username must be at least 3 characters",
-      "too_long": "Username must not exceed 20 characters"
+      "too_long": "Username must not exceed 20 characters",
+      "already_exists": "This username is already taken"
     },
     "user": {
       "name_required": "Name is required",
@@ -425,7 +429,19 @@
     "sections": {
       "information": {
         "title": "Profile Information",
-        "description": "Update your personal information and how others see you"
+        "description": "Update your personal information and how others see you",
+        "name_label": "Full Name",
+        "name_placeholder": "John Doe",
+        "username_label": "Username",
+        "username_placeholder": "johndoe",
+        "username_description": "Your unique username for your profile URL",
+        "bio_label": "Bio",
+        "bio_placeholder": "Tell us about yourself...",
+        "bio_description": "Brief description for your profile (max 500 characters)",
+        "image_label": "Profile Image URL",
+        "image_placeholder": "https://example.com/avatar.jpg",
+        "submit_button": "Save Changes",
+        "submitting": "Saving..."
       },
       "change_email": {
         "title": "Change Email",

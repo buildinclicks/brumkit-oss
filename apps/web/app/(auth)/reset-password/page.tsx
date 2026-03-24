@@ -42,6 +42,8 @@ function ResetPasswordForm() {
     reValidateMode: 'onChange',
     defaultValues: {
       token: token || '',
+      password: '',
+      confirmPassword: '',
     },
   });
 

@@ -17,7 +17,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from '@repo/ui/form';
 import {
   changePasswordSchema,
@@ -29,12 +28,21 @@ import { toast } from 'sonner';
 
 import { changePassword } from '@/app/actions';
 import { PasswordInput } from '@/components/form/password-input';
+import { TranslatedFormMessage } from '@/components/form/translated-form-message';
 import { getErrorMessage } from '@/lib/api-error';
 import { useServerActionForm } from '@/lib/hooks/use-server-action-form';
+import { useAuthMessages } from '@/lib/hooks/use-translations';
 
 export function ChangePasswordForm() {
+  const tAuth = useAuthMessages();
+
   const form = useForm<ChangePasswordInput>({
     resolver: zodResolver(changePasswordSchema),
+    defaultValues: {
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: '',
+    },
     mode: 'onBlur',
     reValidateMode: 'onChange',
   });
@@ -42,13 +50,13 @@ export function ChangePasswordForm() {
   const mutation = useServerActionForm(changePassword, {
     setError: form.setError,
     onSuccess: () => {
-      toast.success('Password Updated', {
-        description: 'Your password has been changed successfully.',
+      toast.success(tAuth('change_password.success_title'), {
+        description: tAuth('change_password.success_message'),
       });
       form.reset();
     },
     onError: (error) => {
-      toast.error('Failed to Change Password', {
+      toast.error(tAuth('change_password.error_title'), {
         description: getErrorMessage(error),
       });
     },
@@ -61,10 +69,8 @@ export function ChangePasswordForm() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Change Password</CardTitle>
-        <CardDescription>
-          Ensure your account is using a long, random password to stay secure.
-        </CardDescription>
+        <CardTitle>{tAuth('change_password.title')}</CardTitle>
+        <CardDescription>{tAuth('change_password.subtitle')}</CardDescription>
       </CardHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -75,15 +81,19 @@ export function ChangePasswordForm() {
               name="currentPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Current Password</FormLabel>
+                  <FormLabel>
+                    {tAuth('change_password.current_password_label')}
+                  </FormLabel>
                   <FormControl>
                     <PasswordInput
-                      placeholder="Enter your current password"
+                      placeholder={tAuth(
+                        'change_password.current_password_placeholder'
+                      )}
                       disabled={mutation.isPending}
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <TranslatedFormMessage />
                 </FormItem>
               )}
             />
@@ -94,18 +104,21 @@ export function ChangePasswordForm() {
               name="newPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>New Password</FormLabel>
+                  <FormLabel>
+                    {tAuth('change_password.new_password_label')}
+                  </FormLabel>
                   <FormControl>
                     <PasswordInput
-                      placeholder="Enter your new password"
+                      placeholder={tAuth(
+                        'change_password.new_password_placeholder'
+                      )}
                       disabled={mutation.isPending}
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <TranslatedFormMessage />
                   <FormDescription>
-                    At least 8 characters with uppercase, lowercase, number, and
-                    special character
+                    {tAuth('change_password.password_hint')}
                   </FormDescription>
                 </FormItem>
               )}
@@ -117,15 +130,19 @@ export function ChangePasswordForm() {
               name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Confirm New Password</FormLabel>
+                  <FormLabel>
+                    {tAuth('change_password.confirm_password_label')}
+                  </FormLabel>
                   <FormControl>
                     <PasswordInput
-                      placeholder="Confirm your new password"
+                      placeholder={tAuth(
+                        'change_password.confirm_password_placeholder'
+                      )}
                       disabled={mutation.isPending}
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
+                  <TranslatedFormMessage />
                 </FormItem>
               )}
             />
@@ -142,13 +159,15 @@ export function ChangePasswordForm() {
                   onClick={() => form.reset()}
                   disabled={mutation.isPending}
                 >
-                  Cancel
+                  {tAuth('change_password.cancel_button')}
                 </Button>
                 <Button type="submit" disabled={mutation.isPending}>
                   {mutation.isPending && (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
-                  {mutation.isPending ? 'Updating...' : 'Update Password'}
+                  {mutation.isPending
+                    ? tAuth('change_password.submitting')
+                    : tAuth('change_password.submit_button')}
                 </Button>
               </div>
             </div>

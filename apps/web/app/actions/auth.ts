@@ -17,6 +17,7 @@ import {
   resetPasswordRequestSchema,
   resetPasswordSchema,
   type ResetPasswordInput,
+  ValidationMessages,
 } from '@repo/validation';
 import { headers } from 'next/headers';
 import { ZodError, z } from 'zod';
@@ -305,7 +306,7 @@ export async function changePassword(data: {
         success: false,
         error: 'change_password.error_title',
         fieldErrors: {
-          currentPassword: 'change_password.incorrect_current_password',
+          currentPassword: ValidationMessages.PASSWORD_INCORRECT,
         },
       };
     }
@@ -537,7 +538,7 @@ export async function verifyEmail(
 ): Promise<ActionResult<{ email: string }>> {
   try {
     // Verify token and get email
-    const { verifyMagicLinkToken } = await import('@repo/auth');
+
     const email = await verifyMagicLinkToken(token);
 
     if (!email) {
@@ -606,6 +607,20 @@ export async function resendVerificationEmail(
   email: string
 ): Promise<ActionResult> {
   try {
+    const rateLimiter = new RedisRateLimiter();
+    const rateLimit = await rateLimiter.check({
+      action: 'resend-verification',
+      identifier: email,
+      limit: 3,
+      window: 3600,
+    });
+
+    if (!rateLimit.success) {
+      return {
+        success: false,
+        error: 'Rate limit exceeded. Please try again later.',
+      };
+    }
     // Get user
     const user = await db.user.findUnique({
       where: { email },

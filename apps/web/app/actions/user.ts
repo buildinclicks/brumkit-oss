@@ -5,6 +5,7 @@ import { db } from '@repo/database';
 import {
   updateUserProfileSchema,
   type UpdateUserProfileInput,
+  ValidationMessages,
 } from '@repo/validation';
 import { revalidatePath } from 'next/cache';
 import { ZodError } from 'zod';
@@ -150,9 +151,9 @@ export async function updateUserProfile(
       if (existingUser && existingUser.id !== user.id) {
         return {
           success: false,
-          error: 'Username is already taken',
+          error: ValidationMessages.USERNAME_ALREADY_EXISTS,
           fieldErrors: {
-            username: 'This username is already taken',
+            username: ValidationMessages.USERNAME_ALREADY_EXISTS,
           },
         };
       }

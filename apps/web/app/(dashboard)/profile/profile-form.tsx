@@ -9,7 +9,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from '@repo/ui/form';
 import { Input } from '@repo/ui/input';
 import { Textarea } from '@repo/ui/textarea';
@@ -17,10 +16,12 @@ import {
   updateUserProfileSchema,
   type UpdateUserProfileInput,
 } from '@repo/validation';
+import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { updateUserProfile } from '@/app/actions';
+import { TranslatedFormMessage } from '@/components/form/translated-form-message';
 import { getErrorMessage } from '@/lib/api-error';
 import { useServerActionForm } from '@/lib/hooks/use-server-action-form';
 
@@ -35,6 +36,8 @@ interface ProfileFormProps {
 }
 
 export function ProfileForm({ user }: ProfileFormProps) {
+  const t = useTranslations('profile.sections.information');
+
   const form = useForm<UpdateUserProfileInput>({
     resolver: zodResolver(updateUserProfileSchema),
     mode: 'onBlur',
@@ -50,7 +53,7 @@ export function ProfileForm({ user }: ProfileFormProps) {
   const mutation = useServerActionForm(updateUserProfile, {
     setError: form.setError,
     onSuccess: () => {
-      toast.success('Profile updated successfully!');
+      toast.success(t('submit_button') + ' Successful'); // Generic success toast
     },
     onError: (error) => {
       toast.error('Update Failed', {
@@ -71,15 +74,15 @@ export function ProfileForm({ user }: ProfileFormProps) {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Full Name</FormLabel>
+              <FormLabel>{t('name_label')}</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="John Doe"
+                  placeholder={t('name_placeholder')}
                   disabled={mutation.isPending}
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
+              <TranslatedFormMessage />
             </FormItem>
           )}
         />
@@ -89,18 +92,16 @@ export function ProfileForm({ user }: ProfileFormProps) {
           name="username"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>{t('username_label')}</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="johndoe"
+                  placeholder={t('username_placeholder')}
                   disabled={mutation.isPending}
                   {...field}
                 />
               </FormControl>
-              <FormDescription>
-                Your unique username for your profile URL
-              </FormDescription>
-              <FormMessage />
+              <FormDescription>{t('username_description')}</FormDescription>
+              <TranslatedFormMessage />
             </FormItem>
           )}
         />
@@ -110,19 +111,17 @@ export function ProfileForm({ user }: ProfileFormProps) {
           name="bio"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Bio</FormLabel>
+              <FormLabel>{t('bio_label')}</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Tell us about yourself..."
+                  placeholder={t('bio_placeholder')}
                   rows={4}
                   disabled={mutation.isPending}
                   {...field}
                 />
               </FormControl>
-              <FormDescription>
-                Brief description for your profile (max 500 characters)
-              </FormDescription>
-              <FormMessage />
+              <FormDescription>{t('bio_description')}</FormDescription>
+              <TranslatedFormMessage />
             </FormItem>
           )}
         />
@@ -132,22 +131,22 @@ export function ProfileForm({ user }: ProfileFormProps) {
           name="image"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Profile Image URL</FormLabel>
+              <FormLabel>{t('image_label')}</FormLabel>
               <FormControl>
                 <Input
                   type="url"
-                  placeholder="https://example.com/avatar.jpg"
+                  placeholder={t('image_placeholder')}
                   disabled={mutation.isPending}
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
+              <TranslatedFormMessage />
             </FormItem>
           )}
         />
 
         <Button type="submit" disabled={mutation.isPending}>
-          {mutation.isPending ? 'Saving...' : 'Save Changes'}
+          {mutation.isPending ? t('submitting') : t('submit_button')}
         </Button>
       </form>
     </Form>

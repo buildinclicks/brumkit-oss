@@ -39,6 +39,9 @@ export default function ForgotPasswordPage() {
 
   const form = useForm<ResetPasswordRequestInput>({
     resolver: zodResolver(resetPasswordRequestSchema),
+    defaultValues: {
+      email: '',
+    },
     mode: 'onBlur',
     reValidateMode: 'onChange',
   });

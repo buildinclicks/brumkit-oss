@@ -55,21 +55,9 @@ async function VerifyEmailContent({ token }: { token: string | undefined }) {
           <CardDescription>{t('subtitle')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <p className="text-sm text-muted-foreground">
-            {t('access_features')}
-          </p>
-          <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1 pl-2">
-            <li>{t('feature_publish')}</li>
-            <li>{t('feature_comment')}</li>
-            <li>{t('feature_follow')}</li>
-            <li>{t('feature_notifications')}</li>
-          </ul>
           <div className="flex flex-col gap-2">
             <Button asChild className="w-full cursor-pointer">
               <Link href="/dashboard">{t('go_to_dashboard')}</Link>
-            </Button>
-            <Button asChild variant="outline" className="w-full cursor-pointer">
-              <Link href="/">{t('explore_articles')}</Link>
             </Button>
           </div>
         </CardContent>

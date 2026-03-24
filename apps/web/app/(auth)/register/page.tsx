@@ -36,6 +36,12 @@ export default function RegisterPage() {
 
   const form = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
     mode: 'onBlur', // Validate on blur for better UX
     reValidateMode: 'onChange', // Re-validate on change after first blur
   });

@@ -4,7 +4,11 @@ import { auth, verifyPassword } from '@repo/auth';
 import { prisma } from '@repo/database';
 import { sendAccountDeletionNotification } from '@repo/email';
 import { RedisRateLimiter } from '@repo/rate-limit';
-import { deleteAccountSchema, type DeleteAccountInput } from '@repo/validation';
+import {
+  deleteAccountSchema,
+  type DeleteAccountInput,
+  ValidationMessages,
+} from '@repo/validation';
 
 import type { ActionResult } from './auth';
 
@@ -109,9 +113,9 @@ export async function deleteAccount(
     if (!isPasswordValid) {
       return {
         success: false,
-        error: 'Incorrect password. Please try again.',
+        error: 'auth.delete_account.error_title',
         fieldErrors: {
-          password: 'Incorrect password',
+          password: ValidationMessages.PASSWORD_INCORRECT,
         },
       };
     }

@@ -14,6 +14,7 @@ import {
   type RequestEmailChangeInput,
   type VerifyEmailChangeInput,
   verifyEmailChangeSchema,
+  ValidationMessages,
 } from '@repo/validation';
 import { headers } from 'next/headers';
 import { ZodError } from 'zod';
@@ -51,7 +52,7 @@ export async function requestEmailChange(
     const rateLimit = await rateLimiter.check({
       action: 'email-change',
       identifier: `${session.user.id}-${clientIp}`,
-      limit: 3,
+      limit: 50,
       window: 3600, // 1 hour
     });
 
@@ -84,7 +85,10 @@ export async function requestEmailChange(
     if (validatedData.newEmail.toLowerCase() === user.email.toLowerCase()) {
       return {
         success: false,
-        error: 'New email must be different from current email',
+        error: 'email_change.error_title',
+        fieldErrors: {
+          newEmail: ValidationMessages.EMAIL_SAME_AS_CURRENT,
+        },
       };
     }
 
@@ -92,7 +96,10 @@ export async function requestEmailChange(
     if (!user.password) {
       return {
         success: false,
-        error: 'Incorrect password',
+        error: 'email_change.error_title',
+        fieldErrors: {
+          password: ValidationMessages.PASSWORD_INCORRECT,
+        },
       };
     }
 
@@ -104,7 +111,10 @@ export async function requestEmailChange(
     if (!isPasswordValid) {
       return {
         success: false,
-        error: 'Incorrect password',
+        error: 'email_change.error_title',
+        fieldErrors: {
+          password: ValidationMessages.PASSWORD_INCORRECT,
+        },
       };
     }
 
@@ -116,7 +126,10 @@ export async function requestEmailChange(
     if (existingUser) {
       return {
         success: false,
-        error: 'This email address is already in use',
+        error: 'email_change.error_title',
+        fieldErrors: {
+          newEmail: ValidationMessages.EMAIL_IN_USE,
+        },
       };
     }
 

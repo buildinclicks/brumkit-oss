@@ -18,7 +18,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from '@repo/ui/form';
 import { Input } from '@repo/ui/input';
 import { deleteAccountSchema } from '@repo/validation';
@@ -29,20 +28,23 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { deleteAccount } from '@/app/actions';
+import { TranslatedFormMessage } from '@/components/form/translated-form-message';
 import { getErrorMessage } from '@/lib/api-error';
 import { useServerActionForm } from '@/lib/hooks/use-server-action-form';
-
-// Extend schema with confirmation checkbox
-const deleteAccountFormSchema = deleteAccountSchema.extend({
-  confirmation: z.boolean().refine((val) => val === true, {
-    message: 'You must confirm to delete your account',
-  }),
-});
-
-type DeleteAccountFormInput = z.infer<typeof deleteAccountFormSchema>;
+import { useAuthMessages } from '@/lib/hooks/use-translations';
 
 export function DeleteAccountForm() {
   const router = useRouter();
+  const tAuth = useAuthMessages();
+
+  // Extend schema with confirmation checkbox
+  const deleteAccountFormSchema = deleteAccountSchema.extend({
+    confirmation: z.boolean().refine((val) => val === true, {
+      message: 'common.required',
+    }),
+  });
+
+  type DeleteAccountFormInput = z.infer<typeof deleteAccountFormSchema>;
 
   const form = useForm<DeleteAccountFormInput>({
     resolver: zodResolver(deleteAccountFormSchema),
@@ -63,9 +65,8 @@ export function DeleteAccountForm() {
     {
       setError: form.setError,
       onSuccess: () => {
-        toast.success('Account Deletion Scheduled', {
-          description:
-            'Your account will be permanently deleted in 30 days. You can cancel this by logging in again.',
+        toast.success(tAuth('delete_account.success_title'), {
+          description: tAuth('delete_account.success_message'),
         });
         // Redirect to login after short delay
         setTimeout(() => {
@@ -73,7 +74,7 @@ export function DeleteAccountForm() {
         }, 2000);
       },
       onError: (error) => {
-        toast.error('Failed to Delete Account', {
+        toast.error(tAuth('delete_account.error_title'), {
           description: getErrorMessage(error),
         });
       },
@@ -83,7 +84,7 @@ export function DeleteAccountForm() {
   const onSubmit = async (data: DeleteAccountFormInput) => {
     if (!data.confirmation) {
       form.setError('confirmation', {
-        message: 'You must confirm to delete your account',
+        message: 'common.required',
       });
       return;
     }
@@ -99,11 +100,9 @@ export function DeleteAccountForm() {
     <Card className="border-red-200 dark:border-red-900">
       <CardHeader>
         <CardTitle className="text-red-600 dark:text-red-500">
-          Delete Account
+          {tAuth('delete_account.title')}
         </CardTitle>
-        <CardDescription>
-          Permanently delete your account and data
-        </CardDescription>
+        <CardDescription>{tAuth('delete_account.subtitle')}</CardDescription>
       </CardHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -111,11 +110,12 @@ export function DeleteAccountForm() {
             <div className="bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 rounded-md p-4">
               <div className="flex items-center gap-2 mb-2 text-red-600 dark:text-red-400">
                 <AlertTriangle className="h-4 w-4" />
-                <p className="text-sm font-semibold">Warning</p>
+                <p className="text-sm font-semibold">
+                  {tAuth('delete_account.warning_title')}
+                </p>
               </div>
               <p className="text-sm text-red-600 dark:text-red-400">
-                This action cannot be undone. Your account will be permanently
-                deleted after 30 days.
+                {tAuth('delete_account.warning_message')}
               </p>
             </div>
 
@@ -124,19 +124,21 @@ export function DeleteAccountForm() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
+                  <FormLabel>
+                    {tAuth('delete_account.password_label')}
+                  </FormLabel>
                   <FormControl>
                     <Input
                       type="password"
-                      placeholder="Enter your password to confirm"
+                      placeholder={tAuth('delete_account.password_placeholder')}
                       disabled={mutation.isPending}
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    We need your password to confirm this deletion
+                    {tAuth('delete_account.password_hint')}
                   </FormDescription>
-                  <FormMessage />
+                  <TranslatedFormMessage />
                 </FormItem>
               )}
             />
@@ -155,7 +157,7 @@ export function DeleteAccountForm() {
                   </FormControl>
                   <div className="space-y-1 leading-none">
                     <FormLabel>
-                      I understand that this action is permanent
+                      {tAuth('delete_account.checkbox_label')}
                     </FormLabel>
                   </div>
                 </FormItem>
@@ -163,11 +165,11 @@ export function DeleteAccountForm() {
             />
 
             <div className="bg-muted/50 dark:bg-muted/20 border border-border/50 rounded-md p-4">
-              <p className="text-sm font-medium mb-2">30-Day Grace Period</p>
+              <p className="text-sm font-medium mb-2">
+                {tAuth('delete_account.confirmation_modal_title')}
+              </p>
               <p className="text-sm text-muted-foreground">
-                You have 30 days to cancel this action by logging in again.
-                After that, your personal information will be removed and your
-                content will be anonymized.
+                {tAuth('delete_account.grace_period_info')}
               </p>
             </div>
           </CardContent>
@@ -178,7 +180,7 @@ export function DeleteAccountForm() {
               onClick={handleCancel}
               disabled={mutation.isPending}
             >
-              Cancel
+              {tAuth('delete_account.cancel_button')}
             </Button>
             <Button
               type="submit"
@@ -188,7 +190,9 @@ export function DeleteAccountForm() {
               {mutation.isPending && (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               )}
-              {mutation.isPending ? 'Processing...' : 'Delete My Account'}
+              {mutation.isPending
+                ? tAuth('delete_account.submitting')
+                : tAuth('delete_account.submit_button')}
             </Button>
           </CardFooter>
         </form>

@@ -8,7 +8,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from '@repo/ui/form';
 import { Input } from '@repo/ui/input';
 import { Label } from '@repo/ui/label';
@@ -22,8 +21,13 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { requestEmailChange } from '@/app/actions/email-change';
+import { TranslatedFormMessage } from '@/components/form/translated-form-message';
 import { getErrorMessage } from '@/lib/api-error';
 import { useServerActionForm } from '@/lib/hooks/use-server-action-form';
+import {
+  useAuthMessages,
+  useValidationMessages,
+} from '@/lib/hooks/use-translations';
 
 interface EmailChangeFormProps {
   currentEmail: string;
@@ -31,9 +35,15 @@ interface EmailChangeFormProps {
 
 export function EmailChangeForm({ currentEmail }: EmailChangeFormProps) {
   const [showPassword, setShowPassword] = useState(false);
+  const tAuth = useAuthMessages();
+  const tVal = useValidationMessages();
 
   const form = useForm<RequestEmailChangeInput>({
     resolver: zodResolver(requestEmailChangeSchema),
+    defaultValues: {
+      newEmail: '',
+      password: '',
+    },
     mode: 'onBlur',
     reValidateMode: 'onChange',
   });
@@ -44,14 +54,14 @@ export function EmailChangeForm({ currentEmail }: EmailChangeFormProps) {
       setError: form.setError,
       onSuccess: () => {
         const newEmail = form.getValues('newEmail');
-        toast.success('Verification Email Sent', {
-          description: `Please check ${newEmail} and click the verification link to complete the email change.`,
+        toast.success(tAuth('email_change.success_title'), {
+          description: tAuth('email_change.success_message'),
         });
         // Clear only password for security, keep email for reference
         form.setValue('password', '');
       },
       onError: (error: Error) => {
-        toast.error('Failed to Change Email', {
+        toast.error(tAuth('email_change.error_title'), {
           description: getErrorMessage(error),
         });
       },
@@ -67,7 +77,7 @@ export function EmailChangeForm({ currentEmail }: EmailChangeFormProps) {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         {/* Current Email (Static) */}
         <div className="space-y-2">
-          <Label>Current Email</Label>
+          <Label>{tAuth('email_change.current_email_label')}</Label>
           <div className="flex items-center gap-2 rounded-md border border-border bg-muted px-3 py-2 text-sm">
             <Mail className="h-4 w-4 text-muted-foreground" />
             <span className="text-muted-foreground">{currentEmail}</span>
@@ -80,16 +90,16 @@ export function EmailChangeForm({ currentEmail }: EmailChangeFormProps) {
           name="newEmail"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>New Email</FormLabel>
+              <FormLabel>{tAuth('email_change.new_email_label')}</FormLabel>
               <FormControl>
                 <Input
                   type="email"
-                  placeholder="Enter your new email address"
+                  placeholder={tAuth('email_change.new_email_placeholder')}
                   disabled={mutation.isPending}
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
+              <TranslatedFormMessage />
             </FormItem>
           )}
         />
@@ -100,12 +110,12 @@ export function EmailChangeForm({ currentEmail }: EmailChangeFormProps) {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Confirm Password</FormLabel>
+              <FormLabel>{tAuth('email_change.password_label')}</FormLabel>
               <div className="relative">
                 <FormControl>
                   <Input
                     type={showPassword ? 'text' : 'password'}
-                    placeholder="Enter your password to confirm"
+                    placeholder={tAuth('email_change.password_placeholder')}
                     disabled={mutation.isPending}
                     {...field}
                   />
@@ -124,15 +134,14 @@ export function EmailChangeForm({ currentEmail }: EmailChangeFormProps) {
                   )}
                 </button>
               </div>
-              <FormMessage />
+              <TranslatedFormMessage />
             </FormItem>
           )}
         />
 
         {/* Security Notice */}
         <div className="rounded-md bg-muted p-3 text-sm text-muted-foreground">
-          A verification email will be sent to the new address. You&apos;ll also
-          receive a notification at your current email.
+          {tAuth('email_change.success_message')}
         </div>
 
         <div className="flex justify-end gap-3 pt-4">
@@ -142,13 +151,15 @@ export function EmailChangeForm({ currentEmail }: EmailChangeFormProps) {
             onClick={() => form.reset()}
             disabled={mutation.isPending}
           >
-            Cancel
+            {tAuth('email_change.cancel_button')}
           </Button>
           <Button type="submit" disabled={mutation.isPending}>
             {mutation.isPending && (
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
             )}
-            {mutation.isPending ? 'Sending...' : 'Change Email'}
+            {mutation.isPending
+              ? tAuth('email_change.submitting')
+              : tAuth('email_change.submit_button')}
           </Button>
         </div>
       </form>
